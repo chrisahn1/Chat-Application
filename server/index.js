@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const http = require('http');
 const cors = require('cors');
 const app = express();
-const { pool, createDBIfNotExist, createTablesIfNotExist } = require('./db');
+const { pool } = require('./db');
 const { Server } = require('socket.io');
 
 // const storage = multer.memoryStorage();
