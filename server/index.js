@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const http = require('http');
 const cors = require('cors');
 const app = express();
-const { pool } = require('./db');
+const { pool, createDBIfNotExist, createTablesIfNotExist } = require('./db');
 const { Server } = require('socket.io');
 
 // const storage = multer.memoryStorage();
@@ -33,5 +33,7 @@ app.use(express.json());
 const server = http.createServer(app);
 
 server.listen(3001, () => {
+  // createDBIfNotExist();
+  // createTablesIfNotExist();
   console.log('SERVER RUNNING 3001');
 });
