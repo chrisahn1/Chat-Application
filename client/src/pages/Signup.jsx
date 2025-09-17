@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import ErrorSignup from '../modals/ModalErrorSignup';
 
 function Signup() {
   const navigate = useNavigate();
@@ -90,7 +91,6 @@ function Signup() {
 
   return (
     <div className="App">
-      Signup
       <form className="Register" onSubmit={handleSubmit}>
         <label>Username:</label>
         <input

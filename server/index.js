@@ -14,7 +14,7 @@ const { Server } = require('socket.io');
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
 const pool = new Pool({
-  connectionString: 'postgres://dev:dev@localhost/studentGradeTable',
+  connectionString: 'postgres://dev:dev@localhost/chat-db',
   ssl: {
     rejectUnauthorized: false,
   },
@@ -87,6 +87,39 @@ app.delete('/users/logout', async (req, res) => {
   try {
     res.clearCookie('refresh_token', { path: '/' });
     res.status(200).json('token deleted.');
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+// *****************generate access token*********************
+function generateAccessToken(payload) {
+  // return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15s' });
+  return jwt.sign(payload, process.env.ACCESS_TOKEN);
+}
+// *****************generate refresh token*********************
+function generateRefreshToken(payload) {
+  return jwt.sign(payload, process.env.REFRESH_TOKEN);
+}
+//get user username and email
+app.post('/users/signupcheck', async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const verify_username = await pool.query(
+      'SELECT EXISTS (SELECT 1 FROM users WHERE username=$1);',
+      [username]
+    );
+    const verify_email = await pool.query(
+      'SELECT EXISTS (SELECT 1 FROM users WHERE email=$1);',
+      [email]
+    );
+    if (verify_username.rows[0].exists === true) {
+      res.json('invalid');
+    } else if (verify_email.rows[0].exists === true) {
+      res.json('invalid');
+    } else {
+      res.json('valid');
+    }
   } catch (error) {
     console.log(error.message);
   }

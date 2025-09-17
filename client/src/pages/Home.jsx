@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
+import LoginCheck from '../modals/ModalLoginCheck';
 
 function Home() {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ function Home() {
       } else {
         // setAccessToken(result.access_token);
         // setIsAuth(true);
+        console.log('working');
         navigate('/userpage');
       }
     } catch (error) {
@@ -51,7 +53,6 @@ function Home() {
 
   return (
     <div className="App">
-      Home
       <form className="Register" onSubmit={handleSubmit}>
         <label>Email:</label>
         <input

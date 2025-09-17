@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
-import UserPage from './pages/UserLogin';
+import UserPage from './pages/UserPage';
 import './App.css';
 
 function App() {
