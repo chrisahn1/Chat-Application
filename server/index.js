@@ -92,6 +92,25 @@ app.delete('/users/logout', async (req, res) => {
   }
 });
 
+// **************authenticate middleware****************
+function authToken(req, res, next) {
+  // const token = req.headers['x-access-token'];
+  const token = req.headers.authorization;
+
+  if (token === null) {
+    return res.status(401).send('You need a token');
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN, (err, payload) => {
+    if (err) {
+      return res.status(403).send('Failed authentication');
+    }
+
+    req.payload = payload;
+    next();
+  });
+}
+
 // *****************generate access token*********************
 function generateAccessToken(payload) {
   // return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15s' });
