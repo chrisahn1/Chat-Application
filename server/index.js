@@ -120,6 +120,68 @@ function generateAccessToken(payload) {
 function generateRefreshToken(payload) {
   return jwt.sign(payload, process.env.REFRESH_TOKEN);
 }
+
+// *****************new token from refresh token*********************
+app.post('/users/refresh', async (req, res) => {
+  try {
+    const token = req.cookies.refresh_token;
+
+    if (!token) {
+      return res.status(401).json({ error: 'Token not found' });
+    }
+
+    jwt.verify(token, process.env.REFRESH_TOKEN, (err, payload) => {
+      if (err) {
+        return res.status(403).json({ error: 'Invalid or expired token' });
+      }
+      const access_token = generateAccessToken(payload);
+      const refresh_token = generateRefreshToken(payload);
+      res
+        .cookie('refresh_token', refresh_token, {
+          secure: true,
+          httpOnly: true,
+          path: '/',
+        })
+        .json({ access_token });
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+// *****************verify http-only cookie*********************
+app.post('/users/verify', async (req, res) => {
+  try {
+    const token = req.cookies.refresh_token;
+
+    if (!token) {
+      return res.status(401).json({ error: 'Cookie not found' });
+    } else {
+      return res.status(200).json('Cookie found');
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//get current username from token
+app.get('/users/username', authToken, async (req, res) => {
+  try {
+    res.json(req.payload.username);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//get current user id from token
+app.get('/users/userid', authToken, async (req, res) => {
+  try {
+    res.json(req.payload.id);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 //get user username and email
 app.post('/users/signupcheck', async (req, res) => {
   try {
