@@ -30,11 +30,21 @@ function Chatwindow({ socket }) {
     navigate('/', { replace: true });
   };
 
+  const settings = async () => {
+    //AUTHENTICATE BEFORE GOING TO SETTINGS
+    if (!accessToken) {
+      navigate('/', { replace: true });
+    } else {
+      navigate('/settings');
+    }
+  };
+
   return (
     <div className="chatwindow">
       <div className="chatInfo">
         <div>
           <button onClick={logout}>Logout</button>
+          <button onClick={settings}>Settings</button>
         </div>
       </div>
     </div>

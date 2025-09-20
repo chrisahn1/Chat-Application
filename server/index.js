@@ -205,6 +205,98 @@ app.post('/users/signupcheck', async (req, res) => {
     console.log(error.message);
   }
 });
+
+// ***************************************************************************************
+//                                     DELETE ACCOUNT
+// ***************************************************************************************
+
+// delete user account
+app.delete('/users/delete', authToken, async (req, res) => {
+  try {
+    const deleteUser = await pool.query('DELETE FROM users WHERE id=$1;', [
+      req.payload.id,
+    ]);
+    res.json('User was deleted');
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+// ***************************************************************************************
+//                                     UPDATE ACCOUNT
+// ***************************************************************************************
+
+//****************NOTE: CONST VARIABLES MUST HAVE EXACTLY THE SAME NAME AS REQ.BODY*********************** */
+//update user username
+app.put('/users/updateusername', authToken, async (req, res) => {
+  try {
+    const { username } = req.body;
+    const changeUsername = await pool.query(
+      'UPDATE users SET username=$1 WHERE id=$2',
+      [username, req.payload.id]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//update user email
+app.put('/users/updateemail', authToken, async (req, res) => {
+  try {
+    const { email } = req.body;
+    const changeEmail = await pool.query(
+      'UPDATE users SET email=$1 WHERE id=$2',
+      [email, req.payload.id]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//update user password
+app.put('/users/updatepassword', authToken, async (req, res) => {
+  try {
+    const { password } = req.body;
+    const hashed = await argon2.hash(password);
+    const changePassword = await pool.query(
+      'UPDATE users SET hashpassword=$1 WHERE id=$2',
+      [hashed, req.payload.id]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//get user email
+app.get('/users/useremail', authToken, async (req, res) => {
+  try {
+    const userEmail = await pool.query('SELECT email FROM users WHERE id=$1', [
+      req.payload.id,
+    ]);
+    res.json(userEmail);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//get user password
+app.post('/users/userpassword', authToken, async (req, res) => {
+  try {
+    const { current_password } = req.body;
+    const hashPassword = await pool.query(
+      'SELECT hashpassword FROM users WHERE id=$1',
+      [req.payload.id]
+    );
+    const hashVerify = await argon2.verify(
+      hashPassword.rows[0].hashpassword,
+      current_password
+    );
+    res.json(hashVerify);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 // ************************************************************************************************************
 //                                  SOCKET IO SERVER
 // ************************************************************************************************************
