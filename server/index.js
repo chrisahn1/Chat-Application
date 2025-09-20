@@ -213,6 +213,7 @@ app.post('/users/signupcheck', async (req, res) => {
 // delete user account
 app.delete('/users/delete', authToken, async (req, res) => {
   try {
+    console.log(req.payload.id);
     const deleteUser = await pool.query('DELETE FROM users WHERE id=$1;', [
       req.payload.id,
     ]);

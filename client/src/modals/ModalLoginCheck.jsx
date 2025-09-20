@@ -1,3 +1,4 @@
+import './Modal.css';
 import React, { useEffect, useState } from 'react';
 
 const LoginCheck = ({ isOpen, handleClose }) => {

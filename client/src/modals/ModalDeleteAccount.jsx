@@ -1,3 +1,4 @@
+import './Modal.css';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axiosJWT from '../axiosFolder/AxiosFile';
@@ -15,6 +16,8 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
         method: 'DELETE',
         headers: { authorization: accessToken },
       });
+      const result = await response.json();
+      console.log('account deleted: ', result);
     } catch (err) {
       console.error(err.message);
     }
@@ -23,7 +26,6 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
   const deleteUser = async () => {
     handleClose();
     navigate('/');
-
     removeUser();
 
     await axiosJWT.delete('/users/logout', {

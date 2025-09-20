@@ -39,7 +39,6 @@ function Home() {
       } else {
         // setAccessToken(result.access_token);
         // setIsAuth(true);
-        console.log('working');
         navigate('/userpage');
       }
     } catch (error) {
