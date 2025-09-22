@@ -1,9 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import LoginCheck from '../modals/ModalLoginCheck';
 
 function Home() {
   const navigate = useNavigate();
+
+  const { setAccessToken } = useContext(AuthContext);
 
   const [email_input, setEmail] = useState('');
   const [password_input, setPassword] = useState('');
@@ -37,7 +40,7 @@ function Home() {
       if (result === 'wrong') {
         toggleLoginCheckModal();
       } else {
-        // setAccessToken(result.access_token);
+        setAccessToken(result.access_token);
         // setIsAuth(true);
         navigate('/userpage');
       }

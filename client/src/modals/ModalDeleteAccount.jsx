@@ -26,6 +26,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
   const deleteUser = async () => {
     handleClose();
     navigate('/');
+
     removeUser();
 
     await axiosJWT.delete('/users/logout', {
