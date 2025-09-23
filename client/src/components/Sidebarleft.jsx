@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-// import Chatlist from './Chatlist';
+import Chatlist from './Chatlist';
 
 function Sidebarleft({ socket }) {
   const { currentUsername } = useContext(AuthContext);
@@ -9,7 +9,7 @@ function Sidebarleft({ socket }) {
     <div className="sidebarleft">
       <div className="sidebarusername">{currentUsername}</div>
 
-      {/* <Chatlist socket={socket}/> */}
+      <Chatlist socket={socket} />
     </div>
   );
 }

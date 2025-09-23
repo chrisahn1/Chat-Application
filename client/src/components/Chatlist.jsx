@@ -1,5 +1,9 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-
+import SearchChatBar from '../modals/ModalSearchChats';
+import CreateChatRoom from '../modals/ModalCreateChat';
+import DeleteChat from '../modals/ModalDeleteChat';
+import LeaveChat from '../modals/ModalLeaveChat';
+import ErrorChat from '../modals/ModalErrorChat';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -20,7 +24,13 @@ function Chatlist({ socket }) {
   const [activate_leave_chat, setLeaveButton] = useState(true);
   const [activate_delete_chat, setDeleteButton] = useState(true);
 
-  //ADD MODAL STATES HERE
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showCreateChatModal, setCreateChatModal] = useState(false);
+
+  const [showLeaveModal, setLeaveModal] = useState(false);
+  const [showDeleteModal, setDeleteModal] = useState(false);
+
+  const [showChatExistModal, setChatExistModal] = useState(false);
 
   const [current_chatname, setCurrentChatName] = useState('');
   const [current_chatid, setCurrentChatID] = useState([]);
@@ -88,11 +98,30 @@ function Chatlist({ socket }) {
     } else {
       //CHAT DOESNT EXIST
       console.log('chat doesnt exist');
-      // toggleChatExist();
+      toggleChatExist();
     }
   };
 
   //ADD TOGGLE FUNCTIONS HERE
+  const toggleSearchChat = () => {
+    setShowSearchModal(!showSearchModal);
+  };
+
+  const toggleCreateChat = () => {
+    setCreateChatModal(!showCreateChatModal);
+  };
+
+  const toggleLeaveChat = () => {
+    setLeaveModal(!showLeaveModal);
+  };
+
+  const toggleDeleteChat = () => {
+    setDeleteModal(!showDeleteModal);
+  };
+
+  const toggleChatExist = () => {
+    setChatExistModal(!showChatExistModal);
+  };
 
   const chatRef = useRef(null);
 
@@ -108,7 +137,47 @@ function Chatlist({ socket }) {
 
   return (
     <div className="chattexts">
-      <div className="chatInfo">Add toggle buttons here</div>
+      <div className="chatInfo">
+        <div>
+          <button onClick={toggleCreateChat}>Create Chat Room</button>
+          <CreateChatRoom
+            isOpen={showCreateChatModal}
+            handleClose={toggleCreateChat}></CreateChatRoom>
+
+          <button onClick={toggleSearchChat}>Search Chat</button>
+          <SearchChatBar
+            isOpen={showSearchModal}
+            handleClose={toggleSearchChat}></SearchChatBar>
+        </div>
+        <div>
+          <button disabled={activate_leave_chat} onClick={toggleLeaveChat}>
+            Leave
+          </button>
+          <LeaveChat
+            isOpen={showLeaveModal}
+            handleClose={toggleLeaveChat}
+            chatid={current_chatid}
+            chatname={current_chatname}
+            setChatName={setCurrentChatName}
+            setLeave={setLeaveButton}></LeaveChat>
+
+          <button disabled={activate_delete_chat} onClick={toggleDeleteChat}>
+            Delete
+          </button>
+          <DeleteChat
+            isOpen={showDeleteModal}
+            handleClose={toggleDeleteChat}
+            chatid={current_chatid}
+            chatname={current_chatname}
+            setChatName={setCurrentChatName}
+            setDelete={setDeleteButton}></DeleteChat>
+        </div>
+        <div>
+          <ErrorChat
+            isOpen={showChatExistModal}
+            handleClose={toggleChatExist}></ErrorChat>
+        </div>
+      </div>
       <div ref={chatRef} onScroll={handleScroll} className="chatList">
         {chatlist.map((chat) => {
           const lastIndex = chat.messages.length;

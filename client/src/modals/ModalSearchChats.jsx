@@ -1,0 +1,190 @@
+import React, { useContext, useEffect, useState } from 'react';
+import { ChatContext } from '../context/ChatUseContext';
+import { AuthContext } from '../context/AuthContext';
+
+function SearchChatBar({ isOpen, handleClose }) {
+  const { setChatlist } = useContext(ChatContext);
+
+  const { accessToken } = useContext(AuthContext);
+
+  const [search_input, setSearchInput] = useState('');
+  const [search_list, setSearchList] = useState([]);
+
+  const handleSearchChat = async (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const searchChatResults = async (e) => {
+    e.preventDefault();
+    try {
+      const body = {
+        searchchats: search_input,
+      };
+
+      const response = await fetch('http://localhost:3001/users/allchannels', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const result = await response.json();
+      setSearchList(result);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const joinHandle = async (e) => {
+    if (search_input === '') {
+      console.log('please enter search input');
+    } else {
+      const response = await fetch(
+        `http://localhost:3001/users/chatexists/${search_input}`
+      )
+        .then((response) => response.json())
+        .then((exists) => {
+          return exists;
+        });
+      if (response.exists === false) {
+        // ERROR CHAT DISPLAY
+        console.log('channel does not exist');
+      } else {
+        const res_chatlist = await checkUserChatExists();
+        if (res_chatlist.includes(search_input)) {
+          console.log('Already a member');
+        } else {
+          const body = {
+            chat_name: search_input,
+          };
+
+          const get_chat_id = await fetch(
+            'http://localhost:3001/users/channelid',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+            }
+          );
+          const result_chat_id = await get_chat_id.json();
+          joinChatChannel(result_chat_id);
+          handleClose();
+        }
+      }
+    }
+  };
+
+  // join chat channel
+  const joinChatChannel = async (id) => {
+    try {
+      const body = {
+        chat_id: id,
+      };
+
+      const join_chat = await fetch(
+        'http://localhost:3001/users/joinchatchannel',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: accessToken,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    //UPDATE CHAT LIST
+    const getChannelsList = async () => {
+      const channelsList = fetch('http://localhost:3001/users/userschannels', {
+        headers: { authorization: accessToken },
+      })
+        .then((response) => response.json())
+        .then((userchannelslist) => {
+          return userchannelslist;
+        });
+      try {
+        const a = await channelsList;
+        // CHECK IF CHANNEL LIST IS EMPTY OR NOT
+        // console.log('chat list: ', a);
+        setChatlist(a);
+      } catch (err) {
+        console.error(err.message);
+      }
+
+      // return () => {
+      //     channelsList();
+      // };
+    };
+
+    getChannelsList();
+  };
+
+  // check if search input already exists in users channel list
+  const checkUserChatExists = async () => {
+    const response = await fetch('http://localhost:3001/users/userschannels', {
+      headers: { authorization: accessToken },
+    })
+      .then((response) => response.json())
+      .then((chatlist) => {
+        return chatlist;
+      });
+
+    const res = [];
+    for (let i = 0; i < response.length; i++) {
+      res.push(response[i].channelname);
+    }
+    return res;
+  };
+
+  const chatResult = (result) => {
+    setSearchInput(result.channelname);
+  };
+
+  return (
+    <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
+      <section className="modal-main">
+        <div className="search">
+          <div className="searchChatInput">
+            <input
+              type="text"
+              placeholder="Search for chat channel..."
+              value={search_input}
+              onChange={handleSearchChat}
+            />
+
+            <img
+              src="485-4851736_free-png-search-icon-search-icon-free-download-2524799039.jpeg"
+              className="searchicon"
+              onClick={searchChatResults}
+            />
+
+            <button type="button" onClick={joinHandle}>
+              Join
+            </button>
+            <button type="button" onClick={handleClose}>
+              Cancel
+            </button>
+          </div>
+          {search_list.length != 0 && (
+            <div className="searchResult">
+              {search_list.map((result) => {
+                return (
+                  <a
+                    className="chatItem"
+                    target="_blank"
+                    onClick={() => chatResult(result)}>
+                    <p>{result.channelname}</p>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export default SearchChatBar;
