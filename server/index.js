@@ -223,6 +223,45 @@ app.delete('/users/delete', authToken, async (req, res) => {
   }
 });
 
+// delete all user links - users_channels table
+app.delete('/users/deleteusersalllinks', authToken, async (req, res) => {
+  try {
+    const deleteLinks = await pool.query(
+      'DELETE FROM users_channels WHERE channels_id IN ( SELECT id FROM channels WHERE host[1] = $1 );',
+      [req.payload.id]
+    );
+    res.json(deleteLinks.rows);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//delete remaining host links - users_channels table
+app.delete('/users/deletehostalllinks', authToken, async (req, res) => {
+  try {
+    const deleteLinks = await pool.query(
+      'DELETE FROM users_channels WHERE users_id = $1;',
+      [req.payload.id]
+    );
+    res.json(deleteLinks.rows);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+// delete all of users chat channels - channels table
+app.delete('/users/deletehostallchannels', authToken, async (req, res) => {
+  try {
+    const deleteChannels = await pool.query(
+      'DELETE FROM channels WHERE host[1] = $1;',
+      [req.payload.id]
+    );
+    res.json(deleteChannels.rows);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 // ***************************************************************************************
 //                                     UPDATE ACCOUNT
 // ***************************************************************************************
@@ -293,6 +332,40 @@ app.post('/users/userpassword', authToken, async (req, res) => {
       current_password
     );
     res.json(hashVerify);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+// ***************************************************************************************
+//                                     CHAT APP
+// ***************************************************************************************
+
+// ***************************************************************************************
+//                                     CHATLIST
+// ***************************************************************************************
+//check if chat still exists when sending message or clicking on chat room
+app.get('/users/chatstillexists/:chatid', async (req, res) => {
+  try {
+    const { chatid } = req.params;
+    const result = await pool.query(
+      'SELECT EXISTS (SELECT 1 FROM channels WHERE id=$1);',
+      [chatid]
+    );
+    res.json(result.rows[0].exists);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//get users list of channels
+app.get('/users/userschannels', authToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT channels.ID, channels.channelname, channels.host, channels.messages FROM channels JOIN users_channels ON channels.ID = users_channels.channels_id JOIN users ON users_channels.users_id = users.ID WHERE users.ID = $1;',
+      [req.payload.id]
+    );
+    res.json(result.rows);
   } catch (err) {
     console.log(err.message);
   }

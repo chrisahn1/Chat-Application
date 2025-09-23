@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axiosJWT from '../axiosFolder/AxiosFile';
 
-function Chatwindow({ socket }) {
+function Chatdisplay({ socket }) {
   const navigate = useNavigate();
 
   const {
@@ -40,7 +40,7 @@ function Chatwindow({ socket }) {
   };
 
   return (
-    <div className="chatwindow">
+    <div className="chatDisplay">
       <div className="chatInfo">
         <div>
           <button onClick={logout}>Logout</button>
@@ -51,4 +51,4 @@ function Chatwindow({ socket }) {
   );
 }
 
-export default Chatwindow;
+export default Chatdisplay;

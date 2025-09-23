@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import Chatwindow from '../components/Chatwindow';
+import Sidebarleft from '../components/Sidebarleft';
+import Chatdisplay from '../components/Chatdisplay';
 import io from 'socket.io-client';
 const socket = io.connect('http://localhost:3001');
 
@@ -8,7 +9,8 @@ function UserPage() {
   return (
     <div className="App">
       <div className="containerChat">
-        <Chatwindow socket={socket} />
+        <Sidebarleft socket={socket} />
+        <Chatdisplay socket={socket} />
       </div>
     </div>
   );
