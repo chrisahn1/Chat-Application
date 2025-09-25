@@ -603,6 +603,56 @@ app.post('/users/deletechat', authToken, async (req, res) => {
 // ************************************************************************************************************
 const server = http.createServer(app);
 
+const io = new Server(server, {
+  cors: {
+    credentials: true,
+    origin: 'http://localhost:3000', //original: 3000
+    methods: ['GET', 'POST'],
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on('join_room', (data) => {
+    socket.join(data);
+    // console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on('send_message', (data) => {
+    const text = {
+      authorID: data.value.authorID,
+      author: data.value.author,
+      message: data.value.message,
+      month: data.value.month,
+      day: data.value.day,
+      year: data.value.year,
+      time: data.value.time,
+    };
+
+    const id = data.value.chatid;
+    //check if channel still exists
+    pool.query(
+      'UPDATE channels SET messages = messages::jsonb || $1 WHERE id=$2;',
+      [text, id]
+    );
+
+    const result = { value: text };
+    // socket.emit("receive_message", result);
+    // socket.to(data.room).emit("receive_message", data);
+    socket.to(data.value.chatid).emit('receive_message', result);
+  });
+
+  socket.on('leave_room', (room) => {
+    // console.log('leaving room: ', room);
+    socket.leave(room);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User Disconnected', socket.id);
+  });
+});
+
 server.listen(3001, () => {
   // createDBIfNotExist();
   // createTablesIfNotExist();

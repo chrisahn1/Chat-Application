@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import UserPage from './pages/UserPage';
 import Settings from './pages/Settings';
 import UserUpdate from './pages/UserUpdate';
+import ProtectRoute from '../src/components/ProtectedRoutes';
 import './App.css';
 
 function App() {
@@ -14,9 +15,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/userpage" element={<UserPage />} />
+
+          <Route element={<ProtectRoute />}>
+            <Route path="/userpage" element={<UserPage />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/editpage" element={<UserUpdate />} />
+          </Route>
+          {/* <Route path="/userpage" element={<UserPage />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/editpage" element={<UserUpdate />} />
+          <Route path="/editpage" element={<UserUpdate />} /> */}
         </Routes>
       </BrowserRouter>
     </div>
