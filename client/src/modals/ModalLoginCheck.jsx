@@ -1,4 +1,5 @@
 import './Modal.css';
+import { X } from 'react-feather';
 import React, { useEffect, useState } from 'react';
 
 const LoginCheck = ({ isOpen, handleClose }) => {

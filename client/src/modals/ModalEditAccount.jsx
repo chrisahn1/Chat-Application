@@ -1,4 +1,5 @@
 import './Modal.css';
+import { X } from 'react-feather';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 

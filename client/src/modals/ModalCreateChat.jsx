@@ -1,3 +1,5 @@
+import './Modal.css';
+import { X } from 'react-feather';
 import React, { useContext, useEffect, useState } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
@@ -144,8 +146,8 @@ function CreateChatRoom({ isOpen, handleClose }) {
       <section className="modal-main">
         {/* <div className='search'>
             <div className='searchChatInput'>
-                <input type='text' placeholder='Create Chat Channel...' 
-                value={create_input} 
+                <input type='text' placeholder='Create Chat Channel...'
+                value={create_input}
                 onChange={handleCreateInput} />
             </div>
             <div>
@@ -169,6 +171,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
             Cancel
           </button>
         </div>
+        <X />
         {/* <button type='button' onClick={createHandle}>Create</button>
             <button type='button' onClick={handleClose}>Cancel</button> */}
       </section>

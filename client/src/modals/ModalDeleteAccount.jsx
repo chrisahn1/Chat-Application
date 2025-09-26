@@ -1,4 +1,5 @@
 import './Modal.css';
+import { X } from 'react-feather';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axiosJWT from '../axiosFolder/AxiosFile';
