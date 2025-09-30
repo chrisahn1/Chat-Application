@@ -3,15 +3,15 @@ import { AuthContext } from '../context/AuthContext';
 
 import Chatlist from './Chatlist';
 
-function Sidebarleft({ socket }) {
+function Sidebar({ socket }) {
   const { currentUsername } = useContext(AuthContext);
   return (
-    <div className="sidebarleft">
-      <div className="sidebarusername">{currentUsername}</div>
+    <div className="sidebar">
+      <div className="usernamebar">{currentUsername}</div>
 
       <Chatlist socket={socket} />
     </div>
   );
 }
 
-export default Sidebarleft;
+export default Sidebar;

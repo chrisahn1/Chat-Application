@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Sidebarleft from '../components/Sidebarleft';
+import Sidebar from '../components/Sidebar';
 import Chatdisplay from '../components/Chatdisplay';
 import io from 'socket.io-client';
 const socket = io.connect('http://localhost:3001');
@@ -9,7 +9,7 @@ function UserPage() {
   return (
     <div className="App">
       <div className="containerChat">
-        <Sidebarleft socket={socket} />
+        <Sidebar socket={socket} />
         <Chatdisplay socket={socket} />
       </div>
     </div>
