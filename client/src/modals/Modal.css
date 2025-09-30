@@ -1,20 +1,39 @@
 .modal {
-  background: rgba(0, 0, 0, 0.6);
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-main {
   position: fixed;
-  background: white;
+  background: whitesmoke;
+  width: 60%;
+  height: 30%;
   top: 50%;
   left: 50%;
-  width: 80%;
-  height: auto;
   transform: translate(-50%, -50%);
+  display: flex;
+  border-radius: 10px;
+}
+
+.modal-main.chatsearch {
+  width: 50%;
+}
+
+.modal-main.chatcreate {
+  width: 50%;
+  justify-content: center;
+}
+
+.modal-main.chatdelete {
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .display-block {
@@ -23,4 +42,133 @@
 
 .display-none {
   display: none;
+}
+
+.search {
+  align-items: center;
+  justify-content: center;
+}
+
+.createChat {
+  margin-top: 7vh;
+  margin-left: 7vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.createChatInput {
+  width: 20vw;
+  margin-right: 1vw;
+}
+
+.searchChat {
+  margin-top: 7vh;
+  margin-left: 7vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.searchChatInput {
+  width: 20vw;
+}
+
+.searchicon {
+  width: 3vw;
+  height: 3vh;
+  justify-content: center;
+  padding: 1vh 1vw;
+  margin: 5px;
+}
+
+/********************** SEARCH RESULT SCROLL BAR *********************/
+.searchResult {
+  margin-top: 5px;
+  width: 20vw;
+  height: 30vh;
+  background-color: white;
+
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  overflow: hidden;
+  overflow-y: auto;
+  align-items: center;
+  margin-left: 8vw;
+}
+
+.searchResult::-webkit-scrollbar {
+  display: none;
+}
+
+.searchResult .chatItem {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: black;
+}
+
+.chatItem p {
+  margin-left: 10px;
+  color: black;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: lightgrey;
+}
+
+/********************** SETTINGS MODALS *********************/
+.modal-main.accountedit {
+  height: 60%;
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-main.accountedit.usernamechange {
+  height: 40%;
+  width: 40%;
+}
+
+.modal-main.accountedit.emailchange {
+  height: 50%;
+  width: 40%;
+}
+
+.modal-main.accountdelete {
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalEditRegister {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #375ab9;
+  border-radius: 10px;
+  margin: auto;
+  width: 30vw;
+  height: 20vw;
+  padding: 2vw 1vw;
+}
+
+/********************** ERROR CHAT MODAL *********************/
+.modal-main.errorchat {
+  height: 50%;
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
