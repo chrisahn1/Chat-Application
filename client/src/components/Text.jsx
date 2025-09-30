@@ -25,7 +25,7 @@ const Text = ({ text }) => {
       <div className="messageTraits">
         <img
           className="chatusericon"
-          src="user-account-management-logo-user-icon-11562867145a56rus2zwu-1305323861.png"
+          src="user-blue-icon-isolated-on-white-background-free-vector-3667259571.jpg"
         />
         <div className="messageAuthor">{text.value.author}</div>
       </div>
@@ -42,7 +42,7 @@ const Text = ({ text }) => {
               text.value.time}
           </span>
         </div>
-        {/* <span className='dateDisplay'>{text.value.month + ' ' + text.value.day + ', ' + text.value.year + ' - ' + 
+        {/* <span className='dateDisplay'>{text.value.month + ' ' + text.value.day + ', ' + text.value.year + ' - ' +
                 text.value.time}</span> */}
       </div>
     </div>

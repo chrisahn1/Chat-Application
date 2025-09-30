@@ -5,11 +5,13 @@ import { AuthContext } from '../context/AuthContext';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
-  const { accessToken } = useContext(AuthContext);
+  const { accessToken, setAccessToken, setCurrentUsername } =
+    useContext(AuthContext);
 
   const [new_username_input, setNewUsername] = useState('');
+  const [error, setError] = useState('');
 
-  const newUsernameChange = (e) => {
+  const newUsernameChange = async (e) => {
     setNewUsername(e.target.value);
   };
 
@@ -19,19 +21,47 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
     try {
       const username = { username: new_username_input };
 
-      const response = await fetch(
-        'http://localhost:3001/users/updateusername',
+      const check = await fetch(
+        'http://localhost:3001/users/updateusernamecheck',
         {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(username),
         }
       );
-      const result = await response.json();
-      console.log(result);
+
+      const verify = await check.json();
+      // console.log('verify: ', verify);
+      if (verify === 'invalid') {
+        setError('Username already exists');
+      } else {
+        const response = await fetch(
+          'http://localhost:3001/users/updateusername',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: accessToken,
+            },
+            body: JSON.stringify(username),
+          }
+        );
+
+        const result = await response.json();
+        setError('');
+        setNewUsername('');
+        setCurrentUsername(result.username);
+        //REFRESH TOKEN
+        const refresh = await fetch('http://localhost:3001/users/refresh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        });
+        const data = await refresh.json();
+        setAccessToken({});
+        setAccessToken(data.access_token);
+        handleClose();
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -40,24 +70,37 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   };
 
   const usernameChange = async (e) => {
-    handleClose();
     handleSubmitNewUsername(e);
+  };
+
+  const closeModal = async (e) => {
+    setNewUsername('');
+    setError('');
+    handleClose();
   };
 
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
-        <form className="Register" onSubmit={usernameChange}>
-          <label>Enter New Username: </label>
+      <section className="modal-main accountedit usernamechange">
+        <h3>Update Username</h3>
+        <form className="modalEditRegister" onSubmit={usernameChange}>
+          <label style={{ padding: '1.5vh' }}>Enter New Username: </label>
           <input
+            className="registerInput"
             type="text"
             value={new_username_input}
             placeholder="New Username"
             onChange={newUsernameChange}
           />
-          <button type="submit">Confirm</button>
+          <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
+          <button className="submitButton" type="submit">
+            Confirm
+          </button>
         </form>
-        <button type="button" onClick={handleClose}>
+        {/* <label>Enter New Username: </label>
+                <input className='registerInput' type='text' value={new_username_input} placeholder='New Username' onChange={newUsernameChange} />
+                <button type='submit'>Confirm</button> */}
+        <button type="button" onClick={closeModal}>
           Cancel
         </button>
       </section>
@@ -67,10 +110,11 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
 
 //UPDATE EMAIL
 const UpdateUserEmail = ({ isOpen, handleClose }) => {
-  const { accessToken } = useContext(AuthContext);
+  const { accessToken, setAccessToken } = useContext(AuthContext);
 
   const [current_email_input, setCurrentEmail] = useState('');
   const [new_email_input, setNewEmail] = useState('');
+  const [error, setError] = useState('');
 
   const handleCurrentEmail = (e) => {
     setCurrentEmail(e.target.value);
@@ -89,14 +133,20 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
       });
       const result = await response.json();
       // console.log(result.rows[0].email);
-      if (
-        current_email_input === result.rows[0].email &&
-        new_email_input !== result.rows[0].email &&
-        new_email_input !== current_email_input
-      ) {
-        changeEmail();
+      // if (current_email_input === result.rows[0].email && new_email_input !== result.rows[0].email && new_email_input !== current_email_input) {
+      //     updateEmail();
+      // } else {
+      //     // console.log('Incorrect email input');
+      //     setError('Invalid email');
+      // }
+      if (current_email_input !== result.rows[0].email) {
+        setError('Please enter current email');
+      } else if (new_email_input === result.rows[0].email) {
+        setError('Please enter new email');
+      } else if (current_email_input === new_email_input) {
+        setError('Error: Emails are the same');
       } else {
-        console.log('Incorrect email input');
+        changeEmail();
       }
     } catch (err) {
       console.error(err.message);
@@ -116,39 +166,64 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
         body: JSON.stringify(email),
       });
       const result = await response.json();
-      // console.log(result);
+
+      //REFRESH TOKEN
+      const refresh = await fetch('http://localhost:3001/users/refresh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      const data = await refresh.json();
+      setAccessToken({});
+      setAccessToken(data.access_token);
     } catch (err) {
       console.error(err.message);
     }
   };
 
   const changeEmail = async (e) => {
+    setError('');
+    setCurrentEmail('');
+    setNewEmail('');
+
     handleClose();
     updateEmail();
   };
 
+  const closeModal = async (e) => {
+    setCurrentEmail('');
+    setNewEmail('');
+    setError('');
+    handleClose();
+  };
+
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
+      <section className="modal-main accountedit emailchange">
         <h3>Update Email</h3>
-        <form className="Register" onSubmit={userEmailChange}>
-          <label>Enter current email: </label>
+        <form className="modalEditRegister" onSubmit={userEmailChange}>
+          <label style={{ padding: '1.5vh' }}>Enter current email: </label>
           <input
+            className="registerInput"
             type="email"
             value={current_email_input}
             onChange={handleCurrentEmail}
             required
           />
-          <label> Enter new email: </label>
+          <label style={{ padding: '1.5vh' }}> Enter new email: </label>
           <input
+            className="registerInput"
             type="email"
             value={new_email_input}
             onChange={handleNewEmail}
             required
           />
-          <button type="submit">Confirm</button>
+          <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
+          <button className="submitButton" type="submit">
+            Confirm
+          </button>
         </form>
-        <button type="button" onClick={handleClose}>
+        <button type="button" onClick={closeModal}>
           Cancel
         </button>
       </section>
@@ -158,11 +233,12 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
 //UPDATE PASSWORD
 const UpdateUserPassword = ({ isOpen, handleClose }) => {
-  const { accessToken } = useContext(AuthContext);
+  const { accessToken, setAccessToken } = useContext(AuthContext);
 
   const [current_password_input, setCurrentPassword] = useState('');
   const [new_password_input, setNewPassword] = useState('');
   const [confirm_password_input, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleCurrentPassword = (e) => {
     setCurrentPassword(e.target.value);
@@ -191,7 +267,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
         body: JSON.stringify(body),
       });
       const result = await response.json();
-      console.log('result password: ', result);
+
       if (
         result === true &&
         current_password_input !== new_password_input &&
@@ -200,6 +276,16 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
         passwordChange();
       } else {
         console.log('Incorrect password input');
+      }
+
+      if (result == false) {
+        setError('Please enter current password');
+      } else if (current_password_input === new_password_input) {
+        setError('Please enter new password');
+      } else if (confirm_password_input !== new_password_input) {
+        setError('New password does not match');
+      } else {
+        passwordChange();
       }
     } catch (err) {
       console.error(err.message);
@@ -222,7 +308,16 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
         }
       );
       const result = await response.json();
-      console.log(result);
+
+      //REFRESH TOKEN
+      const refresh = await fetch('http://localhost:3001/users/refresh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      const data = await refresh.json();
+      setAccessToken({});
+      setAccessToken(data.access_token);
     } catch (err) {
       console.error(err.message);
     }
@@ -230,39 +325,58 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
 
   const passwordChange = async (e) => {
     // console.log('new password: ', new_password_input);
+    setError('');
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+
     handleClose();
     updatePassword();
   };
 
+  const closeModal = async (e) => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setError('');
+    handleClose();
+  };
+
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
+      <section className="modal-main accountedit">
         <h3>Update Password</h3>
-        <form className="Register" onSubmit={userPasswordChange}>
-          <label>Enter current password: </label>
+        <form className="modalEditRegister" onSubmit={userPasswordChange}>
+          <label style={{ padding: '1.5vh' }}>Enter current password: </label>
           <input
+            className="registerInput"
             type="password"
             value={current_password_input}
             onChange={handleCurrentPassword}
             required
           />
-          <label> Enter new password: </label>
+          <label style={{ padding: '1.5vh' }}> Enter new password: </label>
           <input
+            className="registerInput"
             type="password"
             value={new_password_input}
             onChange={handleNewPassword}
             required
           />
-          <label> Confirm new password: </label>
+          <label style={{ padding: '1.5vh' }}> Confirm new password: </label>
           <input
+            className="registerInput"
             type="password"
             value={confirm_password_input}
             onChange={handleConfirmPassword}
             required
           />
-          <button type="submit">Confirm</button>
+          <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
+          <button className="submitButton" type="submit">
+            Confirm
+          </button>
         </form>
-        <button type="button" onClick={handleClose}>
+        <button type="button" onClick={closeModal}>
           Cancel
         </button>
       </section>

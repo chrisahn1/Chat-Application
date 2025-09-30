@@ -92,14 +92,16 @@ function DeleteChat({
 
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
-        <h3>Deleting {chatname}. Are you sure?</h3>
-        <button type="button" onClick={deleteChatHandle}>
-          Confirm
-        </button>
-        <button type="button" onClick={handleClose}>
-          Cancel
-        </button>
+      <section className="modal-main chatdelete">
+        <h3 style={{ color: 'black' }}>Deleting {chatname}. Are you sure?</h3>
+        <div>
+          <button type="button" onClick={deleteChatHandle}>
+            Confirm
+          </button>
+          <button type="button" onClick={handleClose}>
+            Cancel
+          </button>
+        </div>
       </section>
     </div>
   );

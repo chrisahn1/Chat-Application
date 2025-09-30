@@ -11,14 +11,57 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
   const navigate = useNavigate();
 
+  const removeChatLinks = async () => {
+    try {
+      const response = await fetch(
+        'http://localhost:3001/users/deleteusersalllinks',
+        {
+          method: 'DELETE',
+          headers: { authorization: accessToken },
+        }
+      );
+      const result = await response.json();
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const removeHostLinks = async () => {
+    try {
+      const response = await fetch(
+        'http://localhost:3001/users/deletehostalllinks',
+        {
+          method: 'DELETE',
+          headers: { authorization: accessToken },
+        }
+      );
+      const result = await response.json();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const removeAllUsersChannels = async () => {
+    try {
+      const response = await fetch(
+        'http://localhost:3001/users/deletehostallchannels',
+        {
+          method: 'DELETE',
+          headers: { authorization: accessToken },
+        }
+      );
+      const result = await response.json();
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   const removeUser = async () => {
     try {
       const response = await fetch('http://localhost:3001/users/delete', {
         method: 'DELETE',
         headers: { authorization: accessToken },
       });
-      const result = await response.json();
-      console.log('account deleted: ', result);
     } catch (err) {
       console.error(err.message);
     }
@@ -28,6 +71,9 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     handleClose();
     navigate('/');
 
+    removeChatLinks();
+    removeHostLinks();
+    removeAllUsersChannels();
     removeUser();
 
     await axiosJWT.delete('/users/logout', {
@@ -39,14 +85,16 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
-        <h3>Deleting Account. Are you sure?</h3>
-        <button type="button" onClick={deleteUser}>
-          Delete
-        </button>
-        <button type="button" onClick={handleClose}>
-          Cancel
-        </button>
+      <section className="modal-main accountdelete">
+        <h2>Deleting Account. Are you sure?</h2>
+        <div>
+          <button type="button" onClick={deleteUser}>
+            Delete
+          </button>
+          <button type="button" onClick={handleClose}>
+            Cancel
+          </button>
+        </div>
       </section>
     </div>
   );

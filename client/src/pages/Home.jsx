@@ -56,30 +56,37 @@ function Home() {
   return (
     <div className="App">
       <form className="Register" onSubmit={handleSubmit}>
-        <label>Email:</label>
+        <label style={{ padding: '1.5vh' }}>Email:</label>
         <input
+          className="registerInput"
           type="email"
           value={email_input}
           placeholder="Email"
           onChange={handleEmail}
           required
         />
-        <label>Password:</label>
+        <label style={{ padding: '1.5vh' }}>Password:</label>
         <input
+          className="registerInput"
           type="password"
           value={password_input}
           placeholder="Password"
           onChange={handlePassword}
           required
         />
-        <button type="submit">Login</button>
+        <button className="submitButton" type="submit">
+          Login
+        </button>
+        <label>Need and Account? Click on Signup!</label>
+        <button className="submitButton" onClick={() => navigate('/signup')}>
+          Signup
+        </button>
       </form>
-      <button onClick={() => navigate('/signup')}>Signup</button>
-      {/* <div>
+      <div>
         <LoginCheck
           isOpen={showLoginCheckModal}
           handleClose={toggleLoginCheckModal}></LoginCheck>
-      </div> */}
+      </div>
     </div>
   );
 }

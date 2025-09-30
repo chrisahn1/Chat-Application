@@ -183,10 +183,7 @@ function Chatlist({ socket }) {
           const lastIndex = chat.messages.length;
           return (
             <div className="userChat" onClick={() => handleChannelClick(chat)}>
-              <img
-                src="user-blue-icon-isolated-on-white-background-free-vector-3667259571.jpg"
-                className="userChatImg"
-              />
+              <img src="14562316.png" className="chatImg" />
               <span>{chat.channelname}</span>
               {lastIndex > 0 && (
                 <p>

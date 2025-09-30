@@ -91,25 +91,29 @@ function Signup() {
 
   return (
     <div className="App">
-      <form className="Register" onSubmit={handleSubmit}>
-        <label>Username:</label>
+      <form className="Register Signup" onSubmit={handleSubmit}>
+        <h2 style={{ color: 'white' }}>Sign-Up</h2>
+        <label style={{ padding: '1.5vh' }}>Username:</label>
         <input
+          className="registerInput"
           type="text"
           value={username_input}
           placeholder="Username"
           onChange={handleUsername}
           required
         />
-        <label>Email:</label>
+        <label style={{ padding: '1.5vh' }}>Email:</label>
         <input
+          className="registerInput"
           type="email"
           value={email_input}
           placeholder="Email"
           onChange={handleEmail}
           required
         />
-        <label>Password:</label>
+        <label style={{ padding: '1.5vh' }}>Password:</label>
         <input
+          className="registerInput"
           type="password"
           value={password_input}
           placeholder="Password"
@@ -118,13 +122,15 @@ function Signup() {
         />
         {/* <label>Profile Pic: </label>
                 <input type='file' onChange={handleImage} /> */}
-        <button type="submit">Sign Up</button>
+        <button className="submitButton" type="submit">
+          Sign Up
+        </button>
       </form>
-      {/* <div>
+      <div>
         <ErrorSignup
           isOpen={showAccountExistModal}
           handleClose={toggleAccountExist}></ErrorSignup>
-      </div> */}
+      </div>
     </div>
   );
 }

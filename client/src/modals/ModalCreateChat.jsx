@@ -11,6 +11,8 @@ function CreateChatRoom({ isOpen, handleClose }) {
 
   const [create_input, setCreateInput] = useState('');
 
+  const [error, setError] = useState('');
+
   const handleCreateInput = async (e) => {
     setCreateInput(e.target.value);
   };
@@ -18,19 +20,19 @@ function CreateChatRoom({ isOpen, handleClose }) {
   const createHandle = async (e) => {
     let letters = /^[a-zA-Z]+$/;
     if (create_input === '') {
-      console.log('Please enter name for new chat channel');
+      setError('Please enter new chat channel');
     } else if (letters.test(create_input.charAt(0).toLowerCase()) === false) {
-      console.log('First character must be a letter');
+      setError('First character must be a letter');
     } else if (
       letters.test(create_input.charAt(0).toLowerCase()) === true &&
       create_input.length < 5
     ) {
-      console.log('Name must be at least 5 characters long');
+      setError('Name must be at least 5 characters long');
     } else {
       const res_checkexists = await checkChatExists();
       if (res_checkexists === true) {
         // ERROR CHAT DISPLAY
-        console.log('chat name already exists');
+        setError('Chat name already exists');
       } else {
         const userid = await fetch('http://localhost:3001/users/userid', {
           headers: { authorization: accessToken },
@@ -41,7 +43,8 @@ function CreateChatRoom({ isOpen, handleClose }) {
           });
 
         createChatChannel(userid, currentUsername, create_input);
-
+        setError('');
+        setCreateInput('');
         handleClose();
       }
     }
@@ -141,39 +144,34 @@ function CreateChatRoom({ isOpen, handleClose }) {
     }
   };
 
+  const closeModal = async () => {
+    setError('');
+    setCreateInput('');
+    handleClose();
+  };
+
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
-        {/* <div className='search'>
-            <div className='searchChatInput'>
-                <input type='text' placeholder='Create Chat Channel...'
-                value={create_input}
-                onChange={handleCreateInput} />
-            </div>
-            <div>
-                <button type='button' onClick={createHandle}>Create</button>
-                <button type='button' onClick={handleClose}>Cancel</button>
-            </div>
-            </div> */}
-        <div className="searchChatInput">
-          <input
-            type="text"
-            placeholder="Create Chat Channel..."
-            value={create_input}
-            onChange={handleCreateInput}
-          />
+      <section className="modal-main chatcreate">
+        <div className="search">
+          <h2 style={{ color: 'black' }}>Create Chat</h2>
+          <div className="createChat">
+            <input
+              className="createChatInput"
+              type="text"
+              placeholder="Create Chat Channel..."
+              value={create_input}
+              onChange={handleCreateInput}
+            />
+            <button type="button" onClick={createHandle}>
+              Create
+            </button>
+            <button type="button" onClick={closeModal}>
+              Cancel
+            </button>
+          </div>
+          <div>{error && <p style={{ color: 'black' }}>{error}</p>}</div>
         </div>
-        <div className="footer">
-          <button type="button" onClick={createHandle}>
-            Create
-          </button>
-          <button type="button" onClick={handleClose}>
-            Cancel
-          </button>
-        </div>
-        <X />
-        {/* <button type='button' onClick={createHandle}>Create</button>
-            <button type='button' onClick={handleClose}>Cancel</button> */}
       </section>
     </div>
   );

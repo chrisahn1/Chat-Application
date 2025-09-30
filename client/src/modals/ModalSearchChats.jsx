@@ -12,8 +12,13 @@ function SearchChatBar({ isOpen, handleClose }) {
   const [search_input, setSearchInput] = useState('');
   const [search_list, setSearchList] = useState([]);
 
+  const [error, setError] = useState('');
+
   const handleSearchChat = async (e) => {
     setSearchInput(e.target.value);
+    if (e.target.value.length === 0) {
+      setSearchList([]);
+    }
   };
 
   const searchChatResults = async (e) => {
@@ -37,8 +42,9 @@ function SearchChatBar({ isOpen, handleClose }) {
   };
 
   const joinHandle = async (e) => {
+    setSearchList([]);
     if (search_input === '') {
-      console.log('please enter search input');
+      setError('Please enter search input');
     } else {
       const response = await fetch(
         `http://localhost:3001/users/chatexists/${search_input}`
@@ -49,11 +55,11 @@ function SearchChatBar({ isOpen, handleClose }) {
         });
       if (response.exists === false) {
         // ERROR CHAT DISPLAY
-        console.log('channel does not exist');
+        setError('Channel does not exist');
       } else {
         const res_chatlist = await checkUserChatExists();
         if (res_chatlist.includes(search_input)) {
-          console.log('Already a member');
+          setError('Already a member');
         } else {
           const body = {
             chat_name: search_input,
@@ -69,6 +75,9 @@ function SearchChatBar({ isOpen, handleClose }) {
           );
           const result_chat_id = await get_chat_id.json();
           joinChatChannel(result_chat_id);
+          setError('');
+          setSearchInput('');
+          setSearchList([]);
           handleClose();
         }
       }
@@ -144,32 +153,39 @@ function SearchChatBar({ isOpen, handleClose }) {
     setSearchInput(result.channelname);
   };
 
+  const closeModal = async () => {
+    setError('');
+    setSearchInput('');
+    setSearchList([]);
+    handleClose();
+  };
+
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
+      <section className="modal-main chatsearch">
         <div className="search">
-          <div className="searchChatInput">
+          <h2 style={{ color: 'black' }}>Search Chat</h2>
+          <div className="searchChat">
             <input
+              className="searchChatInput"
               type="text"
               placeholder="Search for chat channel..."
               value={search_input}
               onChange={handleSearchChat}
             />
-
             <img
-              src="485-4851736_free-png-search-icon-search-icon-free-download-2524799039.jpeg"
+              src="searchiconimage.png"
               className="searchicon"
               onClick={searchChatResults}
             />
-
             <button type="button" onClick={joinHandle}>
               Join
             </button>
-            <button type="button" onClick={handleClose}>
+            <button type="button" onClick={closeModal}>
               Cancel
             </button>
           </div>
-          {search_list.length != 0 && (
+          {search_list.length !== 0 && (
             <div className="searchResult">
               {search_list.map((result) => {
                 return (
@@ -183,6 +199,7 @@ function SearchChatBar({ isOpen, handleClose }) {
               })}
             </div>
           )}
+          <div>{error && <p style={{ color: 'black' }}>{error}</p>}</div>
         </div>
       </section>
     </div>

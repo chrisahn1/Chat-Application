@@ -196,6 +196,9 @@ function Chatdisplay({ socket }) {
       </div>
       <Messages messagelist={messageTexts} />
       <form className="messageinput">
+        <div className="messageTextLengthDisplay">
+          {message_text.length + '/150'}
+        </div>
         <input
           type="text"
           placeholder="Send Message"

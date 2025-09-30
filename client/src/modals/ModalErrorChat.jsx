@@ -5,9 +5,11 @@ import React, { useEffect, useState } from 'react';
 const ErrorChat = ({ isOpen, handleClose }) => {
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
+      <section className="modal-main errorchat">
         <h2>Chat does not exist</h2>
-        <button onClick={handleClose}>Close</button>
+        <div>
+          <button onClick={handleClose}>Close</button>
+        </div>
       </section>
     </div>
   );
