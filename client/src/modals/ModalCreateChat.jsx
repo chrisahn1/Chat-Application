@@ -154,6 +154,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
       <section className="modal-main chatcreate">
         <div className="search">
+          <X className="closeIcon" onClick={closeModal} />
           <h2 style={{ color: 'black' }}>Create Chat</h2>
           <div className="createChat">
             <input

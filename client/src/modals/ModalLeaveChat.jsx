@@ -77,14 +77,17 @@ function LeaveChat({
   };
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main">
-        <h3>Leaving {chatname}. Are you sure?</h3>
-        <button type="button" onClick={leaveChatHandle}>
-          Confirm
-        </button>
-        <button type="button" onClick={handleClose}>
-          Cancel
-        </button>
+      <section className="modal-main chatleave">
+        <X className="closeIcon" onClick={handleClose} />
+        <h3 style={{ color: 'black' }}>Leaving {chatname}. Are you sure?</h3>
+        <div>
+          <button type="button" onClick={leaveChatHandle}>
+            Confirm
+          </button>
+          <button type="button" onClick={handleClose}>
+            Cancel
+          </button>
+        </div>
       </section>
     </div>
   );

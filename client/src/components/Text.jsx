@@ -31,12 +31,12 @@ const Text = ({ text }) => {
       </div>
       <div className="messageText" style={{ height: getHeight() }}>
         <p className="usertext">{text.value.message}</p>
-        <div className="dateDisplay">
-          <span>
+        <div>
+          <span className="dateDisplay">
             {text.value.month +
-              ' ' +
+              '/' +
               text.value.day +
-              ', ' +
+              '/' +
               text.value.year +
               ' - ' +
               text.value.time}

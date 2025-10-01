@@ -200,6 +200,7 @@ function Chatdisplay({ socket }) {
           {message_text.length + '/150'}
         </div>
         <input
+          className="sendMsgInput"
           type="text"
           placeholder="Send Message"
           value={message_text}

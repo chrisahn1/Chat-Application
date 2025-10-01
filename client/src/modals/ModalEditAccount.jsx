@@ -82,6 +82,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
       <section className="modal-main accountedit usernamechange">
+        <X className="closeIcon" onClick={closeModal} />
         <h3>Update Username</h3>
         <form className="modalEditRegister" onSubmit={usernameChange}>
           <label style={{ padding: '1.5vh' }}>Enter New Username: </label>
@@ -200,6 +201,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
       <section className="modal-main accountedit emailchange">
+        <X className="closeIcon" onClick={closeModal} />
         <h3>Update Email</h3>
         <form className="modalEditRegister" onSubmit={userEmailChange}>
           <label style={{ padding: '1.5vh' }}>Enter current email: </label>
@@ -344,7 +346,8 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
 
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
-      <section className="modal-main accountedit">
+      <section className="modal-main accountedit emailchange">
+        <X className="closeIcon" onClick={closeModal} />
         <h3>Update Password</h3>
         <form className="modalEditRegister" onSubmit={userPasswordChange}>
           <label style={{ padding: '1.5vh' }}>Enter current password: </label>

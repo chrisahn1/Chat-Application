@@ -164,6 +164,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
       <section className="modal-main chatsearch">
         <div className="search">
+          <X className="closeIcon" onClick={handleClose} />
           <h2 style={{ color: 'black' }}>Search Chat</h2>
           <div className="searchChat">
             <input

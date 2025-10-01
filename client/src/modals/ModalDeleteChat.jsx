@@ -93,6 +93,7 @@ function DeleteChat({
   return (
     <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
       <section className="modal-main chatdelete">
+        <X className="closeIcon" onClick={handleClose} />
         <h3 style={{ color: 'black' }}>Deleting {chatname}. Are you sure?</h3>
         <div>
           <button type="button" onClick={deleteChatHandle}>

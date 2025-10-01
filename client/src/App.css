@@ -62,12 +62,14 @@
   border-radius: 10px;
   margin: auto;
   width: 30vw;
-  height: 20vw;
+
+  /* height: 20vw; */
+  height: 500px;
   padding: 2vw 1vw;
 }
 
 .Register.Signup {
-  height: 25vw;
+  height: 30vw;
 }
 
 .registerInput {
@@ -91,6 +93,13 @@ button {
 .submitButton {
   width: 100%;
   margin: 2vh;
+  font-size: 15px;
+}
+
+.editAccountButton {
+  padding: 1.5vh 3vw;
+  margin: 1vw;
+  font-size: 15px;
 }
 
 label {
@@ -132,18 +141,28 @@ input::placeholder {
 
 .containerChatEdit {
   border: 1px solid white;
+  background-color: #0a1650;
+  border-radius: 10px;
   width: 40vw;
   height: 40vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 10px;
 }
 
 .containerChatDelete {
   border: 1px solid white;
+  background-color: #0a1650;
+  border-radius: 10px;
   width: 40vw;
   height: 40vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 10px;
 }
 
 span {
@@ -166,6 +185,8 @@ p {
   background-color: #0c215b;
   position: relative;
   height: 90vh;
+
+  /* margin-bottom: 20px; */
 }
 
 .usernamebar {
@@ -181,10 +202,6 @@ p {
 .search {
   border-bottom: 1px solid gray;
 }
-
-/* .searchForm {
-  padding: 10px;
-} */
 
 .searchinput {
   background-color: transparent;
@@ -262,7 +279,8 @@ p {
 .message {
   display: flex;
   gap: 20px;
-  margin-bottom: 20px;
+
+  /* margin-bottom: 20px; */
 }
 
 .message.owner {
@@ -326,12 +344,17 @@ p {
 .messageTextLengthDisplay {
   background-color: white;
   padding: 1vh 1vw;
+
+  /* padding: 10px 30px 10px 30px; */
   border-radius: 5px;
 }
 
 .sendMsgInput {
   padding: 1vh;
   margin: 2vw;
+
+  /* padding: 10px;
+  width: 800px; */
 }
 
 .sendbutton {

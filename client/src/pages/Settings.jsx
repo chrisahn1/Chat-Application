@@ -63,21 +63,31 @@ function Settings() {
     // </div>
     <div className="containerSettings">
       <div className="containerChatEdit">
-        <button onClick={toggleUsername}>Change Username</button>
+        <h2 style={{ color: 'white' }}>Edit Account</h2>
+        <button className="editAccountButton" onClick={toggleUsername}>
+          Change Username
+        </button>
         <UpdateUsername
           isOpen={showUsername}
           handleClose={toggleUsername}></UpdateUsername>
-        <button onClick={toggleEmail}>Change Email</button>
+        <button className="editAccountButton" onClick={toggleEmail}>
+          Change Email
+        </button>
         <UpdateUserEmail
           isOpen={showEmail}
           handleClose={toggleEmail}></UpdateUserEmail>
-        <button onClick={togglePW}>Change Password</button>
+        <button className="editAccountButton" onClick={togglePW}>
+          Change Password
+        </button>
         <UpdateUserPassword
           isOpen={showPW}
           handleClose={togglePW}></UpdateUserPassword>
       </div>
       <div className="containerChatDelete">
-        <button onClick={toggleDelete}>Delete Account</button>
+        <h2 style={{ color: 'white' }}>Delete Account</h2>
+        <button className="editAccountButton" onClick={toggleDelete}>
+          Delete Account
+        </button>
         <ModalDeleteAccount
           isOpen={modaldelete}
           handleClose={toggleDelete}></ModalDeleteAccount>
