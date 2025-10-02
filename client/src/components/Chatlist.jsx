@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SearchChatBar from '../modals/ModalSearchChats';
 import CreateChatRoom from '../modals/ModalCreateChat';
 import DeleteChat from '../modals/ModalDeleteChat';
@@ -100,8 +100,7 @@ function Chatlist({ socket }) {
         }
         setCurrentChatName(chat.channelname);
         setCurrentChatID(chat.id);
-        //SOCKET IO HERE TO JOIN ROOM
-        // socket.emit('join_room', chat.id);
+        socket.emit('join_room', chat.id);
       } else {
         //CHAT DOESNT EXIST
         console.log('chat doesnt exist');

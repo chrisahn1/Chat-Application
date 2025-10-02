@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const Text = ({ text }) => {
-  const { currentUsername, currentUserID } = useContext(AuthContext);
+  const { currentUserID } = useContext(AuthContext);
   const messageRef = useRef();
 
   const getHeight = () => {

@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useReducer,
-  useState,
-  useContext,
-  createContext,
-} from 'react';
-import { AuthContext } from '../context/AuthContext';
+import React, { useReducer, useState, createContext } from 'react';
 
 export const ChatContext = createContext({});
 

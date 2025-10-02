@@ -1,7 +1,7 @@
 import './Modal.css';
 import { X } from 'react-feather';
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 //UPDATE USERNAME
@@ -310,7 +310,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
           console.log('Incorrect password input');
         }
 
-        if (result == false) {
+        if (result === false) {
           setError('Please enter current password');
         } else if (current_password_input === new_password_input) {
           setError('Please enter new password');

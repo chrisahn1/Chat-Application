@@ -1,6 +1,5 @@
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import ModalDeleteAccount from '../modals/ModalDeleteAccount';
 import {
   UpdateUsername,
@@ -10,8 +9,6 @@ import {
 
 function Settings() {
   const navigate = useNavigate();
-
-  const { accessToken } = useContext(AuthContext);
 
   const [modaldelete, setModalDelete] = useState(false);
 

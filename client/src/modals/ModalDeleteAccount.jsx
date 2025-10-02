@@ -1,7 +1,7 @@
 import './Modal.css';
 import { X } from 'react-feather';
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosJWT from '../axiosFolder/AxiosFile';
 import { AuthContext } from '../context/AuthContext';
 

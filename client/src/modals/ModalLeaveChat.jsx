@@ -1,7 +1,7 @@
 import './Modal.css';
 import { X } from 'react-feather';
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 

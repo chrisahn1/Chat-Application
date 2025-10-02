@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React from 'react';
 import Text from './Text';
-import io from 'socket.io-client';
-const socket = io.connect('http://localhost:3001');
 
 const Messages = ({ messagelist }) => {
   return (
