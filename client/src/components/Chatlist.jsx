@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import SearchChatBar from '../modals/ModalSearchChats';
 import CreateChatRoom from '../modals/ModalCreateChat';
 import DeleteChat from '../modals/ModalDeleteChat';
@@ -14,15 +15,16 @@ function Chatlist({ socket }) {
     chatlist,
     setChatlist,
     messageTexts,
-    joinSignal,
-    leaveSignal,
-    createSignal,
-    deleteSignal,
+    activate_leave_chat,
+    setLeaveButton,
+    activate_delete_chat,
+    setDeleteButton,
+    current_chatname,
+    setCurrentChatName,
+    current_chatid,
+    setCurrentChatID,
   } = useContext(ChatContext);
   const { accessToken, currentUsername } = useContext(AuthContext);
-
-  const [activate_leave_chat, setLeaveButton] = useState(true);
-  const [activate_delete_chat, setDeleteButton] = useState(true);
 
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showCreateChatModal, setCreateChatModal] = useState(false);
@@ -32,10 +34,9 @@ function Chatlist({ socket }) {
 
   const [showChatExistModal, setChatExistModal] = useState(false);
 
-  const [current_chatname, setCurrentChatName] = useState('');
-  const [current_chatid, setCurrentChatID] = useState([]);
-
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  const navigate = useNavigate();
 
   // console.log('chatlist: ', chatlist);
 
@@ -56,70 +57,114 @@ function Chatlist({ socket }) {
       } catch (err) {
         console.error(err.message);
       }
-
-      // return () => {
-      //     channelsList();
-      // };
     };
 
     getChannelsList();
   }, [data.id, accessToken, messageTexts]); //CHATLIST CAUSES AN INFINITE LOOP
 
   const handleChannelClick = async (chat) => {
-    //FIRST CHECKING IF CHAT EXIST
-    const response = await fetch(
-      `http://localhost:3001/users/chatstillexists/${chat.id}`,
-      {
-        headers: { authorization: accessToken },
-      }
-    )
-      .then((response) => response.json())
-      .then((exists) => {
-        return exists;
-      });
-
-    if (response === true) {
-      dispatch({ type: 'CHAT_CHANGE', payload: chat });
-
-      if (chat.host[1] === currentUsername) {
-        setLeaveButton(true);
-        setDeleteButton(false);
-      } else {
-        setLeaveButton(false);
-        setDeleteButton(true);
-      }
-      if (current_chatid !== null) {
-        socket.emit('leave_room', current_chatid);
-      }
-      setCurrentChatName(chat.channelname);
-      setCurrentChatID(chat.id);
-      //SOCKET IO HERE TO JOIN ROOM
-      // socket.emit('join_room', chat.id);
+    //CHECK IF USER IS STILL AUTHORIZED
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
     } else {
-      //CHAT DOESNT EXIST
-      console.log('chat doesnt exist');
-      toggleChatExist();
+      //FIRST CHECKING IF CHAT EXIST
+      const response = await fetch(
+        `http://localhost:3001/users/chatstillexists/${chat.id}`,
+        {
+          headers: { authorization: accessToken },
+        }
+      )
+        .then((response) => response.json())
+        .then((exists) => {
+          return exists;
+        });
+
+      if (response === true) {
+        dispatch({ type: 'CHAT_CHANGE', payload: chat });
+
+        if (chat.host[1] === currentUsername) {
+          setLeaveButton(true);
+          setDeleteButton(false);
+        } else {
+          setLeaveButton(false);
+          setDeleteButton(true);
+        }
+        if (current_chatid !== null) {
+          socket.emit('leave_room', current_chatid);
+        }
+        setCurrentChatName(chat.channelname);
+        setCurrentChatID(chat.id);
+        //SOCKET IO HERE TO JOIN ROOM
+        // socket.emit('join_room', chat.id);
+      } else {
+        //CHAT DOESNT EXIST
+        console.log('chat doesnt exist');
+        toggleChatExist();
+      }
     }
   };
 
+  const verifyActivity = async () => {
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    return response.status;
+  };
+
   //ADD TOGGLE FUNCTIONS HERE
-  const toggleSearchChat = () => {
-    setShowSearchModal(!showSearchModal);
+  const toggleSearchChat = async () => {
+    const verify_result = await verifyActivity();
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setShowSearchModal(!showSearchModal);
+    }
+    // setShowSearchModal(!showSearchModal);
   };
 
-  const toggleCreateChat = () => {
-    setCreateChatModal(!showCreateChatModal);
+  const toggleCreateChat = async () => {
+    const verify_result = await verifyActivity();
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setCreateChatModal(!showCreateChatModal);
+    }
+    // setCreateChatModal(!showCreateChatModal);
   };
 
-  const toggleLeaveChat = () => {
-    setLeaveModal(!showLeaveModal);
+  const toggleLeaveChat = async () => {
+    const verify_result = await verifyActivity();
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setLeaveModal(!showLeaveModal);
+    }
+    // setLeaveModal(!showLeaveModal);
   };
 
-  const toggleDeleteChat = () => {
-    setDeleteModal(!showDeleteModal);
+  const toggleDeleteChat = async () => {
+    const verify_result = await verifyActivity();
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setDeleteModal(!showDeleteModal);
+    }
+    // setDeleteModal(!showDeleteModal);
   };
 
-  const toggleChatExist = () => {
+  const toggleChatExist = async () => {
     setChatExistModal(!showChatExistModal);
   };
 

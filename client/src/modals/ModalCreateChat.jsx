@@ -1,11 +1,13 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
 function CreateChatRoom({ isOpen, handleClose }) {
-  const { setChatlist } = useContext(ChatContext);
+  const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
+    useContext(ChatContext);
 
   const { accessToken, currentUsername } = useContext(AuthContext);
 
@@ -13,39 +15,52 @@ function CreateChatRoom({ isOpen, handleClose }) {
 
   const [error, setError] = useState('');
 
+  const navigate = useNavigate();
+
   const handleCreateInput = async (e) => {
     setCreateInput(e.target.value);
   };
 
   const createHandle = async (e) => {
-    let letters = /^[a-zA-Z]+$/;
-    if (create_input === '') {
-      setError('Please enter new chat channel');
-    } else if (letters.test(create_input.charAt(0).toLowerCase()) === false) {
-      setError('First character must be a letter');
-    } else if (
-      letters.test(create_input.charAt(0).toLowerCase()) === true &&
-      create_input.length < 5
-    ) {
-      setError('Name must be at least 5 characters long');
+    //CHECK IF USER IS STILL AUTHORIZED
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
     } else {
-      const res_checkexists = await checkChatExists();
-      if (res_checkexists === true) {
-        // ERROR CHAT DISPLAY
-        setError('Chat name already exists');
+      let letters = /^[a-zA-Z]+$/;
+      if (create_input === '') {
+        setError('Please enter new chat channel');
+      } else if (letters.test(create_input.charAt(0).toLowerCase()) === false) {
+        setError('First character must be a letter');
+      } else if (
+        letters.test(create_input.charAt(0).toLowerCase()) === true &&
+        create_input.length < 5
+      ) {
+        setError('Name must be at least 5 characters long');
       } else {
-        const userid = await fetch('http://localhost:3001/users/userid', {
-          headers: { authorization: accessToken },
-        })
-          .then((response) => response.json())
-          .then((userID) => {
-            return userID;
-          });
+        const res_checkexists = await checkChatExists();
+        if (res_checkexists === true) {
+          // ERROR CHAT DISPLAY
+          setError('Chat name already exists');
+        } else {
+          const userid = await fetch('http://localhost:3001/users/userid', {
+            headers: { authorization: accessToken },
+          })
+            .then((response) => response.json())
+            .then((userID) => {
+              return userID;
+            });
 
-        createChatChannel(userid, currentUsername, create_input);
-        setError('');
-        setCreateInput('');
-        handleClose();
+          createChatChannel(userid, currentUsername, create_input);
+          setError('');
+          setCreateInput('');
+          handleClose();
+        }
       }
     }
   };
@@ -67,6 +82,9 @@ function CreateChatRoom({ isOpen, handleClose }) {
       });
 
       const result = await response.json();
+      dispatch({ type: 'CHAT_CHANGE', payload: result.rows[0] });
+      setCurrentChatID(result.rows[0].id);
+      setDeleteButton(false);
       // console.log('created chat: ', result);
     } catch (error) {
       console.log(error.message);
@@ -109,10 +127,6 @@ function CreateChatRoom({ isOpen, handleClose }) {
         } catch (err) {
           console.error(err.message);
         }
-
-        // return () => {
-        //     channelsList();
-        // };
       };
 
       getChannelsList();

@@ -19,6 +19,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUserID, setCurrentUserID] = useState('');
 
   const [isAuth, setIsAuth] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   // const navigate = useNavigate();
 
@@ -67,6 +68,7 @@ export const AuthContextProvider = ({ children }) => {
           console.log('response 401: ', response.status);
           // navigate('/', { replace: true });
           setIsAuth(false);
+          setLoading(true);
           setMessageTexts([]);
           setAccessToken({});
           setCurrentUsername('');
@@ -76,6 +78,7 @@ export const AuthContextProvider = ({ children }) => {
           console.log('response 403: ', response.status);
           // navigate('/', { replace: true });
           setIsAuth(false);
+          setLoading(true);
           setMessageTexts([]);
           setAccessToken({});
           setCurrentUsername('');
@@ -87,6 +90,8 @@ export const AuthContextProvider = ({ children }) => {
           setAccessToken({});
           setAccessToken(data.access_token);
           setIsAuth(true);
+          setLoading(false);
+          setMessageTexts([]);
           // navigate('/userpage', {replace: true});
         }
       } catch (err) {
@@ -108,6 +113,8 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentUserID,
         isAuth,
         setIsAuth,
+        isLoading,
+        setLoading,
       }}>
       {children}
     </AuthContext.Provider>

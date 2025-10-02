@@ -1,6 +1,7 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 //UPDATE USERNAME
@@ -10,6 +11,8 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
 
   const [new_username_input, setNewUsername] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const newUsernameChange = async (e) => {
     setNewUsername(e.target.value);
@@ -70,7 +73,18 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   };
 
   const usernameChange = async (e) => {
-    handleSubmitNewUsername(e);
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      handleSubmitNewUsername(e);
+    }
+    // handleSubmitNewUsername(e);
   };
 
   const closeModal = async (e) => {
@@ -98,9 +112,6 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
             Confirm
           </button>
         </form>
-        {/* <label>Enter New Username: </label>
-                <input className='registerInput' type='text' value={new_username_input} placeholder='New Username' onChange={newUsernameChange} />
-                <button type='submit'>Confirm</button> */}
         <button type="button" onClick={closeModal}>
           Cancel
         </button>
@@ -117,6 +128,8 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   const [new_email_input, setNewEmail] = useState('');
   const [error, setError] = useState('');
 
+  const navigate = useNavigate();
+
   const handleCurrentEmail = (e) => {
     setCurrentEmail(e.target.value);
   };
@@ -127,30 +140,33 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
   const userEmailChange = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3001/users/useremail', {
-        method: 'GET',
-        headers: { authorization: accessToken },
-      });
-      const result = await response.json();
-      // console.log(result.rows[0].email);
-      // if (current_email_input === result.rows[0].email && new_email_input !== result.rows[0].email && new_email_input !== current_email_input) {
-      //     updateEmail();
-      // } else {
-      //     // console.log('Incorrect email input');
-      //     setError('Invalid email');
-      // }
-      if (current_email_input !== result.rows[0].email) {
-        setError('Please enter current email');
-      } else if (new_email_input === result.rows[0].email) {
-        setError('Please enter new email');
-      } else if (current_email_input === new_email_input) {
-        setError('Error: Emails are the same');
-      } else {
-        changeEmail();
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      try {
+        const response = await fetch('http://localhost:3001/users/useremail', {
+          method: 'GET',
+          headers: { authorization: accessToken },
+        });
+        const result = await response.json();
+        if (current_email_input !== result.rows[0].email) {
+          setError('Please enter current email');
+        } else if (new_email_input === result.rows[0].email) {
+          setError('Please enter new email');
+        } else if (current_email_input === new_email_input) {
+          setError('Error: Emails are the same');
+        } else {
+          changeEmail();
+        }
+      } catch (err) {
+        console.error(err.message);
       }
-    } catch (err) {
-      console.error(err.message);
     }
   };
 
@@ -242,6 +258,8 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
   const [confirm_password_input, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
+  const navigate = useNavigate();
+
   const handleCurrentPassword = (e) => {
     setCurrentPassword(e.target.value);
   };
@@ -256,41 +274,54 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
 
   const userPasswordChange = async (e) => {
     e.preventDefault();
-    const body = {
-      current_password: current_password_input,
-    };
-    try {
-      const response = await fetch('http://localhost:3001/users/userpassword', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: accessToken,
-        },
-        body: JSON.stringify(body),
-      });
-      const result = await response.json();
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      const body = {
+        current_password: current_password_input,
+      };
+      try {
+        const response = await fetch(
+          'http://localhost:3001/users/userpassword',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: accessToken,
+            },
+            body: JSON.stringify(body),
+          }
+        );
+        const result = await response.json();
 
-      if (
-        result === true &&
-        current_password_input !== new_password_input &&
-        new_password_input === confirm_password_input
-      ) {
-        passwordChange();
-      } else {
-        console.log('Incorrect password input');
-      }
+        if (
+          result === true &&
+          current_password_input !== new_password_input &&
+          new_password_input === confirm_password_input
+        ) {
+          passwordChange();
+        } else {
+          console.log('Incorrect password input');
+        }
 
-      if (result == false) {
-        setError('Please enter current password');
-      } else if (current_password_input === new_password_input) {
-        setError('Please enter new password');
-      } else if (confirm_password_input !== new_password_input) {
-        setError('New password does not match');
-      } else {
-        passwordChange();
+        if (result == false) {
+          setError('Please enter current password');
+        } else if (current_password_input === new_password_input) {
+          setError('Please enter new password');
+        } else if (confirm_password_input !== new_password_input) {
+          setError('New password does not match');
+        } else {
+          passwordChange();
+        }
+      } catch (err) {
+        console.error(err.message);
       }
-    } catch (err) {
-      console.error(err.message);
     }
   };
 

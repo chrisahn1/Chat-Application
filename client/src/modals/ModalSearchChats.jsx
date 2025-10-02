@@ -1,11 +1,13 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
 function SearchChatBar({ isOpen, handleClose }) {
-  const { setChatlist } = useContext(ChatContext);
+  const { setChatlist, dispatch, setLeaveButton, setCurrentChatID } =
+    useContext(ChatContext);
 
   const { accessToken } = useContext(AuthContext);
 
@@ -13,6 +15,8 @@ function SearchChatBar({ isOpen, handleClose }) {
   const [search_list, setSearchList] = useState([]);
 
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSearchChat = async (e) => {
     setSearchInput(e.target.value);
@@ -23,62 +27,87 @@ function SearchChatBar({ isOpen, handleClose }) {
 
   const searchChatResults = async (e) => {
     e.preventDefault();
-    try {
-      const body = {
-        searchchats: search_input,
-      };
+    //CHECK IF USER IS STILL AUTHORIZED
+    const verify = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (verify.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      try {
+        const body = {
+          searchchats: search_input,
+        };
 
-      const response = await fetch('http://localhost:3001/users/allchannels', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+        const response = await fetch(
+          'http://localhost:3001/users/allchannels',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          }
+        );
 
-      const result = await response.json();
-      setSearchList(result);
-    } catch (error) {
-      console.log(error.message);
+        const result = await response.json();
+        setSearchList(result);
+      } catch (error) {
+        console.log(error.message);
+      }
     }
   };
 
   const joinHandle = async (e) => {
-    setSearchList([]);
-    if (search_input === '') {
-      setError('Please enter search input');
+    //CHECK IF USER IS STILL AUTHORIZED
+    const verify = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (verify.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
     } else {
-      const response = await fetch(
-        `http://localhost:3001/users/chatexists/${search_input}`
-      )
-        .then((response) => response.json())
-        .then((exists) => {
-          return exists;
-        });
-      if (response.exists === false) {
-        // ERROR CHAT DISPLAY
-        setError('Channel does not exist');
+      setSearchList([]);
+      if (search_input === '') {
+        setError('Please enter search input');
       } else {
-        const res_chatlist = await checkUserChatExists();
-        if (res_chatlist.includes(search_input)) {
-          setError('Already a member');
+        const response = await fetch(
+          `http://localhost:3001/users/chatexists/${search_input}`
+        )
+          .then((response) => response.json())
+          .then((exists) => {
+            return exists;
+          });
+        if (response.exists === false) {
+          // ERROR CHAT DISPLAY
+          setError('Channel does not exist');
         } else {
-          const body = {
-            chat_name: search_input,
-          };
+          const res_chatlist = await checkUserChatExists();
+          if (res_chatlist.includes(search_input)) {
+            setError('Already a member');
+          } else {
+            const body = {
+              chat_name: search_input,
+            };
 
-          const get_chat_id = await fetch(
-            'http://localhost:3001/users/channelid',
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(body),
-            }
-          );
-          const result_chat_id = await get_chat_id.json();
-          joinChatChannel(result_chat_id);
-          setError('');
-          setSearchInput('');
-          setSearchList([]);
-          handleClose();
+            const get_chat_id = await fetch(
+              'http://localhost:3001/users/channelid',
+              {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+              }
+            );
+            const result_chat_id = await get_chat_id.json();
+            joinChatChannel(result_chat_id);
+            setError('');
+            setSearchInput('');
+            setSearchList([]);
+            handleClose();
+          }
         }
       }
     }
@@ -123,13 +152,19 @@ function SearchChatBar({ isOpen, handleClose }) {
       } catch (err) {
         console.error(err.message);
       }
-
-      // return () => {
-      //     channelsList();
-      // };
     };
 
     getChannelsList();
+    //DISPLAY CURRENT CHATWINDOW
+    const get_chat = await fetch('http://localhost:3001/users/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: id }),
+    });
+    const joined_chat = await get_chat.json();
+    dispatch({ type: 'CHAT_CHANGE', payload: joined_chat });
+    setCurrentChatID(joined_chat.id);
+    setLeaveButton(false);
   };
 
   // check if search input already exists in users channel list

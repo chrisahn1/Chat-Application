@@ -468,6 +468,19 @@ app.post('/users/channelid', async (req, res) => {
   }
 });
 
+//get channel by channel id
+app.post('/users/chat', async (req, res) => {
+  try {
+    const { chat_id } = req.body;
+    const result = await pool.query('SELECT * FROM channels WHERE id=$1;', [
+      chat_id,
+    ]);
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 //get channels that contains following search input and post them into a list
 app.post('/users/allchannels', async (req, res) => {
   try {

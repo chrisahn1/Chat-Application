@@ -42,8 +42,6 @@ const Text = ({ text }) => {
               text.value.time}
           </span>
         </div>
-        {/* <span className='dateDisplay'>{text.value.month + ' ' + text.value.day + ', ' + text.value.year + ' - ' +
-                text.value.time}</span> */}
       </div>
     </div>
   );

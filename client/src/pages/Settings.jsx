@@ -15,52 +15,68 @@ function Settings() {
 
   const [modaldelete, setModalDelete] = useState(false);
 
-  // const toggleEdit = () => {
-  //     if (!accessToken) {
-  //         navigate('/', { replace: true });
-  //     } else {
-  //         navigate('/editpage');
-  //     }
-  // }
-
   const [showUsername, setShowUsername] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
   const [showPW, setShowPW] = useState(false);
 
-  const toggleUsername = () => {
-    setShowUsername(!showUsername);
+  const verifyActivity = async () => {
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    return response.status;
   };
 
-  const toggleEmail = () => {
-    setShowEmail(!showEmail);
+  const toggleUsername = async () => {
+    const verify_result = await verifyActivity();
+    console.log(verify_result);
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setShowUsername(!showUsername);
+    }
+    // setShowUsername(!showUsername);
   };
 
-  const togglePW = () => {
-    setShowPW(!showPW);
+  const toggleEmail = async () => {
+    const verify_result = await verifyActivity();
+    console.log(verify_result);
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setShowEmail(!showEmail);
+    }
+    // setShowEmail(!showEmail);
   };
 
-  const toggleDelete = () => {
-    setModalDelete(!modaldelete);
+  const togglePW = async () => {
+    const verify_result = await verifyActivity();
+    console.log(verify_result);
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setShowPW(!showPW);
+    }
+    // setShowPW(!showPW);
+  };
+
+  const toggleDelete = async () => {
+    const verify_result = await verifyActivity();
+    console.log(verify_result);
+    if (verify_result === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      setModalDelete(!modaldelete);
+    }
+    // setModalDelete(!modaldelete);
   };
 
   return (
-    // <div className='App'>
-    //     <div className='containerSettings'>
-    //     <div className='containerChatEdit'>
-    //         <button onClick={toggleUsername}>Change Username</button>
-    //         <UpdateUsername isOpen={showUsername} handleClose={toggleUsername}></UpdateUsername>
-    //         <button onClick={toggleEmail}>Change Email</button>
-    //         <UpdateUserEmail isOpen={showEmail} handleClose={toggleEmail}></UpdateUserEmail>
-    //         <button onClick={togglePW}>Change Password</button>
-    //         <UpdateUserPassword isOpen={showPW} handleClose={togglePW}></UpdateUserPassword>
-    //     </div>
-    //     <div className='containerChatDelete'>
-    //         <button onClick={toggleDelete}>Delete Account</button>
-    //         <ModalDeleteAccount isOpen={modaldelete} handleClose={toggleDelete}></ModalDeleteAccount>
-    //     </div>
-    //     </div>
-
-    // </div>
     <div className="containerSettings">
       <div className="containerChatEdit">
         <h2 style={{ color: 'white' }}>Edit Account</h2>

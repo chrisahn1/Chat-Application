@@ -1,6 +1,7 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -12,81 +13,95 @@ function DeleteChat({
   setChatName,
   setDelete,
 }) {
-  const { setChatlist, setMessageTexts } = useContext(ChatContext);
+  const { setChatlist, setMessageTexts, dispatch } = useContext(ChatContext);
 
   const { accessToken } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const deleteChatHandle = async () => {
-    try {
-      const body = {
-        chat_id: chatid,
-      };
+    //CHECK IF USER IS STILL AUTHORIZED
+    const verify = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (verify.status === 401) {
+      //NO LONGER AUTHORIZED
+      navigate('/', { replace: true });
+    } else {
+      try {
+        const body = {
+          chat_id: chatid,
+        };
 
-      const response_users_channels = await fetch(
-        'http://localhost:3001/users/deleteuserschannels',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(body),
-        }
-      );
-
-      const result_users_channels = await response_users_channels.json(
-        response_users_channels
-      );
-
-      const response_channels = await fetch(
-        'http://localhost:3001/users/deletechat',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(body),
-        }
-      );
-
-      const result_channels = await response_channels.json(response_channels);
-      setDelete(true);
-      setChatName('');
-
-      //UPDATE CHAT LIST
-      const getChannelsList = async () => {
-        const channelsList = fetch(
-          'http://localhost:3001/users/userschannels',
+        const response_users_channels = await fetch(
+          'http://localhost:3001/users/deleteuserschannels',
           {
-            headers: { authorization: accessToken },
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: accessToken,
+            },
+            body: JSON.stringify(body),
           }
-        )
-          .then((response) => response.json())
-          .then((userchannelslist) => {
-            return userchannelslist;
-          });
-        try {
-          const a = await channelsList;
-          // CHECK IF CHANNEL LIST IS EMPTY OR NOT
-          // console.log('chat list: ', a);
-          setChatlist(a);
-        } catch (err) {
-          console.error(err.message);
-        }
+        );
 
-        // return () => {
-        //     channelsList();
-        // };
-      };
+        const result_users_channels = await response_users_channels.json(
+          response_users_channels
+        );
 
-      getChannelsList();
+        const response_channels = await fetch(
+          'http://localhost:3001/users/deletechat',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: accessToken,
+            },
+            body: JSON.stringify(body),
+          }
+        );
 
-      setMessageTexts([]);
+        const result_channels = await response_channels.json(response_channels);
+        setDelete(true);
+        setChatName('');
 
-      handleClose();
-    } catch (error) {
-      console.log(error.message);
+        //UPDATE CHAT LIST
+        const getChannelsList = async () => {
+          const channelsList = fetch(
+            'http://localhost:3001/users/userschannels',
+            {
+              headers: { authorization: accessToken },
+            }
+          )
+            .then((response) => response.json())
+            .then((userchannelslist) => {
+              return userchannelslist;
+            });
+          try {
+            const a = await channelsList;
+            // CHECK IF CHANNEL LIST IS EMPTY OR NOT
+            // console.log('chat list: ', a);
+            setChatlist(a);
+          } catch (err) {
+            console.error(err.message);
+          }
+        };
+
+        getChannelsList();
+
+        setMessageTexts([]);
+        const INIT_STATE = {
+          id: 'null',
+          chat: {},
+        };
+        dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
+
+        handleClose();
+      } catch (error) {
+        console.log(error.message);
+      }
     }
   };
 

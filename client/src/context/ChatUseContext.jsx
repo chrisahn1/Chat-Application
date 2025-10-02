@@ -12,8 +12,14 @@ export const ChatContext = createContext({});
 export const ChatContextProvider = ({ children }) => {
   const [chatlist, setChatlist] = useState([]);
 
+  const [current_chatname, setCurrentChatName] = useState('');
+  const [current_chatid, setCurrentChatID] = useState([]);
+
   const [messageTexts, setMessageTexts] = useState([]);
   const [message_text, setMessage] = useState('');
+
+  const [activate_leave_chat, setLeaveButton] = useState(true);
+  const [activate_delete_chat, setDeleteButton] = useState(true);
 
   const INIT_STATE = {
     id: 'null',
@@ -47,6 +53,14 @@ export const ChatContextProvider = ({ children }) => {
         setMessageTexts,
         message_text,
         setMessage,
+        activate_leave_chat,
+        setLeaveButton,
+        activate_delete_chat,
+        setDeleteButton,
+        current_chatname,
+        setCurrentChatName,
+        current_chatid,
+        setCurrentChatID,
       }}>
       {children}
     </ChatContext.Provider>
