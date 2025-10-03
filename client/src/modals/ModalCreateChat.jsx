@@ -9,7 +9,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
     useContext(ChatContext);
 
-  const { accessToken, currentUsername } = useContext(AuthContext);
+  const { accessToken, currentUsername, setIsAuth } = useContext(AuthContext);
 
   const [create_input, setCreateInput] = useState('');
 
@@ -30,6 +30,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
     });
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       let letters = /^[a-zA-Z]+$/;
@@ -42,6 +43,11 @@ function CreateChatRoom({ isOpen, handleClose }) {
         create_input.length < 5
       ) {
         setError('Name must be at least 5 characters long');
+      } else if (
+        letters.test(create_input.charAt(0).toLowerCase()) === true &&
+        create_input.length > 30
+      ) {
+        setError('Name cannot be more than 30 characters');
       } else {
         const res_checkexists = await checkChatExists();
         if (res_checkexists === true) {

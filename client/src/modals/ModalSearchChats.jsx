@@ -1,5 +1,5 @@
 import './Modal.css';
-import { X } from 'react-feather';
+import { X, Search } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
@@ -9,7 +9,7 @@ function SearchChatBar({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setLeaveButton, setCurrentChatID } =
     useContext(ChatContext);
 
-  const { accessToken } = useContext(AuthContext);
+  const { accessToken, setIsAuth } = useContext(AuthContext);
 
   const [search_input, setSearchInput] = useState('');
   const [search_list, setSearchList] = useState([]);
@@ -35,6 +35,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     });
     if (verify.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       try {
@@ -68,6 +69,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     });
     if (verify.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setSearchList([]);
@@ -209,11 +211,9 @@ function SearchChatBar({ isOpen, handleClose }) {
               value={search_input}
               onChange={handleSearchChat}
             />
-            <img
-              src="searchiconimage.png"
-              className="searchicon"
-              onClick={searchChatResults}
-            />
+            <div>
+              <Search className="searchIcon" onClick={searchChatResults} />
+            </div>
             <button type="button" onClick={joinHandle}>
               Join
             </button>

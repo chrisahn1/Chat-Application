@@ -65,6 +65,7 @@ function Chatdisplay({ socket }) {
     });
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       navigate('/settings');
@@ -123,6 +124,7 @@ function Chatdisplay({ socket }) {
     });
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       //IF VERIFIED, THEN PROCEED

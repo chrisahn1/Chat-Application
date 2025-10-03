@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import ModalDeleteAccount from '../modals/ModalDeleteAccount';
 import {
   UpdateUsername,
@@ -9,6 +10,8 @@ import {
 
 function Settings() {
   const navigate = useNavigate();
+
+  const { setIsAuth } = useContext(AuthContext);
 
   const [modaldelete, setModalDelete] = useState(false);
 
@@ -30,11 +33,11 @@ function Settings() {
     console.log(verify_result);
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setShowUsername(!showUsername);
     }
-    // setShowUsername(!showUsername);
   };
 
   const toggleEmail = async () => {
@@ -42,11 +45,11 @@ function Settings() {
     console.log(verify_result);
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setShowEmail(!showEmail);
     }
-    // setShowEmail(!showEmail);
   };
 
   const togglePW = async () => {
@@ -54,11 +57,11 @@ function Settings() {
     console.log(verify_result);
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setShowPW(!showPW);
     }
-    // setShowPW(!showPW);
   };
 
   const toggleDelete = async () => {
@@ -66,11 +69,11 @@ function Settings() {
     console.log(verify_result);
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setModalDelete(!modaldelete);
     }
-    // setModalDelete(!modaldelete);
   };
 
   return (

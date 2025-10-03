@@ -15,7 +15,7 @@ function DeleteChat({
 }) {
   const { setChatlist, setMessageTexts, dispatch } = useContext(ChatContext);
 
-  const { accessToken } = useContext(AuthContext);
+  const { accessToken, setIsAuth } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -28,6 +28,7 @@ function DeleteChat({
     });
     if (verify.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       try {

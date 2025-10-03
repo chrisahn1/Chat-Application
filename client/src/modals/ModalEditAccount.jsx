@@ -6,8 +6,13 @@ import { AuthContext } from '../context/AuthContext';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken, setCurrentUsername } =
-    useContext(AuthContext);
+  const {
+    accessToken,
+    setAccessToken,
+    setCurrentUsername,
+    setIsAuth,
+    setLoading,
+  } = useContext(AuthContext);
 
   const [new_username_input, setNewUsername] = useState('');
   const [error, setError] = useState('');
@@ -23,7 +28,6 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
 
     try {
       const username = { username: new_username_input };
-
       const check = await fetch(
         'http://localhost:3001/users/updateusernamecheck',
         {
@@ -37,6 +41,11 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
       // console.log('verify: ', verify);
       if (verify === 'invalid') {
         setError('Username already exists');
+      } else if (
+        new_username_input.length > 10 ||
+        new_username_input.length < 3
+      ) {
+        setError('Username character length must be between 3 and 10');
       } else {
         const response = await fetch(
           'http://localhost:3001/users/updateusername',
@@ -73,18 +82,23 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   };
 
   const usernameChange = async (e) => {
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      navigate('/', { replace: true });
-    } else {
-      handleSubmitNewUsername(e);
-    }
-    // handleSubmitNewUsername(e);
+    // const response = await fetch('http://localhost:3001/users/verify', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   credentials: 'include',
+    // });
+    // if (response.status === 401) {
+    //   //NO LONGER AUTHORIZED
+    //   setIsAuth(false);
+    //   navigate('/', { replace: true });
+    // } else {
+    //   if (new_username_input.length > 10 || new_username_input.length < 5) {
+    //     setError('Username character length must be between 5 and 10');
+    //   } else {
+    //     handleSubmitNewUsername(e);
+    //   }
+    // }
+    handleSubmitNewUsername(e);
   };
 
   const closeModal = async (e) => {
@@ -122,7 +136,8 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
 
 //UPDATE EMAIL
 const UpdateUserEmail = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken } = useContext(AuthContext);
+  const { accessToken, setAccessToken, setIsAuth, setLoading } =
+    useContext(AuthContext);
 
   const [current_email_input, setCurrentEmail] = useState('');
   const [new_email_input, setNewEmail] = useState('');
@@ -147,6 +162,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
     });
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       try {
@@ -251,7 +267,8 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
 //UPDATE PASSWORD
 const UpdateUserPassword = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken } = useContext(AuthContext);
+  const { accessToken, setAccessToken, setIsAuth, setLoading } =
+    useContext(AuthContext);
 
   const [current_password_input, setCurrentPassword] = useState('');
   const [new_password_input, setNewPassword] = useState('');
@@ -281,6 +298,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
     });
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       const body = {

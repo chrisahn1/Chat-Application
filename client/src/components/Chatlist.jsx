@@ -24,7 +24,7 @@ function Chatlist({ socket }) {
     current_chatid,
     setCurrentChatID,
   } = useContext(ChatContext);
-  const { accessToken, currentUsername } = useContext(AuthContext);
+  const { accessToken, currentUsername, setIsAuth } = useContext(AuthContext);
 
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showCreateChatModal, setCreateChatModal] = useState(false);
@@ -52,7 +52,6 @@ function Chatlist({ socket }) {
       try {
         const a = await channelsList;
         // CHECK IF CHANNEL LIST IS EMPTY OR NOT
-        // console.log('chat list: ', a);
         setChatlist(a);
       } catch (err) {
         console.error(err.message);
@@ -71,6 +70,7 @@ function Chatlist({ socket }) {
     });
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       //FIRST CHECKING IF CHAT EXIST
@@ -123,6 +123,7 @@ function Chatlist({ socket }) {
     const verify_result = await verifyActivity();
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setShowSearchModal(!showSearchModal);
@@ -134,6 +135,7 @@ function Chatlist({ socket }) {
     const verify_result = await verifyActivity();
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setCreateChatModal(!showCreateChatModal);
@@ -145,6 +147,7 @@ function Chatlist({ socket }) {
     const verify_result = await verifyActivity();
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setLeaveModal(!showLeaveModal);
@@ -156,6 +159,7 @@ function Chatlist({ socket }) {
     const verify_result = await verifyActivity();
     if (verify_result === 401) {
       //NO LONGER AUTHORIZED
+      setIsAuth(false);
       navigate('/', { replace: true });
     } else {
       setDeleteModal(!showDeleteModal);

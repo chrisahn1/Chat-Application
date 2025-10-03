@@ -6,8 +6,13 @@ import axiosJWT from '../axiosFolder/AxiosFile';
 import { AuthContext } from '../context/AuthContext';
 
 function ModalDeleteAccount({ isOpen, handleClose }) {
-  const { accessToken, setAccessToken, setCurrentUsername } =
-    useContext(AuthContext);
+  const {
+    accessToken,
+    setAccessToken,
+    setCurrentUsername,
+    setIsAuth,
+    setLoading,
+  } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -66,21 +71,34 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
       console.error(err.message);
     }
   };
-  //NEEDED: CANT NAVIGATE BACK TO ACCOUNT AFTER DELETION
+
   const deleteUser = async () => {
-    handleClose();
-    navigate('/');
-
-    removeChatLinks();
-    removeHostLinks();
-    removeAllUsersChannels();
-    removeUser();
-
-    await axiosJWT.delete('/users/logout', {
-      withCredentials: true,
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
     });
-    setAccessToken({});
-    setCurrentUsername('');
+    if (response.status === 401) {
+      //NO LONGER AUTHORIZED
+      setIsAuth(false);
+      navigate('/', { replace: true });
+    } else {
+      handleClose();
+      navigate('/');
+
+      removeChatLinks();
+      removeHostLinks();
+      removeAllUsersChannels();
+      removeUser();
+
+      await axiosJWT.delete('/users/logout', {
+        withCredentials: true,
+      });
+      setAccessToken({});
+      setCurrentUsername('');
+      setIsAuth(false);
+      setLoading(true);
+    }
   };
 
   return (

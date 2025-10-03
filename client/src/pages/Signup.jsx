@@ -9,6 +9,8 @@ function Signup() {
   const [password_input, setPassword] = useState('');
   // const [pic_file, setPicFile] = useState(null);
 
+  const [error, setError] = useState('');
+
   const [showAccountExistModal, setAccountExistModal] = useState(false);
 
   const toggleAccountExist = () => {
@@ -61,29 +63,18 @@ function Signup() {
       if (verify === 'invalid') {
         toggleAccountExist();
       } else {
-        const response = await fetch('http://localhost:3001/users/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
-
-        console.log(response);
-        navigate('/');
+        if (username_input.length > 10 || username_input.length < 3) {
+          setError('Username character length must be between 3 and 10');
+        } else {
+          const response = await fetch('http://localhost:3001/users/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
+          setError('');
+          navigate('/');
+        }
       }
-
-      // const response = await fetch('http://localhost:3001/users/signup', {
-      //     method: 'POST',
-      //     headers: {'Content-Type': 'application/json'},
-      //     body: JSON.stringify(body)
-      // });
-
-      // // const response = await fetch('http://localhost:3001/users/signup', {
-      // //     method: 'POST',
-      // //     headers: { "Content-Type": "multipart/form-data" },
-      // //     body: formData
-      // // });
-      // console.log(response);
-      // navigate('/');
     } catch (error) {
       console.log(error.message);
     }
@@ -122,6 +113,7 @@ function Signup() {
         />
         {/* <label>Profile Pic: </label>
                 <input type='file' onChange={handleImage} /> */}
+        <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
         <button className="submitButton" type="submit">
           Sign Up
         </button>

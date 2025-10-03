@@ -5,7 +5,7 @@ import React, {
   createContext,
   useLayoutEffect,
 } from 'react';
-// import { useNavigate } from 'react-router-dom';
+
 import { ChatContext } from '../context/ChatUseContext';
 
 export const AuthContext = createContext({});
@@ -20,8 +20,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const [isAuth, setIsAuth] = useState(false);
   const [isLoading, setLoading] = useState(true);
-
-  // const navigate = useNavigate();
 
   useEffect(() => {
     const setUser = async () => {

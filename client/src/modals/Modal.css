@@ -29,7 +29,8 @@
 }
 
 .modal-main.chatsearch {
-  width: 45%;
+  /* width: 40%; */
+  width: 42vw;
 }
 
 .modal-main.chatcreate {
@@ -95,12 +96,9 @@
   width: 20vw;
 }
 
-.searchicon {
-  width: 3vw;
-  height: 3vh;
-  justify-content: center;
-  padding: 1vh 1vw;
-  margin: 5px;
+.searchIcon {
+  color: black;
+  padding: 10px;
 }
 
 /********************** SEARCH RESULT SCROLL BAR *********************/
