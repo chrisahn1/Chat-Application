@@ -82,22 +82,6 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   };
 
   const usernameChange = async (e) => {
-    // const response = await fetch('http://localhost:3001/users/verify', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   credentials: 'include',
-    // });
-    // if (response.status === 401) {
-    //   //NO LONGER AUTHORIZED
-    //   setIsAuth(false);
-    //   navigate('/', { replace: true });
-    // } else {
-    //   if (new_username_input.length > 10 || new_username_input.length < 5) {
-    //     setError('Username character length must be between 5 and 10');
-    //   } else {
-    //     handleSubmitNewUsername(e);
-    //   }
-    // }
     handleSubmitNewUsername(e);
   };
 
