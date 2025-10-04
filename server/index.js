@@ -671,3 +671,6 @@ server.listen(3001, () => {
   // createTablesIfNotExist();
   console.log('SERVER RUNNING 3001');
 });
+
+// "proxy": "http://localhost:3001",
+//(under pg)
