@@ -674,3 +674,5 @@ server.listen(3001, () => {
 
 // "proxy": "http://localhost:3001",
 //(under pg)
+
+// "deploy": "git push --force origin main:pub"

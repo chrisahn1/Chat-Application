@@ -23,7 +23,7 @@
     "tsc:server": "tsc --project server",
     "tsc": "npm-run-all --continue-on-error tsc:*",
     "prepare": "husky install",
-    "deploy": "git push --force origin main:pub"
+    "deploy": "git push --force origin chat-app:pub"
   },
   "devDependencies": {
     "@learningfuze/lfz-config": "^1.0.0",
