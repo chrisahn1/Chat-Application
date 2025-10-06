@@ -676,3 +676,5 @@ server.listen(3001, () => {
 //(under pg)
 
 // "deploy": "git push --force origin main:pub"
+
+// "build": "cross-env CI=false react-scripts build"
