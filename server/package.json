@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "build": "react-scripts build"
+    "build": "cross-env CI=false react-scripts build"
   },
   "dependencies": {
     "@socket.io/postgres-adapter": "^0.4.0",
@@ -13,6 +13,7 @@
     "axios": "^1.11.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
