@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import axiosJWT from '../axiosFolder/AxiosFile';
 import Messages from './Messages';
 import ErrorChat from '../modals/ModalErrorChat';
 import CharacterLimit from '../modals/ModalCharacterLimit';
@@ -43,9 +42,14 @@ function Chatdisplay({ socket }) {
       chat: {},
     };
     dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
-    await axiosJWT.delete('/users/logout', {
-      withCredentials: true,
+    const response = await fetch('http://localhost:3001/users/logout', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
     });
+
+    const result = await response.json();
+    console.log('logging out: ', result);
     setIsAuth(false);
     setLoading(true);
     setAccessToken({});

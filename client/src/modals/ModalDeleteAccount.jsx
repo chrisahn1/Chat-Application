@@ -2,7 +2,6 @@ import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosJWT from '../axiosFolder/AxiosFile';
 import { AuthContext } from '../context/AuthContext';
 
 function ModalDeleteAccount({ isOpen, handleClose }) {
@@ -91,9 +90,14 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
       removeAllUsersChannels();
       removeUser();
 
-      await axiosJWT.delete('/users/logout', {
-        withCredentials: true,
+      const response = await fetch('http://localhost:3001/users/logout', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
       });
+
+      const result = await response.json();
+      console.log('logging out: ', result);
       setAccessToken({});
       setCurrentUsername('');
       setIsAuth(false);

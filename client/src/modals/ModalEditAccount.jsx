@@ -82,7 +82,20 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   };
 
   const usernameChange = async (e) => {
-    handleSubmitNewUsername(e);
+    const response = await fetch('http://localhost:3001/users/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 401) {
+      //NO LONGER AUTHORIZED
+      setIsAuth(false);
+      // setLoading(false);
+      navigate('/', { replace: true });
+    } else {
+      handleSubmitNewUsername(e);
+    }
+    // handleSubmitNewUsername(e);
   };
 
   const closeModal = async (e) => {

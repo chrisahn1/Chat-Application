@@ -63,7 +63,7 @@ export const AuthContextProvider = ({ children }) => {
         //     console.log('Refresh token failed');
         // }
         if (response.status === 401) {
-          console.log('response 401: ', response.status);
+          console.log('response: ', response.status);
           // navigate('/', { replace: true });
           setIsAuth(false);
           setLoading(true);
@@ -73,7 +73,7 @@ export const AuthContextProvider = ({ children }) => {
           setCurrentUserID('');
           // navigate('/', { replace: true });
         } else if (response.status === 403) {
-          console.log('response 403: ', response.status);
+          console.log('response: ', response.status);
           // navigate('/', { replace: true });
           setIsAuth(false);
           setLoading(true);
