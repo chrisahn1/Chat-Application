@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function SearchChatBar({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setLeaveButton, setCurrentChatID } =
@@ -17,6 +18,7 @@ function SearchChatBar({ isOpen, handleClose }) {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
 
   const handleSearchChat = async (e) => {
     setSearchInput(e.target.value);
@@ -28,12 +30,8 @@ function SearchChatBar({ isOpen, handleClose }) {
   const searchChatResults = async (e) => {
     e.preventDefault();
     //CHECK IF USER IS STILL AUTHORIZED
-    const verify = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (verify.status === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });
@@ -62,12 +60,8 @@ function SearchChatBar({ isOpen, handleClose }) {
 
   const joinHandle = async (e) => {
     //CHECK IF USER IS STILL AUTHORIZED
-    const verify = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (verify.status === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });

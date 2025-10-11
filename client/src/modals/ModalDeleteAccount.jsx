@@ -3,6 +3,7 @@ import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function ModalDeleteAccount({ isOpen, handleClose }) {
   const {
@@ -14,6 +15,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
 
   const removeChatLinks = async () => {
     try {
@@ -72,11 +74,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
   };
 
   const deleteUser = async () => {
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);

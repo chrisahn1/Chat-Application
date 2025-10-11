@@ -5,9 +5,11 @@ import { AuthContext } from '../context/AuthContext';
 import Messages from './Messages';
 import ErrorChat from '../modals/ModalErrorChat';
 import CharacterLimit from '../modals/ModalCharacterLimit';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function Chatdisplay({ socket }) {
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
 
   const {
     currentUsername,
@@ -62,11 +64,7 @@ function Chatdisplay({ socket }) {
   const settings = async () => {
     //AUTHENTICATE BEFORE GOING TO SETTINGS
     //CHECK IF USER IS STILL AUTHORIZED
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
@@ -121,11 +119,7 @@ function Chatdisplay({ socket }) {
   const sendMessage = async (e) => {
     e.preventDefault();
     //CHECK IF USER IS STILL AUTHORIZED
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);

@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function DeleteChat({
   isOpen,
@@ -18,15 +19,12 @@ function DeleteChat({
   const { accessToken, setIsAuth } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
 
   const deleteChatHandle = async () => {
     //CHECK IF USER IS STILL AUTHORIZED
-    const verify = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (verify.status === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });

@@ -7,9 +7,11 @@ import {
   UpdateUserEmail,
   UpdateUserPassword,
 } from '../modals/ModalEditAccount';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function Settings() {
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
 
   const { setIsAuth } = useContext(AuthContext);
 
@@ -19,19 +21,9 @@ function Settings() {
   const [showEmail, setShowEmail] = useState(false);
   const [showPW, setShowPW] = useState(false);
 
-  const verifyActivity = async () => {
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    return response.status;
-  };
-
   const toggleUsername = async () => {
-    const verify_result = await verifyActivity();
-    console.log(verify_result);
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });
@@ -41,9 +33,8 @@ function Settings() {
   };
 
   const toggleEmail = async () => {
-    const verify_result = await verifyActivity();
-    console.log(verify_result);
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });
@@ -53,9 +44,8 @@ function Settings() {
   };
 
   const togglePW = async () => {
-    const verify_result = await verifyActivity();
-    console.log(verify_result);
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });
@@ -65,9 +55,8 @@ function Settings() {
   };
 
   const toggleDelete = async () => {
-    const verify_result = await verifyActivity();
-    console.log(verify_result);
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });

@@ -7,6 +7,7 @@ import LeaveChat from '../modals/ModalLeaveChat';
 import ErrorChat from '../modals/ModalErrorChat';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function Chatlist({ socket }) {
   const {
@@ -37,6 +38,7 @@ function Chatlist({ socket }) {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
 
   // console.log('chatlist: ', chatlist);
 
@@ -63,11 +65,7 @@ function Chatlist({ socket }) {
 
   const handleChannelClick = async (chat) => {
     //CHECK IF USER IS STILL AUTHORIZED
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
@@ -109,19 +107,10 @@ function Chatlist({ socket }) {
     }
   };
 
-  const verifyActivity = async () => {
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    return response.status;
-  };
-
   //ADD TOGGLE FUNCTIONS HERE
   const toggleSearchChat = async () => {
-    const verify_result = await verifyActivity();
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });
@@ -132,8 +121,8 @@ function Chatlist({ socket }) {
   };
 
   const toggleCreateChat = async () => {
-    const verify_result = await verifyActivity();
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });
@@ -144,8 +133,8 @@ function Chatlist({ socket }) {
   };
 
   const toggleLeaveChat = async () => {
-    const verify_result = await verifyActivity();
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });
@@ -156,8 +145,8 @@ function Chatlist({ socket }) {
   };
 
   const toggleDeleteChat = async () => {
-    const verify_result = await verifyActivity();
-    if (verify_result === 401) {
+    const response = await verify();
+    if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
       navigate('/', { replace: true });

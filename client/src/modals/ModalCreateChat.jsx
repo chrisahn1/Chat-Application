@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function CreateChatRoom({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
@@ -16,6 +17,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
 
   const handleCreateInput = async (e) => {
     setCreateInput(e.target.value);
@@ -23,11 +25,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
 
   const createHandle = async (e) => {
     //CHECK IF USER IS STILL AUTHORIZED
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);

@@ -3,6 +3,8 @@ import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import UseVerifyActivity from '../hooks/useVerifyActivity';
+import UseRefreshToken from '../hooks/useRefreshToken';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
@@ -18,6 +20,8 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
+  const refresh_token = UseRefreshToken();
 
   const newUsernameChange = async (e) => {
     setNewUsername(e.target.value);
@@ -64,11 +68,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
         setNewUsername('');
         setCurrentUsername(result.username);
         //REFRESH TOKEN
-        const refresh = await fetch('http://localhost:3001/users/refresh', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
+        const refresh = await refresh_token();
         const data = await refresh.json();
         setAccessToken({});
         setAccessToken(data.access_token);
@@ -82,11 +82,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   };
 
   const usernameChange = async (e) => {
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
@@ -141,6 +137,8 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
+  const refresh_token = UseRefreshToken();
 
   const handleCurrentEmail = (e) => {
     setCurrentEmail(e.target.value);
@@ -152,11 +150,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
   const userEmailChange = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
@@ -198,12 +192,9 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
       const result = await response.json();
 
       //REFRESH TOKEN
-      const refresh = await fetch('http://localhost:3001/users/refresh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      });
+      const refresh = await refresh_token();
       const data = await refresh.json();
+      console.log('emial change refresh token: ', data.access_token);
       setAccessToken({});
       setAccessToken(data.access_token);
     } catch (err) {
@@ -273,6 +264,8 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const verify = UseVerifyActivity();
+  const refresh_token = UseRefreshToken();
 
   const handleCurrentPassword = (e) => {
     setCurrentPassword(e.target.value);
@@ -288,11 +281,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
 
   const userPasswordChange = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3001/users/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
+    const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
@@ -358,11 +347,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       const result = await response.json();
 
       //REFRESH TOKEN
-      const refresh = await fetch('http://localhost:3001/users/refresh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      });
+      const refresh = await refresh_token();
       const data = await refresh.json();
       setAccessToken({});
       setAccessToken(data.access_token);

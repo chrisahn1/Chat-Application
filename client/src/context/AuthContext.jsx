@@ -6,11 +6,14 @@ import React, {
   useLayoutEffect,
 } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { ChatContext } from '../context/ChatUseContext';
 
 export const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
+  const navigate = useNavigate();
   const { setMessageTexts } = useContext(ChatContext);
 
   const [accessToken, setAccessToken] = useState({});
@@ -71,7 +74,7 @@ export const AuthContextProvider = ({ children }) => {
           setAccessToken({});
           setCurrentUsername('');
           setCurrentUserID('');
-          // navigate('/', { replace: true });
+          navigate('/', { replace: true });
         } else if (response.status === 403) {
           console.log('response: ', response.status);
           // navigate('/', { replace: true });
@@ -81,7 +84,7 @@ export const AuthContextProvider = ({ children }) => {
           setAccessToken({});
           setCurrentUsername('');
           setCurrentUserID('');
-          // navigate('/', { replace: true });
+          navigate('/', { replace: true });
         } else {
           console.log('response: ', response.status);
           const data = await response.json();
