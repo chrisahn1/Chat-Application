@@ -194,7 +194,6 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
       //REFRESH TOKEN
       const refresh = await refresh_token();
       const data = await refresh.json();
-      console.log('emial change refresh token: ', data.access_token);
       setAccessToken({});
       setAccessToken(data.access_token);
     } catch (err) {
