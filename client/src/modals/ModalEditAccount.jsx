@@ -8,13 +8,8 @@ import UseRefreshToken from '../hooks/useRefreshToken';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
-  const {
-    accessToken,
-    setAccessToken,
-    setCurrentUsername,
-    setIsAuth,
-    setLoading,
-  } = useContext(AuthContext);
+  const { accessToken, setAccessToken, setCurrentUsername, setIsAuth } =
+    useContext(AuthContext);
 
   const [new_username_input, setNewUsername] = useState('');
   const [error, setError] = useState('');
@@ -27,71 +22,67 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
     setNewUsername(e.target.value);
   };
 
-  const handleSubmitNewUsername = async (e) => {
+  const usernameChange = async (e) => {
     e.preventDefault();
 
-    try {
-      const username = { username: new_username_input };
-      const check = await fetch(
-        'http://localhost:3001/users/updateusernamecheck',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(username),
-        }
-      );
-
-      const verify = await check.json();
-      // console.log('verify: ', verify);
-      if (verify === 'invalid') {
-        setError('Username already exists');
-      } else if (
-        new_username_input.length > 10 ||
-        new_username_input.length < 3
-      ) {
-        setError('Username character length must be between 3 and 10');
-      } else {
-        const response = await fetch(
-          'http://localhost:3001/users/updateusername',
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: accessToken,
-            },
-            body: JSON.stringify(username),
-          }
-        );
-
-        const result = await response.json();
-        setError('');
-        setNewUsername('');
-        setCurrentUsername(result.username);
-        //REFRESH TOKEN
-        const refresh = await refresh_token();
-        const data = await refresh.json();
-        setAccessToken({});
-        setAccessToken(data.access_token);
-        handleClose();
-      }
-    } catch (err) {
-      console.error(err.message);
-    }
-
-    e.target.reset();
-  };
-
-  const usernameChange = async (e) => {
+    // CHECK IF USER IS STILL AUTHORIZED
     const response = await verify();
     if (response.status === 401) {
       //NO LONGER AUTHORIZED
       setIsAuth(false);
-      // setLoading(false);
       navigate('/', { replace: true });
     } else {
-      handleSubmitNewUsername(e);
+      // handleSubmitNewUsername(e);
+      try {
+        const username = { username: new_username_input };
+
+        const check = await fetch(
+          'http://localhost:3001/users/updateusernamecheck',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(username),
+          }
+        );
+
+        const verify = await check.json();
+        // console.log('verify: ', verify);
+        if (verify === 'invalid') {
+          setError('Username already exists');
+        } else if (
+          new_username_input.length > 10 ||
+          new_username_input.length < 3
+        ) {
+          setError('Username character length must be between 3 and 10');
+        } else {
+          const response = await fetch(
+            'http://localhost:3001/users/updateusername',
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: accessToken,
+              },
+              body: JSON.stringify(username),
+              credentials: 'include',
+            }
+          );
+
+          const result = await response.json();
+          setError('');
+          setNewUsername('');
+          setCurrentUsername(result.username);
+          //REFRESH TOKEN
+          const refresh = await refresh_token();
+          const data = await refresh.json();
+          setAccessToken({});
+          setAccessToken(data.access_token);
+          handleClose();
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
     }
-    // handleSubmitNewUsername(e);
   };
 
   const closeModal = async (e) => {
@@ -129,8 +120,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
 
 //UPDATE EMAIL
 const UpdateUserEmail = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken, setIsAuth, setLoading } =
-    useContext(AuthContext);
+  const { accessToken, setAccessToken, setIsAuth } = useContext(AuthContext);
 
   const [current_email_input, setCurrentEmail] = useState('');
   const [new_email_input, setNewEmail] = useState('');
@@ -178,6 +168,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   };
 
   const updateEmail = async (e) => {
+    e.preventDefault();
     try {
       const email = { email: new_email_input };
 
@@ -202,6 +193,8 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   };
 
   const changeEmail = async (e) => {
+    e.preventDefault();
+
     setError('');
     setCurrentEmail('');
     setNewEmail('');
@@ -211,6 +204,8 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   };
 
   const closeModal = async (e) => {
+    e.preventDefault();
+
     setCurrentEmail('');
     setNewEmail('');
     setError('');
@@ -254,8 +249,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
 //UPDATE PASSWORD
 const UpdateUserPassword = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken, setIsAuth, setLoading } =
-    useContext(AuthContext);
+  const { accessToken, setAccessToken, setIsAuth } = useContext(AuthContext);
 
   const [current_password_input, setCurrentPassword] = useState('');
   const [new_password_input, setNewPassword] = useState('');

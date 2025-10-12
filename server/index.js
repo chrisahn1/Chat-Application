@@ -275,6 +275,7 @@ app.put('/users/updateusername', authToken, async (req, res) => {
       'UPDATE users SET username=$1 WHERE id=$2',
       [username, req.payload.id]
     );
+    res.json({ username });
   } catch (err) {
     console.log(err.message);
   }

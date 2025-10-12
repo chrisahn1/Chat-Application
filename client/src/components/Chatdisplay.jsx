@@ -19,7 +19,6 @@ function Chatdisplay({ socket }) {
     accessToken,
     setAccessToken,
     setIsAuth,
-    setLoading,
   } = useContext(AuthContext);
 
   const {
@@ -37,7 +36,8 @@ function Chatdisplay({ socket }) {
   const [showChatExistModal, setChatExistModal] = useState(false);
   const [showCharLimitModal, setCharLimitModal] = useState(false);
 
-  const logout = async () => {
+  const logout = async (e) => {
+    e.preventDefault();
     //dispatch init to null in order to reset setmessagetexts
     const INIT_STATE = {
       id: 'null',
@@ -53,7 +53,6 @@ function Chatdisplay({ socket }) {
     const result = await response.json();
     console.log('logging out: ', result);
     setIsAuth(false);
-    setLoading(true);
     setAccessToken({});
     setCurrentUsername('');
     setCurrentUserID('');
@@ -61,7 +60,8 @@ function Chatdisplay({ socket }) {
     navigate('/', { replace: true });
   };
 
-  const settings = async () => {
+  const settings = async (e) => {
+    e.preventDefault();
     //AUTHENTICATE BEFORE GOING TO SETTINGS
     //CHECK IF USER IS STILL AUTHORIZED
     const response = await verify();

@@ -59,6 +59,7 @@ function SearchChatBar({ isOpen, handleClose }) {
   };
 
   const joinHandle = async (e) => {
+    e.preventDefault();
     //CHECK IF USER IS STILL AUTHORIZED
     const response = await verify();
     if (response.status === 401) {

@@ -35,7 +35,7 @@ function LeaveChat({
           chat_id: chatid,
         };
 
-        const response = await fetch(
+        const leave_response = await fetch(
           'http://localhost:3001/users/leavechatchannel',
           {
             method: 'POST',
@@ -47,7 +47,7 @@ function LeaveChat({
           }
         );
 
-        const result = await response.json();
+        const result = await leave_response.json();
         // console.log('channel left: ', result);
         setLeave(true);
         setChatName('');

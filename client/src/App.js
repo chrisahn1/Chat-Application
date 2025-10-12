@@ -4,48 +4,48 @@ import Signup from './pages/Signup';
 import UserPage from './pages/UserPage';
 import Settings from './pages/Settings';
 import ProtectRoute from '../src/routes/ProtectedRoutes';
-import { AuthContextProvider } from '../src/context/AuthContext';
-import { ChatContextProvider } from '../src/context/ChatUseContext';
+// import { AuthContextProvider } from '../src/context/AuthContext';
+// import { ChatContextProvider } from '../src/context/ChatUseContext';
 import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <BrowserRouter>
-//         <Routes>
-//           <Route path="/" element={<Home />} />
-//           <Route path="/signup" element={<Signup />} />
-
-//           <Route element={<ProtectRoute />}>
-//             <Route path="/userpage" element={<UserPage />} />
-//             <Route path="/settings" element={<Settings />} />
-//           </Route>
-//         </Routes>
-//       </BrowserRouter>
-//     </div>
-//   );
-// }
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <AuthContextProvider>
-          <ChatContextProvider>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<Signup />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
 
-              <Route element={<ProtectRoute />}>
-                <Route path="/userpage" element={<UserPage />} />
-                <Route path="/settings" element={<Settings />} />
-              </Route>
-            </Routes>
-          </ChatContextProvider>
-        </AuthContextProvider>
+          <Route element={<ProtectRoute />}>
+            <Route path="/userpage" element={<UserPage />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </div>
   );
 }
+
+// function App() {
+//   return (
+//     <div className="App">
+//       <BrowserRouter>
+//         <AuthContextProvider>
+//           <ChatContextProvider>
+//             <Routes>
+//               <Route path="/" element={<Home />} />
+//               <Route path="/signup" element={<Signup />} />
+
+//               <Route element={<ProtectRoute />}>
+//                 <Route path="/userpage" element={<UserPage />} />
+//                 <Route path="/settings" element={<Settings />} />
+//               </Route>
+//             </Routes>
+//           </ChatContextProvider>
+//         </AuthContextProvider>
+//       </BrowserRouter>
+//     </div>
+//   );
+// }
 
 export default App;

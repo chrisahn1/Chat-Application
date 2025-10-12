@@ -6,14 +6,11 @@ import React, {
   useLayoutEffect,
 } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
 import { ChatContext } from '../context/ChatUseContext';
 
 export const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
-  const navigate = useNavigate();
   const { setMessageTexts } = useContext(ChatContext);
 
   const [accessToken, setAccessToken] = useState({});
@@ -22,7 +19,6 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUserID, setCurrentUserID] = useState('');
 
   const [isAuth, setIsAuth] = useState(false);
-  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const setUser = async () => {
@@ -67,33 +63,25 @@ export const AuthContextProvider = ({ children }) => {
         // }
         if (response.status === 401) {
           console.log('response: ', response.status);
-          // navigate('/', { replace: true });
           setIsAuth(false);
-          setLoading(true);
           setMessageTexts([]);
           setAccessToken({});
           setCurrentUsername('');
           setCurrentUserID('');
-          navigate('/', { replace: true });
         } else if (response.status === 403) {
           console.log('response: ', response.status);
-          // navigate('/', { replace: true });
           setIsAuth(false);
-          setLoading(true);
           setMessageTexts([]);
           setAccessToken({});
           setCurrentUsername('');
           setCurrentUserID('');
-          navigate('/', { replace: true });
         } else {
           console.log('response: ', response.status);
           const data = await response.json();
           setAccessToken({});
           setAccessToken(data.access_token);
           setIsAuth(true);
-          setLoading(false);
           setMessageTexts([]);
-          // navigate('/userpage', {replace: true});
         }
       } catch (err) {
         console.error(err.message);
@@ -114,10 +102,12 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentUserID,
         isAuth,
         setIsAuth,
-        isLoading,
-        setLoading,
       }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
