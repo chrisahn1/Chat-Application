@@ -3,7 +3,6 @@ import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function ModalDeleteAccount({ isOpen, handleClose }) {
   const {
@@ -11,11 +10,11 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     setAccessToken,
     setCurrentUsername,
     setIsAuth,
-    setLoading,
+    setTimeInterval,
+    setTokenExp,
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
 
   const removeChatLinks = async () => {
     try {
@@ -74,33 +73,27 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
   };
 
   const deleteUser = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      handleClose();
-      navigate('/');
+    handleClose();
+    navigate('/');
 
-      removeChatLinks();
-      removeHostLinks();
-      removeAllUsersChannels();
-      removeUser();
+    removeChatLinks();
+    removeHostLinks();
+    removeAllUsersChannels();
+    removeUser();
 
-      const response = await fetch('http://localhost:3001/users/logout', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      });
+    const response = await fetch('http://localhost:3001/users/logout', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
 
-      const result = await response.json();
-      console.log('logging out: ', result);
-      setAccessToken({});
-      setCurrentUsername('');
-      setIsAuth(false);
-      setLoading(true);
-    }
+    const result = await response.json();
+    console.log('logging out: ', result);
+    setAccessToken({});
+    setCurrentUsername('');
+    setIsAuth(false);
+    setTimeInterval(false);
+    setTokenExp(null);
   };
 
   return (

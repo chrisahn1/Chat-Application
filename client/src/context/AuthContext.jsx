@@ -4,9 +4,12 @@ import React, {
   useContext,
   createContext,
   useLayoutEffect,
+  useRef,
 } from 'react';
 
 import { ChatContext } from '../context/ChatUseContext';
+import { jwtDecode } from 'jwt-decode';
+import UseRefreshToken from '../hooks/useRefreshToken';
 
 export const AuthContext = createContext({});
 
@@ -19,6 +22,10 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUserID, setCurrentUserID] = useState('');
 
   const [isAuth, setIsAuth] = useState(false);
+  const [isInterval, setTimeInterval] = useState(false);
+
+  const intervalRef = useRef(null);
+  const [tokenExp, setTokenExp] = useState(null);
 
   useEffect(() => {
     const setUser = async () => {
@@ -81,6 +88,9 @@ export const AuthContextProvider = ({ children }) => {
           setAccessToken({});
           setAccessToken(data.access_token);
           setIsAuth(true);
+          const decodedToken = jwtDecode(accessToken);
+          setTokenExp(decodedToken.exp);
+          setTimeInterval(true);
           setMessageTexts([]);
         }
       } catch (err) {
@@ -90,6 +100,31 @@ export const AuthContextProvider = ({ children }) => {
 
     refreshToken();
   }, [accessToken]); //navigate
+
+  useEffect(() => {
+    if (!isInterval) return;
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    intervalRef.current = setInterval(async () => {
+      const refresh_token = UseRefreshToken();
+      const refresh = await refresh_token();
+      if (refresh.status === 200) {
+        const data = await refresh.json();
+        setAccessToken(data.access_token);
+        const decodedToken = jwtDecode(accessToken);
+        setTokenExp(decodedToken.exp);
+        // console.log('new access token: ', accessToken);
+      } else {
+        setAccessToken({});
+        // setTimeInterval(false);
+        setTokenExp(null);
+      }
+    }, (Math.floor(tokenExp) - currentTime) * 1000); // 1 second = 1000 (Math.floor(tokenExp) - currentTime)*1000
+
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, [tokenExp]);
 
   return (
     <AuthContext.Provider
@@ -102,6 +137,8 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentUserID,
         isAuth,
         setIsAuth,
+        setTimeInterval,
+        setTokenExp,
       }}>
       {children}
     </AuthContext.Provider>

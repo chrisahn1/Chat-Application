@@ -3,7 +3,6 @@ import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 import UseRefreshToken from '../hooks/useRefreshToken';
 
 //UPDATE USERNAME
@@ -15,7 +14,6 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
   const refresh_token = UseRefreshToken();
 
   const newUsernameChange = async (e) => {
@@ -25,63 +23,55 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   const usernameChange = async (e) => {
     e.preventDefault();
 
-    // CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      // handleSubmitNewUsername(e);
-      try {
-        const username = { username: new_username_input };
+    // handleSubmitNewUsername(e);
+    try {
+      const username = { username: new_username_input };
 
-        const check = await fetch(
-          'http://localhost:3001/users/updateusernamecheck',
+      const check = await fetch(
+        'http://localhost:3001/users/updateusernamecheck',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(username),
+        }
+      );
+
+      const verify = await check.json();
+      // console.log('verify: ', verify);
+      if (verify === 'invalid') {
+        setError('Username already exists');
+      } else if (
+        new_username_input.length > 10 ||
+        new_username_input.length < 3
+      ) {
+        setError('Username character length must be between 3 and 10');
+      } else {
+        const response = await fetch(
+          'http://localhost:3001/users/updateusername',
           {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: accessToken,
+            },
             body: JSON.stringify(username),
+            credentials: 'include',
           }
         );
 
-        const verify = await check.json();
-        // console.log('verify: ', verify);
-        if (verify === 'invalid') {
-          setError('Username already exists');
-        } else if (
-          new_username_input.length > 10 ||
-          new_username_input.length < 3
-        ) {
-          setError('Username character length must be between 3 and 10');
-        } else {
-          const response = await fetch(
-            'http://localhost:3001/users/updateusername',
-            {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-                authorization: accessToken,
-              },
-              body: JSON.stringify(username),
-              credentials: 'include',
-            }
-          );
-
-          const result = await response.json();
-          setError('');
-          setNewUsername('');
-          setCurrentUsername(result.username);
-          //REFRESH TOKEN
-          const refresh = await refresh_token();
-          const data = await refresh.json();
-          setAccessToken({});
-          setAccessToken(data.access_token);
-          handleClose();
-        }
-      } catch (err) {
-        console.error(err.message);
+        const result = await response.json();
+        setError('');
+        setNewUsername('');
+        setCurrentUsername(result.username);
+        //REFRESH TOKEN
+        const refresh = await refresh_token();
+        const data = await refresh.json();
+        setAccessToken({});
+        setAccessToken(data.access_token);
+        handleClose();
       }
+    } catch (err) {
+      console.error(err.message);
     }
   };
 
@@ -127,7 +117,6 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
   const refresh_token = UseRefreshToken();
 
   const handleCurrentEmail = (e) => {
@@ -140,30 +129,23 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
   const userEmailChange = async (e) => {
     e.preventDefault();
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      try {
-        const response = await fetch('http://localhost:3001/users/useremail', {
-          method: 'GET',
-          headers: { authorization: accessToken },
-        });
-        const result = await response.json();
-        if (current_email_input !== result.rows[0].email) {
-          setError('Please enter current email');
-        } else if (new_email_input === result.rows[0].email) {
-          setError('Please enter new email');
-        } else if (current_email_input === new_email_input) {
-          setError('Error: Emails are the same');
-        } else {
-          changeEmail();
-        }
-      } catch (err) {
-        console.error(err.message);
+    try {
+      const response = await fetch('http://localhost:3001/users/useremail', {
+        method: 'GET',
+        headers: { authorization: accessToken },
+      });
+      const result = await response.json();
+      if (current_email_input !== result.rows[0].email) {
+        setError('Please enter current email');
+      } else if (new_email_input === result.rows[0].email) {
+        setError('Please enter new email');
+      } else if (current_email_input === new_email_input) {
+        setError('Error: Emails are the same');
+      } else {
+        changeEmail();
       }
+    } catch (err) {
+      console.error(err.message);
     }
   };
 
@@ -257,7 +239,6 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
   const refresh_token = UseRefreshToken();
 
   const handleCurrentPassword = (e) => {
@@ -274,51 +255,41 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
 
   const userPasswordChange = async (e) => {
     e.preventDefault();
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      const body = {
-        current_password: current_password_input,
-      };
-      try {
-        const response = await fetch(
-          'http://localhost:3001/users/userpassword',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: accessToken,
-            },
-            body: JSON.stringify(body),
-          }
-        );
-        const result = await response.json();
+    const body = {
+      current_password: current_password_input,
+    };
+    try {
+      const response = await fetch('http://localhost:3001/users/userpassword', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: accessToken,
+        },
+        body: JSON.stringify(body),
+      });
+      const result = await response.json();
 
-        if (
-          result === true &&
-          current_password_input !== new_password_input &&
-          new_password_input === confirm_password_input
-        ) {
-          passwordChange();
-        } else {
-          console.log('Incorrect password input');
-        }
-
-        if (result === false) {
-          setError('Please enter current password');
-        } else if (current_password_input === new_password_input) {
-          setError('Please enter new password');
-        } else if (confirm_password_input !== new_password_input) {
-          setError('New password does not match');
-        } else {
-          passwordChange();
-        }
-      } catch (err) {
-        console.error(err.message);
+      if (
+        result === true &&
+        current_password_input !== new_password_input &&
+        new_password_input === confirm_password_input
+      ) {
+        passwordChange();
+      } else {
+        console.log('Incorrect password input');
       }
+
+      if (result === false) {
+        setError('Please enter current password');
+      } else if (current_password_input === new_password_input) {
+        setError('Please enter new password');
+      } else if (confirm_password_input !== new_password_input) {
+        setError('New password does not match');
+      } else {
+        passwordChange();
+      }
+    } catch (err) {
+      console.error(err.message);
     }
   };
 

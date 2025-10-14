@@ -4,7 +4,6 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function CreateChatRoom({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
@@ -17,54 +16,45 @@ function CreateChatRoom({ isOpen, handleClose }) {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
 
   const handleCreateInput = async (e) => {
     setCreateInput(e.target.value);
   };
 
   const createHandle = async (e) => {
-    //CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
+    let letters = /^[a-zA-Z]+$/;
+    if (create_input === '') {
+      setError('Please enter new chat channel');
+    } else if (letters.test(create_input.charAt(0).toLowerCase()) === false) {
+      setError('First character must be a letter');
+    } else if (
+      letters.test(create_input.charAt(0).toLowerCase()) === true &&
+      create_input.length < 5
+    ) {
+      setError('Name must be at least 5 characters long');
+    } else if (
+      letters.test(create_input.charAt(0).toLowerCase()) === true &&
+      create_input.length > 30
+    ) {
+      setError('Name cannot be more than 30 characters');
     } else {
-      let letters = /^[a-zA-Z]+$/;
-      if (create_input === '') {
-        setError('Please enter new chat channel');
-      } else if (letters.test(create_input.charAt(0).toLowerCase()) === false) {
-        setError('First character must be a letter');
-      } else if (
-        letters.test(create_input.charAt(0).toLowerCase()) === true &&
-        create_input.length < 5
-      ) {
-        setError('Name must be at least 5 characters long');
-      } else if (
-        letters.test(create_input.charAt(0).toLowerCase()) === true &&
-        create_input.length > 30
-      ) {
-        setError('Name cannot be more than 30 characters');
+      const res_checkexists = await checkChatExists();
+      if (res_checkexists === true) {
+        // ERROR CHAT DISPLAY
+        setError('Chat name already exists');
       } else {
-        const res_checkexists = await checkChatExists();
-        if (res_checkexists === true) {
-          // ERROR CHAT DISPLAY
-          setError('Chat name already exists');
-        } else {
-          const userid = await fetch('http://localhost:3001/users/userid', {
-            headers: { authorization: accessToken },
-          })
-            .then((response) => response.json())
-            .then((userID) => {
-              return userID;
-            });
+        const userid = await fetch('http://localhost:3001/users/userid', {
+          headers: { authorization: accessToken },
+        })
+          .then((response) => response.json())
+          .then((userID) => {
+            return userID;
+          });
 
-          createChatChannel(userid, currentUsername, create_input);
-          setError('');
-          setCreateInput('');
-          handleClose();
-        }
+        createChatChannel(userid, currentUsername, create_input);
+        setError('');
+        setCreateInput('');
+        handleClose();
       }
     }
   };

@@ -7,7 +7,6 @@ import LeaveChat from '../modals/ModalLeaveChat';
 import ErrorChat from '../modals/ModalErrorChat';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function Chatlist({ socket }) {
   const {
@@ -38,7 +37,6 @@ function Chatlist({ socket }) {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
 
   // console.log('chatlist: ', chatlist);
 
@@ -64,96 +62,53 @@ function Chatlist({ socket }) {
   }, [data.id, accessToken, messageTexts]); //CHATLIST CAUSES AN INFINITE LOOP
 
   const handleChannelClick = async (chat) => {
-    //CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      //FIRST CHECKING IF CHAT EXIST
-      const response = await fetch(
-        `http://localhost:3001/users/chatstillexists/${chat.id}`,
-        {
-          headers: { authorization: accessToken },
-        }
-      )
-        .then((response) => response.json())
-        .then((exists) => {
-          return exists;
-        });
-
-      if (response === true) {
-        dispatch({ type: 'CHAT_CHANGE', payload: chat });
-
-        if (chat.host[1] === currentUsername) {
-          setLeaveButton(true);
-          setDeleteButton(false);
-        } else {
-          setLeaveButton(false);
-          setDeleteButton(true);
-        }
-        if (current_chatid !== null) {
-          socket.emit('leave_room', current_chatid);
-        }
-        setCurrentChatName(chat.channelname);
-        setCurrentChatID(chat.id);
-        socket.emit('join_room', chat.id);
-      } else {
-        //CHAT DOESNT EXIST
-        console.log('chat doesnt exist');
-        toggleChatExist();
+    const response = await fetch(
+      `http://localhost:3001/users/chatstillexists/${chat.id}`,
+      {
+        headers: { authorization: accessToken },
       }
+    )
+      .then((response) => response.json())
+      .then((exists) => {
+        return exists;
+      });
+
+    if (response === true) {
+      dispatch({ type: 'CHAT_CHANGE', payload: chat });
+
+      if (chat.host[1] === currentUsername) {
+        setLeaveButton(true);
+        setDeleteButton(false);
+      } else {
+        setLeaveButton(false);
+        setDeleteButton(true);
+      }
+      if (current_chatid !== null) {
+        socket.emit('leave_room', current_chatid);
+      }
+      setCurrentChatName(chat.channelname);
+      setCurrentChatID(chat.id);
+      socket.emit('join_room', chat.id);
+    } else {
+      //CHAT DOESNT EXIST
+      toggleChatExist();
     }
   };
 
-  //ADD TOGGLE FUNCTIONS HERE
   const toggleSearchChat = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setShowSearchModal(!showSearchModal);
-    }
-    // setShowSearchModal(!showSearchModal);
+    setShowSearchModal(!showSearchModal);
   };
 
   const toggleCreateChat = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setCreateChatModal(!showCreateChatModal);
-    }
-    // setCreateChatModal(!showCreateChatModal);
+    setCreateChatModal(!showCreateChatModal);
   };
 
   const toggleLeaveChat = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setLeaveModal(!showLeaveModal);
-    }
-    // setLeaveModal(!showLeaveModal);
+    setLeaveModal(!showLeaveModal);
   };
 
   const toggleDeleteChat = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setDeleteModal(!showDeleteModal);
-    }
-    // setDeleteModal(!showDeleteModal);
+    setDeleteModal(!showDeleteModal);
   };
 
   const toggleChatExist = async () => {

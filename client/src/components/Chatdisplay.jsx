@@ -5,11 +5,9 @@ import { AuthContext } from '../context/AuthContext';
 import Messages from './Messages';
 import ErrorChat from '../modals/ModalErrorChat';
 import CharacterLimit from '../modals/ModalCharacterLimit';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function Chatdisplay({ socket }) {
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
 
   const {
     currentUsername,
@@ -19,6 +17,8 @@ function Chatdisplay({ socket }) {
     accessToken,
     setAccessToken,
     setIsAuth,
+    setTimeInterval,
+    setTokenExp,
   } = useContext(AuthContext);
 
   const {
@@ -54,6 +54,8 @@ function Chatdisplay({ socket }) {
     console.log('logging out: ', result);
     setIsAuth(false);
     setAccessToken({});
+    setTimeInterval(false);
+    setTokenExp(null);
     setCurrentUsername('');
     setCurrentUserID('');
     setMessageTexts([]);
@@ -62,16 +64,7 @@ function Chatdisplay({ socket }) {
 
   const settings = async (e) => {
     e.preventDefault();
-    //AUTHENTICATE BEFORE GOING TO SETTINGS
-    //CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      navigate('/settings');
-    }
+    navigate('/settings');
   };
 
   const toggleChatExist = () => {
@@ -118,79 +111,71 @@ function Chatdisplay({ socket }) {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    //CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
+
+    if (message_text.length > 150) {
+      toggleCharLimit();
     } else {
-      //IF VERIFIED, THEN PROCEED
-      if (message_text.length > 150) {
-        toggleCharLimit();
+      if (data.id === 'null') {
+        console.log('Please click on chat to send message');
+        toggleChatExist();
       } else {
-        if (data.id === 'null') {
-          console.log('Please click on chat to send message');
-          toggleChatExist();
-        } else {
-          const response = await fetch(
-            `http://localhost:3001/users/chatstillexists/${data.id}`,
-            {
-              headers: { authorization: accessToken },
-            }
-          )
-            .then((response) => response.json())
-            .then((exists) => {
-              return exists;
-            });
-
-          if (response === true) {
-            // get userid
-            const time = new Date();
-
-            const messageData = {
-              value: {
-                authorID: currentUserID,
-                author: currentUsername,
-                message: message_text,
-                month: new Date(Date.now()).getMonth(),
-                day: new Date(Date.now()).getDate(),
-                year: new Date(Date.now()).getFullYear(),
-                time: time.toLocaleTimeString(),
-                chatid: data.id,
-              },
-            };
-            await socket.emit('send_message', messageData);
-            setMessageTexts((list) => [...list, messageData]);
-            setMessage('');
-
-            //UPDATE NEW CHAT LIST
-            const getChannelsList = async () => {
-              const channelsList = fetch(
-                'http://localhost:3001/users/userschannels',
-                {
-                  headers: { authorization: accessToken },
-                }
-              )
-                .then((response) => response.json())
-                .then((userchannelslist) => {
-                  return userchannelslist;
-                });
-              try {
-                const a = await channelsList;
-                // CHECK IF CHANNEL LIST IS EMPTY OR NOT
-                // console.log('chat list: ', a);
-                setChatlist(a);
-              } catch (err) {
-                console.error(err.message);
-              }
-            };
-
-            getChannelsList();
-          } else {
-            //CANT SEND MESSAGE SINCE CHAT DOESNT EXIST
-            toggleChatExist();
+        const response = await fetch(
+          `http://localhost:3001/users/chatstillexists/${data.id}`,
+          {
+            headers: { authorization: accessToken },
           }
+        )
+          .then((response) => response.json())
+          .then((exists) => {
+            return exists;
+          });
+
+        if (response === true) {
+          // get userid
+          const time = new Date();
+
+          const messageData = {
+            value: {
+              authorID: currentUserID,
+              author: currentUsername,
+              message: message_text,
+              month: new Date(Date.now()).getMonth(),
+              day: new Date(Date.now()).getDate(),
+              year: new Date(Date.now()).getFullYear(),
+              time: time.toLocaleTimeString(),
+              chatid: data.id,
+            },
+          };
+          await socket.emit('send_message', messageData);
+          setMessageTexts((list) => [...list, messageData]);
+          setMessage('');
+
+          //UPDATE NEW CHAT LIST
+          const getChannelsList = async () => {
+            const channelsList = fetch(
+              'http://localhost:3001/users/userschannels',
+              {
+                headers: { authorization: accessToken },
+              }
+            )
+              .then((response) => response.json())
+              .then((userchannelslist) => {
+                return userchannelslist;
+              });
+            try {
+              const a = await channelsList;
+              // CHECK IF CHANNEL LIST IS EMPTY OR NOT
+              // console.log('chat list: ', a);
+              setChatlist(a);
+            } catch (err) {
+              console.error(err.message);
+            }
+          };
+
+          getChannelsList();
+        } else {
+          //CANT SEND MESSAGE SINCE CHAT DOESNT EXIST
+          toggleChatExist();
         }
       }
     }

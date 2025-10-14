@@ -4,7 +4,6 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function LeaveChat({
   isOpen,
@@ -19,75 +18,66 @@ function LeaveChat({
   const { accessToken, setIsAuth } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
 
   const leaveChatHandle = async () => {
-    //CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      try {
-        //check if channel still exists when trying to leave
-        const body = {
-          chat_id: chatid,
-        };
+    try {
+      //check if channel still exists when trying to leave
+      const body = {
+        chat_id: chatid,
+      };
 
-        const leave_response = await fetch(
-          'http://localhost:3001/users/leavechatchannel',
+      const leave_response = await fetch(
+        'http://localhost:3001/users/leavechatchannel',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: accessToken,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const result = await leave_response.json();
+      // console.log('channel left: ', result);
+      setLeave(true);
+      setChatName('');
+
+      //UPDATE CHAT LIST
+      const getChannelsList = async () => {
+        const channelsList = fetch(
+          'http://localhost:3001/users/userschannels',
           {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: accessToken,
-            },
-            body: JSON.stringify(body),
+            headers: { authorization: accessToken },
           }
-        );
+        )
+          .then((response) => response.json())
+          .then((userchannelslist) => {
+            return userchannelslist;
+          });
+        try {
+          const a = await channelsList;
+          // CHECK IF CHANNEL LIST IS EMPTY OR NOT
+          // console.log('chat list: ', a);
+          setChatlist(a);
+        } catch (err) {
+          console.error(err.message);
+        }
+      };
 
-        const result = await leave_response.json();
-        // console.log('channel left: ', result);
-        setLeave(true);
-        setChatName('');
+      getChannelsList();
 
-        //UPDATE CHAT LIST
-        const getChannelsList = async () => {
-          const channelsList = fetch(
-            'http://localhost:3001/users/userschannels',
-            {
-              headers: { authorization: accessToken },
-            }
-          )
-            .then((response) => response.json())
-            .then((userchannelslist) => {
-              return userchannelslist;
-            });
-          try {
-            const a = await channelsList;
-            // CHECK IF CHANNEL LIST IS EMPTY OR NOT
-            // console.log('chat list: ', a);
-            setChatlist(a);
-          } catch (err) {
-            console.error(err.message);
-          }
-        };
+      //UPDATED CHAT LIST AFTER LEAVING CHAT
+      setMessageTexts([]);
+      const INIT_STATE = {
+        id: 'null',
+        chat: {},
+      };
+      dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
 
-        getChannelsList();
-
-        //UPDATED CHAT LIST AFTER LEAVING CHAT
-        setMessageTexts([]);
-        const INIT_STATE = {
-          id: 'null',
-          chat: {},
-        };
-        dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
-
-        handleClose();
-      } catch (error) {
-        console.log(error.message);
-      }
+      handleClose();
+    } catch (error) {
+      console.log(error.message);
     }
   };
   return (

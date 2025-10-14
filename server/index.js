@@ -114,7 +114,7 @@ function authToken(req, res, next) {
 // *****************generate access token*********************
 function generateAccessToken(payload) {
   // return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15s' });
-  return jwt.sign(payload, process.env.ACCESS_TOKEN);
+  return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '10s' });
 }
 // *****************generate refresh token*********************
 function generateRefreshToken(payload) {
@@ -134,15 +134,19 @@ app.post('/users/refresh', async (req, res) => {
       if (err) {
         return res.status(403).json({ error: 'Invalid or expired token' });
       }
-      const access_token = generateAccessToken(payload);
-      const refresh_token = generateRefreshToken(payload);
-      res
-        .cookie('refresh_token', refresh_token, {
-          secure: true,
-          httpOnly: true,
-          path: '/',
-        })
-        .json({ access_token });
+      const access_token = generateAccessToken({
+        id: payload.id,
+        username: payload.username,
+      });
+      // const refresh_token = generateRefreshToken(payload);
+      // res
+      //   .cookie('refresh_token', refresh_token, {
+      //     secure: true,
+      //     httpOnly: true,
+      //     path: '/',
+      //   })
+      //   .json({ access_token });
+      res.json({ access_token });
     });
   } catch (err) {
     console.log(err.message);

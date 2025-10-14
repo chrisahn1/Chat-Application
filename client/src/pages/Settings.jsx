@@ -7,11 +7,9 @@ import {
   UpdateUserEmail,
   UpdateUserPassword,
 } from '../modals/ModalEditAccount';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function Settings() {
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
 
   const { setIsAuth } = useContext(AuthContext);
 
@@ -22,47 +20,19 @@ function Settings() {
   const [showPW, setShowPW] = useState(false);
 
   const toggleUsername = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setShowUsername(!showUsername);
-    }
+    setShowUsername(!showUsername);
   };
 
   const toggleEmail = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setShowEmail(!showEmail);
-    }
+    setShowEmail(!showEmail);
   };
 
   const togglePW = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setShowPW(!showPW);
-    }
+    setShowPW(!showPW);
   };
 
   const toggleDelete = async () => {
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      setModalDelete(!modaldelete);
-    }
+    setModalDelete(!modaldelete);
   };
 
   return (

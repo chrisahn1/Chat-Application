@@ -4,7 +4,6 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import UseVerifyActivity from '../hooks/useVerifyActivity';
 
 function SearchChatBar({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setLeaveButton, setCurrentChatID } =
@@ -18,7 +17,6 @@ function SearchChatBar({ isOpen, handleClose }) {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  const verify = UseVerifyActivity();
 
   const handleSearchChat = async (e) => {
     setSearchInput(e.target.value);
@@ -29,82 +27,64 @@ function SearchChatBar({ isOpen, handleClose }) {
 
   const searchChatResults = async (e) => {
     e.preventDefault();
-    //CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
-    } else {
-      try {
-        const body = {
-          searchchats: search_input,
-        };
+    try {
+      const body = {
+        searchchats: search_input,
+      };
 
-        const response = await fetch(
-          'http://localhost:3001/users/allchannels',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          }
-        );
+      const response = await fetch('http://localhost:3001/users/allchannels', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
 
-        const result = await response.json();
-        setSearchList(result);
-      } catch (error) {
-        console.log(error.message);
-      }
+      const result = await response.json();
+      setSearchList(result);
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
   const joinHandle = async (e) => {
     e.preventDefault();
     //CHECK IF USER IS STILL AUTHORIZED
-    const response = await verify();
-    if (response.status === 401) {
-      //NO LONGER AUTHORIZED
-      setIsAuth(false);
-      navigate('/', { replace: true });
+    setSearchList([]);
+    if (search_input === '') {
+      setError('Please enter search input');
     } else {
-      setSearchList([]);
-      if (search_input === '') {
-        setError('Please enter search input');
+      const response = await fetch(
+        `http://localhost:3001/users/chatexists/${search_input}`
+      )
+        .then((response) => response.json())
+        .then((exists) => {
+          return exists;
+        });
+      if (response.exists === false) {
+        // ERROR CHAT DISPLAY
+        setError('Channel does not exist');
       } else {
-        const response = await fetch(
-          `http://localhost:3001/users/chatexists/${search_input}`
-        )
-          .then((response) => response.json())
-          .then((exists) => {
-            return exists;
-          });
-        if (response.exists === false) {
-          // ERROR CHAT DISPLAY
-          setError('Channel does not exist');
+        const res_chatlist = await checkUserChatExists();
+        if (res_chatlist.includes(search_input)) {
+          setError('Already a member');
         } else {
-          const res_chatlist = await checkUserChatExists();
-          if (res_chatlist.includes(search_input)) {
-            setError('Already a member');
-          } else {
-            const body = {
-              chat_name: search_input,
-            };
+          const body = {
+            chat_name: search_input,
+          };
 
-            const get_chat_id = await fetch(
-              'http://localhost:3001/users/channelid',
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-              }
-            );
-            const result_chat_id = await get_chat_id.json();
-            joinChatChannel(result_chat_id);
-            setError('');
-            setSearchInput('');
-            setSearchList([]);
-            handleClose();
-          }
+          const get_chat_id = await fetch(
+            'http://localhost:3001/users/channelid',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+            }
+          );
+          const result_chat_id = await get_chat_id.json();
+          joinChatChannel(result_chat_id);
+          setError('');
+          setSearchInput('');
+          setSearchList([]);
+          handleClose();
         }
       }
     }
