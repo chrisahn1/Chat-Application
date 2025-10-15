@@ -1,9 +1,7 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import UseRefreshToken from '../hooks/useRefreshToken';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
@@ -13,10 +11,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   const [new_username_input, setNewUsername] = useState('');
   const [error, setError] = useState('');
 
-  const navigate = useNavigate();
-  const refresh_token = UseRefreshToken();
-
-  const newUsernameChange = async (e) => {
+  const handleUsernameChange = async (e) => {
     setNewUsername(e.target.value);
   };
 
@@ -63,11 +58,6 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
         setError('');
         setNewUsername('');
         setCurrentUsername(result.username);
-        //REFRESH TOKEN
-        const refresh = await refresh_token();
-        const data = await refresh.json();
-        setAccessToken({});
-        setAccessToken(data.access_token);
         handleClose();
       }
     } catch (err) {
@@ -93,7 +83,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
             type="text"
             value={new_username_input}
             placeholder="New Username"
-            onChange={newUsernameChange}
+            onChange={handleUsernameChange}
           />
           <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
           <button className="submitButton" type="submit">
@@ -115,9 +105,6 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   const [current_email_input, setCurrentEmail] = useState('');
   const [new_email_input, setNewEmail] = useState('');
   const [error, setError] = useState('');
-
-  const navigate = useNavigate();
-  const refresh_token = UseRefreshToken();
 
   const handleCurrentEmail = (e) => {
     setCurrentEmail(e.target.value);
@@ -142,15 +129,14 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
       } else if (current_email_input === new_email_input) {
         setError('Error: Emails are the same');
       } else {
-        changeEmail();
+        emailChange();
       }
     } catch (err) {
       console.error(err.message);
     }
   };
 
-  const updateEmail = async (e) => {
-    e.preventDefault();
+  const updateEmail = async () => {
     try {
       const email = { email: new_email_input };
 
@@ -163,20 +149,12 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
         body: JSON.stringify(email),
       });
       const result = await response.json();
-
-      //REFRESH TOKEN
-      const refresh = await refresh_token();
-      const data = await refresh.json();
-      setAccessToken({});
-      setAccessToken(data.access_token);
     } catch (err) {
       console.error(err.message);
     }
   };
 
-  const changeEmail = async (e) => {
-    e.preventDefault();
-
+  const emailChange = async () => {
     setError('');
     setCurrentEmail('');
     setNewEmail('');
@@ -186,8 +164,6 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   };
 
   const closeModal = async (e) => {
-    e.preventDefault();
-
     setCurrentEmail('');
     setNewEmail('');
     setError('');
@@ -238,9 +214,6 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
   const [confirm_password_input, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  const navigate = useNavigate();
-  const refresh_token = UseRefreshToken();
-
   const handleCurrentPassword = (e) => {
     setCurrentPassword(e.target.value);
   };
@@ -269,15 +242,15 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       });
       const result = await response.json();
 
-      if (
-        result === true &&
-        current_password_input !== new_password_input &&
-        new_password_input === confirm_password_input
-      ) {
-        passwordChange();
-      } else {
-        console.log('Incorrect password input');
-      }
+      // if (
+      //   result === true &&
+      //   current_password_input !== new_password_input &&
+      //   new_password_input === confirm_password_input
+      // ) {
+      //   passwordChange();
+      // } else {
+      //   console.log('Incorrect password input');
+      // }
 
       if (result === false) {
         setError('Please enter current password');
@@ -309,12 +282,6 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
         }
       );
       const result = await response.json();
-
-      //REFRESH TOKEN
-      const refresh = await refresh_token();
-      const data = await refresh.json();
-      setAccessToken({});
-      setAccessToken(data.access_token);
     } catch (err) {
       console.error(err.message);
     }

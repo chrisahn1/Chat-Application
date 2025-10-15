@@ -64,7 +64,7 @@ app.post('/users/login', async (req, res) => {
       const hashVerify = await argon2.verify(hashpassword, password);
 
       if (hashVerify === true) {
-        const payload = { id, username };
+        const payload = { id };
         const access_token = generateAccessToken(payload);
         const refresh_token = generateRefreshToken(payload);
         res
@@ -134,19 +134,15 @@ app.post('/users/refresh', async (req, res) => {
       if (err) {
         return res.status(403).json({ error: 'Invalid or expired token' });
       }
-      const access_token = generateAccessToken({
-        id: payload.id,
-        username: payload.username,
-      });
-      // const refresh_token = generateRefreshToken(payload);
-      // res
-      //   .cookie('refresh_token', refresh_token, {
-      //     secure: true,
-      //     httpOnly: true,
-      //     path: '/',
-      //   })
-      //   .json({ access_token });
-      res.json({ access_token });
+      const access_token = generateAccessToken({ id: payload.id });
+      const refresh_token = generateRefreshToken({ id: payload.id });
+      res
+        .cookie('refresh_token', refresh_token, {
+          secure: true,
+          httpOnly: true,
+          path: '/',
+        })
+        .json({ access_token });
     });
   } catch (err) {
     console.log(err.message);
@@ -171,7 +167,10 @@ app.post('/users/verify', async (req, res) => {
 //get current username from token
 app.get('/users/username', authToken, async (req, res) => {
   try {
-    res.json(req.payload.username);
+    const result = await pool.query('SELECT username FROM users WHERE id=$1;', [
+      req.payload.id,
+    ]);
+    res.json(result.rows[0].username);
   } catch (err) {
     console.log(err.message);
   }

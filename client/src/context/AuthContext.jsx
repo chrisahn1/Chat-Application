@@ -53,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     setUserID();
-  }, [accessToken]);
+  }, [accessToken, currentUsername]);
 
   //REFRESH TOKEN
   useLayoutEffect(() => {
@@ -84,10 +84,11 @@ export const AuthContextProvider = ({ children }) => {
           setCurrentUserID('');
         } else {
           console.log('response: ', response.status);
-          const data = await response.json();
-          setAccessToken({});
-          setAccessToken(data.access_token);
           setIsAuth(true);
+          const refresh_token = UseRefreshToken();
+          const refresh = await refresh_token();
+          const data = await refresh.json();
+          setAccessToken(data.access_token);
           const decodedToken = jwtDecode(accessToken);
           setTokenExp(decodedToken.exp);
           setTimeInterval(true);
