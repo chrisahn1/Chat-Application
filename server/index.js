@@ -683,5 +683,6 @@ server.listen(3001, () => {
 
 // "build": "cross-env CI=false react-scripts build"
 
+//ORIGINAL NPM
 // "start": "nodemon index.js",
 // "build": "react-scripts build"
