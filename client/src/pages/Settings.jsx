@@ -9,7 +9,7 @@ import {
 } from '../modals/ModalEditAccount';
 
 function Settings() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { setIsAuth } = useContext(AuthContext);
 

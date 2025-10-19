@@ -682,3 +682,6 @@ server.listen(3001, () => {
 // "deploy": "git push --force origin main:pub"
 
 // "build": "cross-env CI=false react-scripts build"
+
+// "start": "nodemon index.js",
+// "build": "react-scripts build"
