@@ -74,7 +74,7 @@ function Signup() {
 
           const result = await response.json();
 
-          console.log('signup: ', result);
+          console.log('signup: ', result.command);
 
           setError('');
           navigate('/');
