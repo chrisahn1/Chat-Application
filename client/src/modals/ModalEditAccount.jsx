@@ -5,8 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken, setCurrentUsername, setIsAuth } =
-    useContext(AuthContext);
+  const { accessToken, setCurrentUsername } = useContext(AuthContext);
 
   const [new_username_input, setNewUsername] = useState('');
   const [error, setError] = useState('');
@@ -100,7 +99,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
 
 //UPDATE EMAIL
 const UpdateUserEmail = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken, setIsAuth } = useContext(AuthContext);
+  const { accessToken } = useContext(AuthContext);
 
   const [current_email_input, setCurrentEmail] = useState('');
   const [new_email_input, setNewEmail] = useState('');
@@ -149,6 +148,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
         body: JSON.stringify(email),
       });
       const result = await response.json();
+      console.log('update email: ', result);
     } catch (err) {
       console.error(err.message);
     }
@@ -207,7 +207,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
 //UPDATE PASSWORD
 const UpdateUserPassword = ({ isOpen, handleClose }) => {
-  const { accessToken, setAccessToken, setIsAuth } = useContext(AuthContext);
+  const { accessToken } = useContext(AuthContext);
 
   const [current_password_input, setCurrentPassword] = useState('');
   const [new_password_input, setNewPassword] = useState('');
@@ -270,18 +270,27 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
     try {
       const password = { password: new_password_input };
 
-      const response = await fetch(
-        'http://localhost:3001/users/updatepassword',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(password),
-        }
-      );
-      const result = await response.json();
+      // const response = await fetch(
+      //   'http://localhost:3001/users/updatepassword',
+      //   {
+      //     method: 'PUT',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       authorization: accessToken,
+      //     },
+      //     body: JSON.stringify(password),
+      //   }
+      // );
+      // const result = await response.json();
+      // console.log('update password: ', result);
+      await fetch('http://localhost:3001/users/updatepassword', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: accessToken,
+        },
+        body: JSON.stringify(password),
+      });
     } catch (err) {
       console.error(err.message);
     }

@@ -1,7 +1,6 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -15,9 +14,7 @@ function DeleteChat({
 }) {
   const { setChatlist, setMessageTexts, dispatch } = useContext(ChatContext);
 
-  const { accessToken, setIsAuth } = useContext(AuthContext);
-
-  const navigate = useNavigate();
+  const { accessToken } = useContext(AuthContext);
 
   const deleteChatHandle = async () => {
     try {
@@ -41,6 +38,8 @@ function DeleteChat({
         response_users_channels
       );
 
+      console.log('result users channels: ', result_users_channels);
+
       const response_channels = await fetch(
         'http://localhost:3001/users/deletechat',
         {
@@ -54,6 +53,7 @@ function DeleteChat({
       );
 
       const result_channels = await response_channels.json(response_channels);
+      console.log('result channels: ', result_channels);
       setDelete(true);
       setChatName('');
 

@@ -302,10 +302,14 @@ app.put('/users/updatepassword', authToken, async (req, res) => {
   try {
     const { password } = req.body;
     const hashed = await argon2.hash(password);
-    const changePassword = await pool.query(
-      'UPDATE users SET hashpassword=$1 WHERE id=$2',
-      [hashed, req.payload.id]
-    );
+    // const changePassword = await pool.query(
+    //   'UPDATE users SET hashpassword=$1 WHERE id=$2',
+    //   [hashed, req.payload.id]
+    // );
+    await pool.query('UPDATE users SET hashpassword=$1 WHERE id=$2', [
+      hashed,
+      req.payload.id,
+    ]);
   } catch (err) {
     console.log(err.message);
   }
@@ -563,11 +567,15 @@ app.post('/users/createchatlink/:id', async (req, res) => {
 app.post('/users/joinchatchannel', authToken, async (req, res) => {
   try {
     const { chat_id } = req.body;
-    const result = await pool.query(
+    // const result = await pool.query(
+    //   'INSERT INTO users_channels (users_id, channels_id) VALUES ($1, $2);',
+    //   [req.payload.id, chat_id]
+    // );
+    // res.json(result);
+    await pool.query(
       'INSERT INTO users_channels (users_id, channels_id) VALUES ($1, $2);',
       [req.payload.id, chat_id]
     );
-    res.json(result);
   } catch (err) {
     console.log(err.message);
   }

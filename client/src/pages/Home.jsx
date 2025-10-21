@@ -6,8 +6,7 @@ import LoginCheck from '../modals/ModalLoginCheck';
 function Home() {
   const navigate = useNavigate();
 
-  const { setAccessToken, setIsAuth, setTimeInterval } =
-    useContext(AuthContext);
+  const { setAccessToken, setIsAuth } = useContext(AuthContext);
 
   const [email_input, setEmail] = useState('');
   const [password_input, setPassword] = useState('');

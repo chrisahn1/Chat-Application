@@ -1,7 +1,6 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -9,13 +8,11 @@ function CreateChatRoom({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
     useContext(ChatContext);
 
-  const { accessToken, currentUsername, setIsAuth } = useContext(AuthContext);
+  const { accessToken, currentUsername } = useContext(AuthContext);
 
   const [create_input, setCreateInput] = useState('');
 
   const [error, setError] = useState('');
-
-  const navigate = useNavigate();
 
   const handleCreateInput = async (e) => {
     setCreateInput(e.target.value);
@@ -99,7 +96,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       );
 
       const result = await response.json();
-      // console.log('created chat: ', result);
+      console.log('created chat: ', result);
 
       //UPDATED CHATLIST
       const getChannelsList = async () => {

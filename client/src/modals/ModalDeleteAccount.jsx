@@ -26,6 +26,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
         }
       );
       const result = await response.json();
+      console.log('remove chat links: ', result);
     } catch (err) {
       console.log(err.message);
     }
@@ -41,6 +42,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
         }
       );
       const result = await response.json();
+      console.log('remove host links: ', result);
     } catch (err) {
       console.error(err.message);
     }
@@ -56,6 +58,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
         }
       );
       const result = await response.json();
+      console.log('remove all users channels: ', result);
     } catch (err) {
       console.log(err.message);
     }
@@ -67,6 +70,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
         method: 'DELETE',
         headers: { authorization: accessToken },
       });
+      console.log('remove user: ', response);
     } catch (err) {
       console.error(err.message);
     }

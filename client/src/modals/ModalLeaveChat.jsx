@@ -1,7 +1,6 @@
 import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -15,9 +14,7 @@ function LeaveChat({
 }) {
   const { setChatlist, setMessageTexts, dispatch } = useContext(ChatContext);
 
-  const { accessToken, setIsAuth } = useContext(AuthContext);
-
-  const navigate = useNavigate();
+  const { accessToken } = useContext(AuthContext);
 
   const leaveChatHandle = async () => {
     try {
@@ -39,7 +36,7 @@ function LeaveChat({
       );
 
       const result = await leave_response.json();
-      // console.log('channel left: ', result);
+      console.log('channel left: ', result);
       setLeave(true);
       setChatName('');
 

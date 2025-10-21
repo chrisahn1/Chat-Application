@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import SearchChatBar from '../modals/ModalSearchChats';
 import CreateChatRoom from '../modals/ModalCreateChat';
 import DeleteChat from '../modals/ModalDeleteChat';
@@ -24,7 +23,7 @@ function Chatlist({ socket }) {
     current_chatid,
     setCurrentChatID,
   } = useContext(ChatContext);
-  const { accessToken, currentUsername, setIsAuth } = useContext(AuthContext);
+  const { accessToken, currentUsername } = useContext(AuthContext);
 
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showCreateChatModal, setCreateChatModal] = useState(false);
@@ -35,8 +34,6 @@ function Chatlist({ socket }) {
   const [showChatExistModal, setChatExistModal] = useState(false);
 
   const [scrollPosition, setScrollPosition] = useState(0);
-
-  const navigate = useNavigate();
 
   // console.log('chatlist: ', chatlist);
 

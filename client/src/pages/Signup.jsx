@@ -71,6 +71,11 @@ function Signup() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
           });
+
+          const result = await response.json();
+
+          console.log('signup: ', result);
+
           setError('');
           navigate('/');
         }

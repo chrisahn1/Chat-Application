@@ -26,6 +26,7 @@ const Text = ({ text }) => {
         <img
           className="chatusericon"
           src="user-blue-icon-isolated-on-white-background-free-vector-3667259571.jpg"
+          alt=""
         />
         <div className="messageAuthor">{text.value.author}</div>
       </div>

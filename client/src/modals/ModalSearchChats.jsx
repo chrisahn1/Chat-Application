@@ -1,7 +1,6 @@
 import './Modal.css';
 import { X, Search } from 'react-feather';
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -9,14 +8,12 @@ function SearchChatBar({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setLeaveButton, setCurrentChatID } =
     useContext(ChatContext);
 
-  const { accessToken, setIsAuth } = useContext(AuthContext);
+  const { accessToken } = useContext(AuthContext);
 
   const [search_input, setSearchInput] = useState('');
   const [search_list, setSearchList] = useState([]);
 
   const [error, setError] = useState('');
-
-  const navigate = useNavigate();
 
   const handleSearchChat = async (e) => {
     setSearchInput(e.target.value);
@@ -97,17 +94,25 @@ function SearchChatBar({ isOpen, handleClose }) {
         chat_id: id,
       };
 
-      const join_chat = await fetch(
-        'http://localhost:3001/users/joinchatchannel',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      // const join_chat = await fetch(
+      //   'http://localhost:3001/users/joinchatchannel',
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       authorization: accessToken,
+      //     },
+      //     body: JSON.stringify(body),
+      //   }
+      // );
+      await fetch('http://localhost:3001/users/joinchatchannel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: accessToken,
+        },
+        body: JSON.stringify(body),
+      });
     } catch (error) {
       console.log(error.message);
     }
