@@ -302,14 +302,10 @@ app.put('/users/updatepassword', authToken, async (req, res) => {
   try {
     const { password } = req.body;
     const hashed = await argon2.hash(password);
-    // const changePassword = await pool.query(
-    //   'UPDATE users SET hashpassword=$1 WHERE id=$2',
-    //   [hashed, req.payload.id]
-    // );
-    await pool.query('UPDATE users SET hashpassword=$1 WHERE id=$2', [
-      hashed,
-      req.payload.id,
-    ]);
+    const changePassword = await pool.query(
+      'UPDATE users SET hashpassword=$1 WHERE id=$2',
+      [hashed, req.payload.id]
+    );
   } catch (err) {
     console.log(err.message);
   }
