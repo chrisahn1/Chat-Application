@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "NODE_ENV=production npm start --prefix server",
-    "build": "CI=false npm run build --prefix client",
+    "build": "npm run build --prefix client",
     "db:import": "sh database/import.sh",
     "dev:client": "npm run dev --prefix client",
     "dev:server": "npm run dev --prefix server",
