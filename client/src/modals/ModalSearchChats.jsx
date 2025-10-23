@@ -205,12 +205,18 @@ function SearchChatBar({ isOpen, handleClose }) {
             <div className="searchResult">
               {search_list.map((result) => {
                 return (
-                  <a
+                  // <a
+                  //   className="chatItem"
+                  //   target="_blank"
+                  //   onClick={() => chatResult(result)}>
+                  //   <p>{result.channelname}</p>
+                  // </a>
+                  <div
                     className="chatItem"
                     target="_blank"
                     onClick={() => chatResult(result)}>
                     <p>{result.channelname}</p>
-                  </a>
+                  </div>
                 );
               })}
             </div>

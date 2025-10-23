@@ -107,7 +107,7 @@ function Chatdisplay({ socket }) {
     };
 
     chatExists();
-  }, [data.id]);
+  }, [data.id, setMessageTexts]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -189,7 +189,7 @@ function Chatdisplay({ socket }) {
     return () => {
       socket.off('receive_message');
     };
-  }, [socket]);
+  }, [socket, setMessageTexts]);
 
   return (
     <div className="chatDisplay">

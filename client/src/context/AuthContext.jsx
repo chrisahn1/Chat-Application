@@ -100,7 +100,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     refreshToken();
-  }, [accessToken]); //navigate
+  }, [accessToken, setMessageTexts]); //navigate
 
   useEffect(() => {
     if (!isInterval) return;
@@ -125,7 +125,7 @@ export const AuthContextProvider = ({ children }) => {
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [tokenExp]);
+  }, [tokenExp, accessToken, isInterval]);
 
   return (
     <AuthContext.Provider

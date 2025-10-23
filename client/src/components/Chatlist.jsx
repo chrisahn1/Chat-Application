@@ -56,7 +56,7 @@ function Chatlist({ socket }) {
     };
 
     getChannelsList();
-  }, [data.id, accessToken, messageTexts]); //CHATLIST CAUSES AN INFINITE LOOP
+  }, [data.id, accessToken, messageTexts, setChatlist]); //CHATLIST CAUSES AN INFINITE LOOP
 
   const handleChannelClick = async (chat) => {
     const response = await fetch(
@@ -118,7 +118,7 @@ function Chatlist({ socket }) {
     if (chatRef.current) {
       chatRef.current.scrollTop = scrollPosition;
     }
-  }, [chatlist]);
+  }, [chatlist, scrollPosition]);
 
   const handleScroll = (event) => {
     setScrollPosition(event.target.scrollTop);
@@ -172,7 +172,7 @@ function Chatlist({ socket }) {
           const lastIndex = chat.messages.length;
           return (
             <div className="userChat" onClick={() => handleChannelClick(chat)}>
-              <img src="14562316.png" className="chatImg" />
+              <img src="14562316.png" className="chatImg" alt="chat room" />
               <span>{chat.channelname}</span>
               {lastIndex > 0 && (
                 <p>

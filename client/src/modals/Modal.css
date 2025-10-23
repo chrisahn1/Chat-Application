@@ -135,9 +135,17 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+.chatItem:hover {
   background-color: lightgrey;
 }
+
+/* a {
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: lightgrey;
+} */
 
 /********************** LOGIN/SIGNUP ERROR CHECK MODALS *********************/
 .modal-main.checkloginsignup {
