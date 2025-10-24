@@ -13,8 +13,16 @@ const { Server } = require('socket.io');
 
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
+
+// const pool = new Pool({
+//   connectionString: 'postgres://dev:dev@localhost/chat_db',
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
 const pool = new Pool({
-  connectionString: 'postgres://dev:dev@localhost/chat_db',
+  connectionString:
+    'postgres://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db',
   ssl: {
     rejectUnauthorized: false,
   },
