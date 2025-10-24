@@ -22,7 +22,7 @@ const { Server } = require('socket.io');
 // });
 const pool = new Pool({
   connectionString:
-    'postgres://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db',
+    'postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db',
   ssl: {
     rejectUnauthorized: false,
   },
