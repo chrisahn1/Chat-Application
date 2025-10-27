@@ -48,5 +48,9 @@
     "stylelint-config-standard": "^32.0.0",
     "tsx": "^4.7.0",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0"
   }
 }
