@@ -696,8 +696,10 @@ server.listen(3001, () => {
 // "build": "cross-env CI=false react-scripts build"
 
 //ORIGINAL NPM
+//server packagejson file
 // "start": "nodemon index.js",
 // "build": "react-scripts build"
 
-// "dev": "npm-run-all --parallel --print-label dev:*", //first package json
-// "start": "NODE_ENV=production npm start --prefix server", //first package json
+//first package json
+// "dev": "npm-run-all --parallel --print-label dev:*",
+// "start": "NODE_ENV=production npm start --prefix server",
