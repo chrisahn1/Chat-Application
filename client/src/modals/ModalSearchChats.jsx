@@ -29,7 +29,7 @@ function SearchChatBar({ isOpen, handleClose }) {
         searchchats: search_input,
       };
 
-      const response = await fetch('http://localhost:3001/users/allchannels', {
+      const response = await fetch('http://localhost:8080/users/allchannels', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -50,7 +50,7 @@ function SearchChatBar({ isOpen, handleClose }) {
       setError('Please enter search input');
     } else {
       const response = await fetch(
-        `http://localhost:3001/users/chatexists/${search_input}`
+        `http://localhost:8080/users/chatexists/${search_input}`
       )
         .then((response) => response.json())
         .then((exists) => {
@@ -69,7 +69,7 @@ function SearchChatBar({ isOpen, handleClose }) {
           };
 
           const get_chat_id = await fetch(
-            'http://localhost:3001/users/channelid',
+            'http://localhost:8080/users/channelid',
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -105,7 +105,7 @@ function SearchChatBar({ isOpen, handleClose }) {
       //     body: JSON.stringify(body),
       //   }
       // );
-      await fetch('http://localhost:3001/users/joinchatchannel', {
+      await fetch('http://localhost:8080/users/joinchatchannel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ function SearchChatBar({ isOpen, handleClose }) {
 
     //UPDATE CHAT LIST
     const getChannelsList = async () => {
-      const channelsList = fetch('http://localhost:3001/users/userschannels', {
+      const channelsList = fetch('http://localhost:8080/users/userschannels', {
         headers: { authorization: accessToken },
       })
         .then((response) => response.json())
@@ -138,7 +138,7 @@ function SearchChatBar({ isOpen, handleClose }) {
 
     getChannelsList();
     //DISPLAY CURRENT CHATWINDOW
-    const get_chat = await fetch('http://localhost:3001/users/chat', {
+    const get_chat = await fetch('http://localhost:8080/users/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: id }),
@@ -151,7 +151,7 @@ function SearchChatBar({ isOpen, handleClose }) {
 
   // check if search input already exists in users channel list
   const checkUserChatExists = async () => {
-    const response = await fetch('http://localhost:3001/users/userschannels', {
+    const response = await fetch('http://localhost:8080/users/userschannels', {
       headers: { authorization: accessToken },
     })
       .then((response) => response.json())

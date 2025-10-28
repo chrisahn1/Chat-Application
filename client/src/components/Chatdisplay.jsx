@@ -44,7 +44,7 @@ function Chatdisplay({ socket }) {
       chat: {},
     };
     dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
-    const response = await fetch('http://localhost:3001/users/logout', {
+    const response = await fetch('http://localhost:8080/users/logout', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -84,7 +84,7 @@ function Chatdisplay({ socket }) {
   useEffect(() => {
     const printMessageList = async () => {
       const textList = fetch(
-        `http://localhost:3001/users/channeltexts/${data.id}`
+        `http://localhost:8080/users/channeltexts/${data.id}`
       )
         .then((response) => response.json())
         .then((chattextlist) => {
@@ -120,7 +120,7 @@ function Chatdisplay({ socket }) {
         toggleChatExist();
       } else {
         const response = await fetch(
-          `http://localhost:3001/users/chatstillexists/${data.id}`,
+          `http://localhost:8080/users/chatstillexists/${data.id}`,
           {
             headers: { authorization: accessToken },
           }
@@ -153,7 +153,7 @@ function Chatdisplay({ socket }) {
           //UPDATE NEW CHAT LIST
           const getChannelsList = async () => {
             const channelsList = fetch(
-              'http://localhost:3001/users/userschannels',
+              'http://localhost:8080/users/userschannels',
               {
                 headers: { authorization: accessToken },
               }

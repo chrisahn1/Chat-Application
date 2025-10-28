@@ -23,7 +23,7 @@ function DeleteChat({
       };
 
       const response_users_channels = await fetch(
-        'http://localhost:3001/users/deleteuserschannels',
+        'http://localhost:8080/users/deleteuserschannels',
         {
           method: 'POST',
           headers: {
@@ -41,7 +41,7 @@ function DeleteChat({
       console.log('result users channels: ', result_users_channels);
 
       const response_channels = await fetch(
-        'http://localhost:3001/users/deletechat',
+        'http://localhost:8080/users/deletechat',
         {
           method: 'POST',
           headers: {
@@ -60,7 +60,7 @@ function DeleteChat({
       //UPDATE CHAT LIST
       const getChannelsList = async () => {
         const channelsList = fetch(
-          'http://localhost:3001/users/userschannels',
+          'http://localhost:8080/users/userschannels',
           {
             headers: { authorization: accessToken },
           }

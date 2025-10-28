@@ -29,7 +29,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const setUser = async () => {
-      const username = await fetch('http://localhost:3001/users/username', {
+      const username = await fetch('http://localhost:8080/users/username', {
         headers: { authorization: accessToken },
       })
         .then((response) => response.json())
@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }) => {
     setUser();
 
     const setUserID = async () => {
-      const userID = await fetch('http://localhost:3001/users/userid', {
+      const userID = await fetch('http://localhost:8080/users/userid', {
         headers: { authorization: accessToken },
       })
         .then((response) => response.json())
@@ -59,7 +59,7 @@ export const AuthContextProvider = ({ children }) => {
   useLayoutEffect(() => {
     const refreshToken = async () => {
       try {
-        const response = await fetch('http://localhost:3001/users/refresh', {
+        const response = await fetch('http://localhost:8080/users/refresh', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
