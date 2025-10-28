@@ -36,6 +36,7 @@ function Home() {
         body: JSON.stringify(body),
       });
       const result = await response.json();
+      console.log('result: ', result);
 
       if (result === 'wrong') {
         toggleLoginCheckModal();
