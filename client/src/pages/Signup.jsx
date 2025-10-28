@@ -52,7 +52,7 @@ function Signup() {
         password: password_input,
       };
 
-      const result = await fetch('http://localhost:3001/users/signupcheck', {
+      const result = await fetch('http://localhost:8080/users/signupcheck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -66,7 +66,7 @@ function Signup() {
         if (username_input.length > 10 || username_input.length < 3) {
           setError('Username character length must be between 3 and 10');
         } else {
-          const response = await fetch('http://localhost:3001/users/signup', {
+          const response = await fetch('http://localhost:8080/users/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),

@@ -22,7 +22,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
       const username = { username: new_username_input };
 
       const check = await fetch(
-        'http://localhost:3001/users/updateusernamecheck',
+        'http://localhost:8080/users/updateusernamecheck',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -41,7 +41,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
         setError('Username character length must be between 3 and 10');
       } else {
         const response = await fetch(
-          'http://localhost:3001/users/updateusername',
+          'http://localhost:8080/users/updateusername',
           {
             method: 'PUT',
             headers: {
@@ -116,7 +116,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   const userEmailChange = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/users/useremail', {
+      const response = await fetch('http://localhost:8080/users/useremail', {
         method: 'GET',
         headers: { authorization: accessToken },
       });
@@ -139,7 +139,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
     try {
       const email = { email: new_email_input };
 
-      const response = await fetch('http://localhost:3001/users/updateemail', {
+      const response = await fetch('http://localhost:8080/users/updateemail', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       current_password: current_password_input,
     };
     try {
-      const response = await fetch('http://localhost:3001/users/userpassword', {
+      const response = await fetch('http://localhost:8080/users/userpassword', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       // );
       // const result = await response.json();
       // console.log('update password: ', result);
-      await fetch('http://localhost:3001/users/updatepassword', {
+      await fetch('http://localhost:8080/users/updatepassword', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

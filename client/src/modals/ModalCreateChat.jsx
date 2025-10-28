@@ -40,7 +40,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
         // ERROR CHAT DISPLAY
         setError('Chat name already exists');
       } else {
-        const userid = await fetch('http://localhost:3001/users/userid', {
+        const userid = await fetch('http://localhost:8080/users/userid', {
           headers: { authorization: accessToken },
         })
           .then((response) => response.json())
@@ -63,7 +63,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
         create_chat_name: createinput,
       };
 
-      const response = await fetch('http://localhost:3001/users/createchat', {
+      const response = await fetch('http://localhost:8080/users/createchat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       };
 
       const response = await fetch(
-        `http://localhost:3001/users/createchatlink/${userid}`,
+        `http://localhost:8080/users/createchatlink/${userid}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -101,7 +101,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       //UPDATED CHATLIST
       const getChannelsList = async () => {
         const channelsList = fetch(
-          'http://localhost:3001/users/userschannels',
+          'http://localhost:8080/users/userschannels',
           {
             headers: { authorization: accessToken },
           }
@@ -133,7 +133,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       };
 
       const response = await fetch(
-        'http://localhost:3001/users/chatexistsverify',
+        'http://localhost:8080/users/chatexistsverify',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

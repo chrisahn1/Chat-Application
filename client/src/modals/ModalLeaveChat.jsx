@@ -24,7 +24,7 @@ function LeaveChat({
       };
 
       const leave_response = await fetch(
-        'http://localhost:3001/users/leavechatchannel',
+        'http://localhost:8080/users/leavechatchannel',
         {
           method: 'POST',
           headers: {
@@ -43,7 +43,7 @@ function LeaveChat({
       //UPDATE CHAT LIST
       const getChannelsList = async () => {
         const channelsList = fetch(
-          'http://localhost:3001/users/userschannels',
+          'http://localhost:8080/users/userschannels',
           {
             headers: { authorization: accessToken },
           }
