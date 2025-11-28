@@ -10,9 +10,11 @@ const app = express();
 const Pool = require('pg').Pool;
 // const { pool, createDBIfNotExist, createTablesIfNotExist } = require('./db');
 const { Server } = require('socket.io');
-
+const path = require('path');
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
+const reactStaticDir = path.join(__dirname, '../client/dist');
+app.use(express.static(reactStaticDir));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -680,6 +682,10 @@ io.on('connection', (socket) => {
 //   // createTablesIfNotExist();
 //   console.log('SERVER RUNNING 3001');
 // });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(reactStaticDir, 'index.html'));
+});
 
 server.listen(process.env.PORT, () => {
   console.log('Listening on port', process.env.PORT);
