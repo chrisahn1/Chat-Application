@@ -13,7 +13,7 @@ const { Server } = require('socket.io');
 const path = require('path');
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
-const reactStaticDir = path.join(__dirname, '../client/dist');
+const reactStaticDir = path.join(__dirname, '../client/build');
 app.use(express.static(reactStaticDir));
 
 const pool = new Pool({
