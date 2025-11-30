@@ -22,6 +22,11 @@ jobs:
           npm ci
           npm run build
 
+      - name: Add EC2 host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ env.EC2_HOST }} >> ~/.ssh/known_hosts
+
       - name: Copy project to EC2
         uses: burnett01/rsync-deployments@7.0.1
         with:
