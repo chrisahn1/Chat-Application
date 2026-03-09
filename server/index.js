@@ -16,6 +16,21 @@ const path = require('path');
 const reactStaticDir = path.join(__dirname, '../client/build');
 app.use(express.static(reactStaticDir));
 
+// const pool = new Pool({
+//   connectionString: 'postgres://dev:dev@localhost/chat_db',
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
+
+// app.use(cookieParser());
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: 'http://localhost:3000',
+//   })
+// );
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -23,11 +38,10 @@ const pool = new Pool({
   },
 });
 
-app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: 'https://chatapplivedemo.com',
   })
 );
 
@@ -64,6 +78,7 @@ app.post('/users/login', async (req, res) => {
       `SELECT id, username, hashpassword FROM users WHERE email=$1`,
       [email]
     );
+    console.log('email check: ', newData);
 
     if (newData.rows.length === 0) {
       res.json('wrong');
@@ -634,10 +649,18 @@ app.post('/users/deletechat', authToken, async (req, res) => {
 // ************************************************************************************************************
 const server = http.createServer(app);
 
+// const io = new Server(server, {
+//   cors: {
+//     credentials: true,
+//     origin: 'http://localhost:3000', //original: 3000
+//     methods: ['GET', 'POST'],
+//   },
+// });
+
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'http://localhost:3000', //original: 3000
+    origin: 'https://chatapplivedemo.com', //original: 3000
     methods: ['GET', 'POST'],
   },
 });
