@@ -30,6 +30,7 @@ function Home() {
       };
 
       const response = await fetch('http://localhost:8080/users/login', {
+        //8080
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -57,6 +58,7 @@ function Home() {
   return (
     <div className="App">
       <form className="Register" onSubmit={handleSubmit}>
+        <h2 style={{ color: 'white' }}>Chat App Live</h2>
         <label style={{ padding: '1.5vh' }}>Email:</label>
         <input
           className="registerInput"
