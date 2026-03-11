@@ -40,7 +40,9 @@ function CreateChatRoom({ isOpen, handleClose }) {
         // ERROR CHAT DISPLAY
         setError('Chat name already exists');
       } else {
-        const userid = await fetch('http://localhost:8080/users/userid', {
+        //https://chatapplivedemo.com
+        //http://localhost:8080
+        const userid = await fetch('https://chatapplivedemo.com/users/userid', {
           headers: { authorization: accessToken },
         })
           .then((response) => response.json())
@@ -63,14 +65,17 @@ function CreateChatRoom({ isOpen, handleClose }) {
         create_chat_name: createinput,
       };
 
-      const response = await fetch('http://localhost:8080/users/createchat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: accessToken,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        'https://chatapplivedemo.com/users/createchat',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: accessToken,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
       dispatch({ type: 'CHAT_CHANGE', payload: result.rows[0] });
@@ -87,7 +92,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       };
 
       const response = await fetch(
-        `http://localhost:8080/users/createchatlink/${userid}`,
+        `https://chatapplivedemo.com/users/createchatlink/${userid}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -101,7 +106,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       //UPDATED CHATLIST
       const getChannelsList = async () => {
         const channelsList = fetch(
-          'http://localhost:8080/users/userschannels',
+          'https://chatapplivedemo.com/users/userschannels',
           {
             headers: { authorization: accessToken },
           }
@@ -133,7 +138,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       };
 
       const response = await fetch(
-        'http://localhost:8080/users/chatexistsverify',
+        'https://chatapplivedemo.com/users/chatexistsverify',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

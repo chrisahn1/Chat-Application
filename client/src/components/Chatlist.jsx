@@ -39,9 +39,14 @@ function Chatlist({ socket }) {
 
   useEffect(() => {
     const getChannelsList = async () => {
-      const channelsList = fetch('http://localhost:8080/users/userschannels', {
-        headers: { authorization: accessToken },
-      })
+      //https://chatapplivedemo.com
+      //http://localhost:8080
+      const channelsList = fetch(
+        'https://chatapplivedemo.com/users/userschannels',
+        {
+          headers: { authorization: accessToken },
+        }
+      )
         .then((response) => response.json())
         .then((userchannelslist) => {
           return userchannelslist;
@@ -60,7 +65,7 @@ function Chatlist({ socket }) {
 
   const handleChannelClick = async (chat) => {
     const response = await fetch(
-      `http://localhost:8080/users/chatstillexists/${chat.id}`,
+      `https://chatapplivedemo.com/users/chatstillexists/${chat.id}`,
       {
         headers: { authorization: accessToken },
       }

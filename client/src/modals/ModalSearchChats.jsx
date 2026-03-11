@@ -28,12 +28,16 @@ function SearchChatBar({ isOpen, handleClose }) {
       const body = {
         searchchats: search_input,
       };
-
-      const response = await fetch('http://localhost:8080/users/allchannels', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+      //https://chatapplivedemo.com
+      //http://localhost:8080
+      const response = await fetch(
+        'https://chatapplivedemo.com/users/allchannels',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
       setSearchList(result);
@@ -50,7 +54,7 @@ function SearchChatBar({ isOpen, handleClose }) {
       setError('Please enter search input');
     } else {
       const response = await fetch(
-        `http://localhost:8080/users/chatexists/${search_input}`
+        `https://chatapplivedemo.com/users/chatexists/${search_input}`
       )
         .then((response) => response.json())
         .then((exists) => {
@@ -69,7 +73,7 @@ function SearchChatBar({ isOpen, handleClose }) {
           };
 
           const get_chat_id = await fetch(
-            'http://localhost:8080/users/channelid',
+            'https://chatapplivedemo.com/users/channelid',
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -105,7 +109,7 @@ function SearchChatBar({ isOpen, handleClose }) {
       //     body: JSON.stringify(body),
       //   }
       // );
-      await fetch('http://localhost:8080/users/joinchatchannel', {
+      await fetch('https://chatapplivedemo.com/users/joinchatchannel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,9 +123,12 @@ function SearchChatBar({ isOpen, handleClose }) {
 
     //UPDATE CHAT LIST
     const getChannelsList = async () => {
-      const channelsList = fetch('http://localhost:8080/users/userschannels', {
-        headers: { authorization: accessToken },
-      })
+      const channelsList = fetch(
+        'https://chatapplivedemo.com/users/userschannels',
+        {
+          headers: { authorization: accessToken },
+        }
+      )
         .then((response) => response.json())
         .then((userchannelslist) => {
           return userchannelslist;
@@ -138,7 +145,7 @@ function SearchChatBar({ isOpen, handleClose }) {
 
     getChannelsList();
     //DISPLAY CURRENT CHATWINDOW
-    const get_chat = await fetch('http://localhost:8080/users/chat', {
+    const get_chat = await fetch('https://chatapplivedemo.com/users/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: id }),
@@ -151,9 +158,12 @@ function SearchChatBar({ isOpen, handleClose }) {
 
   // check if search input already exists in users channel list
   const checkUserChatExists = async () => {
-    const response = await fetch('http://localhost:8080/users/userschannels', {
-      headers: { authorization: accessToken },
-    })
+    const response = await fetch(
+      'https://chatapplivedemo.com/users/userschannels',
+      {
+        headers: { authorization: accessToken },
+      }
+    )
       .then((response) => response.json())
       .then((chatlist) => {
         return chatlist;

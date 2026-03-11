@@ -29,9 +29,14 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const setUser = async () => {
-      const username = await fetch('http://localhost:8080/users/username', {
-        headers: { authorization: accessToken },
-      })
+      //https://chatapplivedemo.com
+      //http://localhost:8080
+      const username = await fetch(
+        'https://chatapplivedemo.com/users/username',
+        {
+          headers: { authorization: accessToken },
+        }
+      )
         .then((response) => response.json())
         .then((userName) => {
           return userName;
@@ -42,7 +47,7 @@ export const AuthContextProvider = ({ children }) => {
     setUser();
 
     const setUserID = async () => {
-      const userID = await fetch('http://localhost:8080/users/userid', {
+      const userID = await fetch('https://chatapplivedemo.com/users/userid', {
         headers: { authorization: accessToken },
       })
         .then((response) => response.json())
@@ -59,11 +64,14 @@ export const AuthContextProvider = ({ children }) => {
   useLayoutEffect(() => {
     const refreshToken = async () => {
       try {
-        const response = await fetch('http://localhost:8080/users/refresh', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
+        const response = await fetch(
+          'https://chatapplivedemo.com/users/refresh',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+          }
+        );
 
         // if (!response.ok) {
         //     console.log('Refresh token failed');

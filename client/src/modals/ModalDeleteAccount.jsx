@@ -18,8 +18,10 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
   const removeChatLinks = async () => {
     try {
+      //https://chatapplivedemo.com
+      //http://localhost:8080
       const response = await fetch(
-        'http://localhost:8080/users/deleteusersalllinks',
+        'https://chatapplivedemo.com/users/deleteusersalllinks',
         {
           method: 'DELETE',
           headers: { authorization: accessToken },
@@ -35,7 +37,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
   const removeHostLinks = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/users/deletehostalllinks',
+        'https://chatapplivedemo.com/users/deletehostalllinks',
         {
           method: 'DELETE',
           headers: { authorization: accessToken },
@@ -51,7 +53,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
   const removeAllUsersChannels = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/users/deletehostallchannels',
+        'https://chatapplivedemo.com/users/deletehostallchannels',
         {
           method: 'DELETE',
           headers: { authorization: accessToken },
@@ -66,7 +68,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
   const removeUser = async () => {
     try {
-      const response = await fetch('http://localhost:8080/users/delete', {
+      const response = await fetch('https://chatapplivedemo.com/users/delete', {
         method: 'DELETE',
         headers: { authorization: accessToken },
       });
@@ -85,7 +87,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     removeAllUsersChannels();
     removeUser();
 
-    const response = await fetch('http://localhost:8080/users/logout', {
+    const response = await fetch('https://chatapplivedemo.com/users/logout', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
