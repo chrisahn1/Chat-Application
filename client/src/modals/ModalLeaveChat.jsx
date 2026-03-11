@@ -22,9 +22,10 @@ function LeaveChat({
       const body = {
         chat_id: chatid,
       };
-
+      //https://chatapplivedemo.com
+      //http://localhost:8080
       const leave_response = await fetch(
-        'http://localhost:8080/users/leavechatchannel',
+        'https://chatapplivedemo.com/users/leavechatchannel',
         {
           method: 'POST',
           headers: {
@@ -43,7 +44,7 @@ function LeaveChat({
       //UPDATE CHAT LIST
       const getChannelsList = async () => {
         const channelsList = fetch(
-          'http://localhost:8080/users/userschannels',
+          'https://chatapplivedemo.com/users/userschannels',
           {
             headers: { authorization: accessToken },
           }

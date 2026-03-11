@@ -21,9 +21,10 @@ function DeleteChat({
       const body = {
         chat_id: chatid,
       };
-
+      //https://chatapplivedemo.com
+      //http://localhost:8080
       const response_users_channels = await fetch(
-        'http://localhost:8080/users/deleteuserschannels',
+        'https://chatapplivedemo.com/users/deleteuserschannels',
         {
           method: 'POST',
           headers: {
@@ -41,7 +42,7 @@ function DeleteChat({
       console.log('result users channels: ', result_users_channels);
 
       const response_channels = await fetch(
-        'http://localhost:8080/users/deletechat',
+        'https://chatapplivedemo.com/users/deletechat',
         {
           method: 'POST',
           headers: {
@@ -60,7 +61,7 @@ function DeleteChat({
       //UPDATE CHAT LIST
       const getChannelsList = async () => {
         const channelsList = fetch(
-          'http://localhost:8080/users/userschannels',
+          'https://chatapplivedemo.com/users/userschannels',
           {
             headers: { authorization: accessToken },
           }

@@ -21,6 +21,25 @@ function Home() {
     setPassword(e.target.value);
   };
 
+  // const API = "https://chatapplivedemo.com";
+
+  // const result = await fetch(`${API}/users/signupcheck`, {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(body),
+  // });
+
+  // const response = await fetch(`${API}/users/signup`, {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(body),
+  // });
+
+  // const API =
+  //   process.env.NODE_ENV === "production"
+  //     ? "https://chatapplivedemo.com"
+  //     : "http://localhost:8080";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,9 +47,10 @@ function Home() {
         email: email_input,
         password: password_input,
       };
-
-      const response = await fetch('http://localhost:8080/users/login', {
-        //8080
+      //https://chatapplivedemo.com
+      //http://localhost:8080
+      const response = await fetch('https://chatapplivedemo.com/users/login', {
+        //http://localhost:8080/users/login
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
