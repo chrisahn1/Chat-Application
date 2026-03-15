@@ -3,7 +3,6 @@ import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import { url } from '../configURL/configURL';
 
 function LeaveChat({
   isOpen,

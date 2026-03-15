@@ -3,7 +3,6 @@ import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import { url } from '../configURL/configURL';
 
 function CreateChatRoom({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
@@ -43,7 +42,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       } else {
         //https://chatapplivedemo.com
         //http://localhost:8080
-        const userid = await fetch(`${url}/users/userid`, {
+        const userid = await fetch('https://chatapplivedemo.com/users/userid', {
           headers: { authorization: accessToken },
           credentials: 'include',
         })

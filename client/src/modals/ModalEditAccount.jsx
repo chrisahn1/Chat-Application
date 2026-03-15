@@ -2,7 +2,6 @@ import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { url } from '../configURL/configURL';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
@@ -40,15 +39,18 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
       ) {
         setError('Username character length must be between 3 and 10');
       } else {
-        const response = await fetch(`${url}/users/updateusername`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(username),
-          credentials: 'include',
-        });
+        const response = await fetch(
+          'https://chatapplivedemo.com/users/updateusername',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: accessToken,
+            },
+            body: JSON.stringify(username),
+            credentials: 'include',
+          }
+        );
 
         const result = await response.json();
         setError('');
@@ -283,7 +285,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       // );
       // const result = await response.json();
       // console.log('update password: ', result);
-      await fetch(`${url}/users/updatepassword`, {
+      await fetch('https://chatapplivedemo.com/users/updatepassword', {
         method: 'PUT',
         credentials: 'include',
         headers: {

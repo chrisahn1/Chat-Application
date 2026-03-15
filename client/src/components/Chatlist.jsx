@@ -6,7 +6,6 @@ import LeaveChat from '../modals/ModalLeaveChat';
 import ErrorChat from '../modals/ModalErrorChat';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import { url } from '../configURL/configURL';
 
 function Chatlist({ socket }) {
   const {

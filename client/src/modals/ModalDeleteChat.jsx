@@ -3,7 +3,6 @@ import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import { url } from '../configURL/configURL';
 
 function DeleteChat({
   isOpen,
@@ -25,7 +24,7 @@ function DeleteChat({
       //https://chatapplivedemo.com
       //http://localhost:8080
       const response_users_channels = await fetch(
-        `${url}/users/deleteuserschannels`,
+        'https://chatapplivedemo.com/users/deleteuserschannels',
         {
           method: 'POST',
           credentials: 'include',
