@@ -37,11 +37,10 @@ const pool = new Pool({
     rejectUnauthorized: false,
   },
 });
-
 app.use(
   cors({
     credentials: true,
-    origin: 'https://chatapplivedemo.com',
+    origin: 'http://localhost:3000', //http://localhost:3000 https://chatapplivedemo.com
   })
 );
 app.use(express.json());
@@ -71,7 +70,7 @@ app.post('/users/login', async (req, res) => {
       `SELECT id, username, hashpassword FROM users WHERE email=$1`,
       [email]
     );
-    console.log('email check: ', newData);
+    // console.log('email check: ', newData);
 
     if (newData.rows.length === 0) {
       res.json('wrong');
@@ -653,7 +652,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'https://chatapplivedemo.com', //original: 3000
+    origin: 'http://localhost:3000', //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });
@@ -796,5 +795,3 @@ server.listen(process.env.PORT, () => {
 //     "dev": "tsx watch server.ts",
 //     "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0"
 //   },
-
-//TESTING US-EAST-1

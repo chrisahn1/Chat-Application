@@ -2,6 +2,7 @@ import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { url } from '../configURL/configURL';
 
 //UPDATE USERNAME
 const UpdateUsername = ({ isOpen, handleClose }) => {
@@ -22,14 +23,11 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
       const username = { username: new_username_input };
       //https://chatapplivedemo.com
       //http://localhost:8080
-      const check = await fetch(
-        'https://chatapplivedemo.com/users/updateusernamecheck',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(username),
-        }
-      );
+      const check = await fetch(`${url}/users/updateusernamecheck`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(username),
+      });
 
       const verify = await check.json();
       // console.log('verify: ', verify);
@@ -41,18 +39,15 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
       ) {
         setError('Username character length must be between 3 and 10');
       } else {
-        const response = await fetch(
-          'https://chatapplivedemo.com/users/updateusername',
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: accessToken,
-            },
-            body: JSON.stringify(username),
-            credentials: 'include',
-          }
-        );
+        const response = await fetch(`${url}/users/updateusername`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: accessToken,
+          },
+          body: JSON.stringify(username),
+          credentials: 'include',
+        });
 
         const result = await response.json();
         setError('');
@@ -117,13 +112,10 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   const userEmailChange = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        'https://chatapplivedemo.com/users/useremail',
-        {
-          method: 'GET',
-          headers: { authorization: accessToken },
-        }
-      );
+      const response = await fetch(`${url}/users/useremail`, {
+        method: 'GET',
+        headers: { authorization: accessToken },
+      });
       const result = await response.json();
       if (current_email_input !== result.rows[0].email) {
         setError('Please enter current email');
@@ -143,17 +135,14 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
     try {
       const email = { email: new_email_input };
 
-      const response = await fetch(
-        'https://chatapplivedemo.com/users/updateemail',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(email),
-        }
-      );
+      const response = await fetch(`${url}/users/updateemail`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: accessToken,
+        },
+        body: JSON.stringify(email),
+      });
       const result = await response.json();
       console.log('update email: ', result);
     } catch (err) {
@@ -239,17 +228,14 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       current_password: current_password_input,
     };
     try {
-      const response = await fetch(
-        'https://chatapplivedemo.com/users/userpassword',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(`${url}/users/userpassword`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: accessToken,
+        },
+        body: JSON.stringify(body),
+      });
       const result = await response.json();
 
       // if (
@@ -293,7 +279,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       // );
       // const result = await response.json();
       // console.log('update password: ', result);
-      await fetch('https://chatapplivedemo.com/users/updatepassword', {
+      await fetch(`${url}/users/updatepassword`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
