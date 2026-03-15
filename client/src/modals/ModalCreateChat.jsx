@@ -3,7 +3,6 @@ import { X } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import { url } from '../configURL/configURL';
 
 function CreateChatRoom({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
@@ -43,7 +42,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       } else {
         //https://chatapplivedemo.com
         //http://localhost:8080
-        const userid = await fetch(`${url}/users/userid`, {
+        const userid = await fetch('https://chatapplivedemo.com/users/userid', {
           headers: { authorization: accessToken },
         })
           .then((response) => response.json())
@@ -66,14 +65,17 @@ function CreateChatRoom({ isOpen, handleClose }) {
         create_chat_name: createinput,
       };
 
-      const response = await fetch(`${url}/users/createchat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: accessToken,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        'https://chatapplivedemo.com/users/createchat',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: accessToken,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
       dispatch({ type: 'CHAT_CHANGE', payload: result.rows[0] });
@@ -89,20 +91,26 @@ function CreateChatRoom({ isOpen, handleClose }) {
         create_chat_name: createinput,
       };
 
-      const response = await fetch(`${url}/users/createchatlink/${userid}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        `https://chatapplivedemo.com/users/createchatlink/${userid}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
       console.log('created chat: ', result);
 
       //UPDATED CHATLIST
       const getChannelsList = async () => {
-        const channelsList = fetch(`${url}/users/userschannels`, {
-          headers: { authorization: accessToken },
-        })
+        const channelsList = fetch(
+          'https://chatapplivedemo.com/users/userschannels',
+          {
+            headers: { authorization: accessToken },
+          }
+        )
           .then((response) => response.json())
           .then((userchannelslist) => {
             return userchannelslist;
@@ -129,11 +137,14 @@ function CreateChatRoom({ isOpen, handleClose }) {
         input: create_input,
       };
 
-      const response = await fetch(`${url}/users/chatexistsverify`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        'https://chatapplivedemo.com/users/chatexistsverify',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
 

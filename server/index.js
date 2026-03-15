@@ -37,10 +37,11 @@ const pool = new Pool({
     rejectUnauthorized: false,
   },
 });
+
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000', //http://localhost:3000 https://chatapplivedemo.com
+    origin: 'https://chatapplivedemo.com',
   })
 );
 
@@ -77,7 +78,7 @@ app.post('/users/login', async (req, res) => {
       `SELECT id, username, hashpassword FROM users WHERE email=$1`,
       [email]
     );
-    // console.log('email check: ', newData);
+    console.log('email check: ', newData);
 
     if (newData.rows.length === 0) {
       res.json('wrong');
@@ -659,7 +660,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'http://localhost:3000', //http://localhost:3000 https://chatapplivedemo.com
+    origin: 'https://chatapplivedemo.com', //original: 3000
     methods: ['GET', 'POST'],
   },
 });

@@ -5,7 +5,6 @@ import { AuthContext } from '../context/AuthContext';
 import Messages from './Messages';
 import ErrorChat from '../modals/ModalErrorChat';
 import CharacterLimit from '../modals/ModalCharacterLimit';
-import { url } from '../configURL/configURL';
 
 function Chatdisplay({ socket }) {
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ function Chatdisplay({ socket }) {
     //https://chatapplivedemo.com
     //http://localhost:8080
     dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
-    const response = await fetch(`${url}/users/logout`, {
+    const response = await fetch('https://chatapplivedemo.com/users/logout', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -86,7 +85,9 @@ function Chatdisplay({ socket }) {
 
   useEffect(() => {
     const printMessageList = async () => {
-      const textList = fetch(`${url}/users/channeltexts/${data.id}`)
+      const textList = fetch(
+        `https://chatapplivedemo.com/users/channeltexts/${data.id}`
+      )
         .then((response) => response.json())
         .then((chattextlist) => {
           return chattextlist;
@@ -121,7 +122,7 @@ function Chatdisplay({ socket }) {
         toggleChatExist();
       } else {
         const response = await fetch(
-          `${url}/users/chatstillexists/${data.id}`,
+          `https://chatapplivedemo.com/users/chatstillexists/${data.id}`,
           {
             headers: { authorization: accessToken },
           }
@@ -153,9 +154,12 @@ function Chatdisplay({ socket }) {
 
           //UPDATE NEW CHAT LIST
           const getChannelsList = async () => {
-            const channelsList = fetch(`${url}/users/userschannels`, {
-              headers: { authorization: accessToken },
-            })
+            const channelsList = fetch(
+              'https://chatapplivedemo.com/users/userschannels',
+              {
+                headers: { authorization: accessToken },
+              }
+            )
               .then((response) => response.json())
               .then((userchannelslist) => {
                 return userchannelslist;

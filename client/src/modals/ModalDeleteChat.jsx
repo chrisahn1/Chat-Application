@@ -3,7 +3,6 @@ import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
-import { url } from '../configURL/configURL';
 
 function DeleteChat({
   isOpen,
@@ -25,7 +24,7 @@ function DeleteChat({
       //https://chatapplivedemo.com
       //http://localhost:8080
       const response_users_channels = await fetch(
-        `${url}/users/deleteuserschannels`,
+        'https://chatapplivedemo.com/users/deleteuserschannels',
         {
           method: 'POST',
           headers: {
@@ -42,14 +41,17 @@ function DeleteChat({
 
       console.log('result users channels: ', result_users_channels);
 
-      const response_channels = await fetch(`${url}/users/deletechat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: accessToken,
-        },
-        body: JSON.stringify(body),
-      });
+      const response_channels = await fetch(
+        'https://chatapplivedemo.com/users/deletechat',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: accessToken,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result_channels = await response_channels.json(response_channels);
       console.log('result channels: ', result_channels);
@@ -58,9 +60,12 @@ function DeleteChat({
 
       //UPDATE CHAT LIST
       const getChannelsList = async () => {
-        const channelsList = fetch(`${url}/users/userschannels`, {
-          headers: { authorization: accessToken },
-        })
+        const channelsList = fetch(
+          'https://chatapplivedemo.com/users/userschannels',
+          {
+            headers: { authorization: accessToken },
+          }
+        )
           .then((response) => response.json())
           .then((userchannelslist) => {
             return userchannelslist;
