@@ -75,7 +75,7 @@ app.post('/users/login', async (req, res) => {
     // console.log('email check: ', newData);
 
     if (newData.rows.length === 0) {
-      res.json('wrong');
+      res.status(200).json('wrong');
     } else {
       const [user] = newData.rows;
       const { id, username, hashpassword } = user;
@@ -803,5 +803,5 @@ server.listen(process.env.PORT, () => {
 //     "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0"
 //   },
 
-//TESTING FOR PSQL AT AWS
+//TESTING FOR PSQL CHAT_DB AT AWS CONSOLE
 //psql "postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db"
