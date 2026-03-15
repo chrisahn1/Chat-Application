@@ -24,17 +24,15 @@ function LeaveChat({
       };
       //https://chatapplivedemo.com
       //http://localhost:8080
-      const leave_response = await fetch(
-        'https://chatapplivedemo.com/users/leavechatchannel',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: accessToken,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const leave_response = await fetch(`${url}/users/leavechatchannel`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: accessToken,
+        },
+        body: JSON.stringify(body),
+      });
 
       const result = await leave_response.json();
       console.log('channel left: ', result);
@@ -43,12 +41,10 @@ function LeaveChat({
 
       //UPDATE CHAT LIST
       const getChannelsList = async () => {
-        const channelsList = fetch(
-          'https://chatapplivedemo.com/users/userschannels',
-          {
-            headers: { authorization: accessToken },
-          }
-        )
+        const channelsList = fetch(`${url}/users/userschannels`, {
+          headers: { authorization: accessToken },
+          credentials: 'include',
+        })
           .then((response) => response.json())
           .then((userchannelslist) => {
             return userchannelslist;

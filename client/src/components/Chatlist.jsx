@@ -41,12 +41,10 @@ function Chatlist({ socket }) {
     const getChannelsList = async () => {
       //https://chatapplivedemo.com
       //http://localhost:8080
-      const channelsList = fetch(
-        'https://chatapplivedemo.com/users/userschannels',
-        {
-          headers: { authorization: accessToken },
-        }
-      )
+      const channelsList = fetch(`${url}/users/userschannels`, {
+        headers: { authorization: accessToken },
+        credentials: 'include',
+      })
         .then((response) => response.json())
         .then((userchannelslist) => {
           return userchannelslist;
@@ -64,12 +62,10 @@ function Chatlist({ socket }) {
   }, [data.id, accessToken, messageTexts, setChatlist]); //CHATLIST CAUSES AN INFINITE LOOP
 
   const handleChannelClick = async (chat) => {
-    const response = await fetch(
-      `https://chatapplivedemo.com/users/chatstillexists/${chat.id}`,
-      {
-        headers: { authorization: accessToken },
-      }
-    )
+    const response = await fetch(`${url}/users/chatstillexists/${chat.id}`, {
+      headers: { authorization: accessToken },
+      credentials: 'include',
+    })
       .then((response) => response.json())
       .then((exists) => {
         return exists;

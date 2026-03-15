@@ -15,6 +15,7 @@ const path = require('path');
 // const upload = multer({ storage: storage });
 const reactStaticDir = path.join(__dirname, '../client/build');
 app.use(express.static(reactStaticDir));
+// app.use(cookieParser());
 
 // const pool = new Pool({
 //   connectionString: 'postgres://dev:dev@localhost/chat_db',
@@ -37,11 +38,11 @@ const pool = new Pool({
     rejectUnauthorized: false,
   },
 });
-
+app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: 'https://chatapplivedemo.com',
+    origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
   })
 );
 
@@ -65,7 +66,7 @@ app.post('/users/signup', async (req, res) => {
       'INSERT INTO users (username, email, hashpassword) VALUES($1, $2, $3) RETURNING *',
       [username, email, hashed]
     );
-    res.json(newData);
+    res.status(200).json(newData);
   } catch (error) {
     console.log(error.message);
   }
@@ -81,7 +82,7 @@ app.post('/users/login', async (req, res) => {
     console.log('email check: ', newData);
 
     if (newData.rows.length === 0) {
-      res.json('wrong');
+      res.status(200).json('wrong');
     } else {
       const [user] = newData.rows;
       const { id, username, hashpassword } = user;
@@ -93,6 +94,7 @@ app.post('/users/login', async (req, res) => {
         const access_token = generateAccessToken(payload);
         const refresh_token = generateRefreshToken(payload);
         res
+          .status(200)
           .cookie('refresh_token', refresh_token, {
             secure: true,
             httpOnly: true,
@@ -100,7 +102,7 @@ app.post('/users/login', async (req, res) => {
           })
           .json({ access_token });
       } else {
-        res.json('wrong');
+        res.status(200).json('wrong');
       }
     }
   } catch (error) {
@@ -162,6 +164,7 @@ app.post('/users/refresh', async (req, res) => {
       const access_token = generateAccessToken({ id: payload.id });
       const refresh_token = generateRefreshToken({ id: payload.id });
       res
+        .status(200)
         .cookie('refresh_token', refresh_token, {
           secure: true,
           httpOnly: true,
@@ -195,7 +198,7 @@ app.get('/users/username', authToken, async (req, res) => {
     const result = await pool.query('SELECT username FROM users WHERE id=$1;', [
       req.payload.id,
     ]);
-    res.json(result.rows[0].username);
+    res.status(200).json(result.rows[0].username);
   } catch (err) {
     console.log(err.message);
   }
@@ -204,7 +207,7 @@ app.get('/users/username', authToken, async (req, res) => {
 //get current user id from token
 app.get('/users/userid', authToken, async (req, res) => {
   try {
-    res.json(req.payload.id);
+    res.status(200).json(req.payload.id);
   } catch (err) {
     console.log(err.message);
   }
@@ -223,11 +226,11 @@ app.post('/users/signupcheck', async (req, res) => {
       [email]
     );
     if (verify_username.rows[0].exists === true) {
-      res.json('invalid');
+      res.status(200).json('invalid');
     } else if (verify_email.rows[0].exists === true) {
-      res.json('invalid');
+      res.status(200).json('invalid');
     } else {
-      res.json('valid');
+      res.status(200).json('valid');
     }
   } catch (error) {
     console.log(error.message);
@@ -245,7 +248,7 @@ app.delete('/users/delete', authToken, async (req, res) => {
     const deleteUser = await pool.query('DELETE FROM users WHERE id=$1;', [
       req.payload.id,
     ]);
-    res.json('User was deleted');
+    res.status(200).json('User was deleted');
   } catch (err) {
     console.log(err.message);
   }
@@ -258,7 +261,7 @@ app.delete('/users/deleteusersalllinks', authToken, async (req, res) => {
       'DELETE FROM users_channels WHERE channels_id IN ( SELECT id FROM channels WHERE host[1] = $1 );',
       [req.payload.id]
     );
-    res.json(deleteLinks.rows);
+    res.status(200).json(deleteLinks.rows);
   } catch (err) {
     console.log(err.message);
   }
@@ -271,7 +274,7 @@ app.delete('/users/deletehostalllinks', authToken, async (req, res) => {
       'DELETE FROM users_channels WHERE users_id = $1;',
       [req.payload.id]
     );
-    res.json(deleteLinks.rows);
+    res.status(200).json(deleteLinks.rows);
   } catch (err) {
     console.log(err.message);
   }
@@ -284,7 +287,7 @@ app.delete('/users/deletehostallchannels', authToken, async (req, res) => {
       'DELETE FROM channels WHERE host[1] = $1;',
       [req.payload.id]
     );
-    res.json(deleteChannels.rows);
+    res.status(200).json(deleteChannels.rows);
   } catch (err) {
     console.log(err.message);
   }
@@ -303,7 +306,7 @@ app.put('/users/updateusername', authToken, async (req, res) => {
       'UPDATE users SET username=$1 WHERE id=$2',
       [username, req.payload.id]
     );
-    res.json({ username });
+    res.status(200).json({ username });
   } catch (err) {
     console.log(err.message);
   }
@@ -317,6 +320,7 @@ app.put('/users/updateemail', authToken, async (req, res) => {
       'UPDATE users SET email=$1 WHERE id=$2',
       [email, req.payload.id]
     );
+    res.status(200).json({ success: true });
   } catch (err) {
     console.log(err.message);
   }
@@ -331,6 +335,7 @@ app.put('/users/updatepassword', authToken, async (req, res) => {
       'UPDATE users SET hashpassword=$1 WHERE id=$2',
       [hashed, req.payload.id]
     );
+    res.status(200).json({ success: true });
   } catch (err) {
     console.log(err.message);
   }
@@ -345,9 +350,9 @@ app.post('/users/updateusernamecheck', async (req, res) => {
       [username]
     );
     if (verify_username.rows[0].exists === true) {
-      res.json('invalid');
+      res.status(200).json('invalid');
     } else {
-      res.json('valid');
+      res.status(200).json('valid');
     }
   } catch (error) {
     console.log(error.message);
@@ -360,7 +365,7 @@ app.get('/users/useremail', authToken, async (req, res) => {
     const userEmail = await pool.query('SELECT email FROM users WHERE id=$1', [
       req.payload.id,
     ]);
-    res.json(userEmail);
+    res.status(200).json(userEmail);
   } catch (err) {
     console.log(err.message);
   }
@@ -378,7 +383,7 @@ app.post('/users/userpassword', authToken, async (req, res) => {
       hashPassword.rows[0].hashpassword,
       current_password
     );
-    res.json(hashVerify);
+    res.status(200).json(hashVerify);
   } catch (err) {
     console.log(err.message);
   }
@@ -397,7 +402,7 @@ app.get('/users/channeltexts/:id', async (req, res) => {
       [id]
     );
     // res.json(texts.rows[0].value.author);
-    res.json(texts.rows);
+    res.status(200).json(texts.rows);
     // res.json(texts.rows[0].value);
   } catch (err) {
     console.log(err.message);
@@ -412,7 +417,7 @@ app.get('/users/channelname/:id', async (req, res) => {
       'SELECT channelname FROM channels WHERE id=$1;',
       [id]
     );
-    res.json(name.rows[0].channelname);
+    res.status(200).json(name.rows[0].channelname);
   } catch (err) {
     console.log(err.message);
   }
@@ -425,7 +430,7 @@ app.get('/users/channelhost/:id', async (req, res) => {
     const host = await pool.query('SELECT host FROM channels WHERE id=$1;', [
       id,
     ]);
-    res.json(host.rows[0].host);
+    res.status(200).json(host.rows[0].host);
   } catch (err) {
     console.log(err.message);
   }
@@ -439,7 +444,7 @@ app.get('/users/chatexists/:input', async (req, res) => {
       'SELECT EXISTS (SELECT 1 FROM channels WHERE channelname=$1);',
       [input]
     );
-    res.json(result.rows[0]);
+    res.status(200).json(result.rows[0]);
   } catch (err) {
     console.log(err.message);
   }
@@ -453,7 +458,7 @@ app.post('/users/chatexistsverify', async (req, res) => {
       'SELECT EXISTS (SELECT 1 FROM channels WHERE channelname=$1);',
       [input]
     );
-    res.json(result.rows[0].exists);
+    res.status(200).json(result.rows[0].exists);
   } catch (err) {
     console.log(err.message);
   }
@@ -467,7 +472,7 @@ app.get('/users/chatstillexists/:chatid', async (req, res) => {
       'SELECT EXISTS (SELECT 1 FROM channels WHERE id=$1);',
       [chatid]
     );
-    res.json(result.rows[0].exists);
+    res.status(200).json(result.rows[0].exists);
   } catch (err) {
     console.log(err.message);
   }
@@ -477,7 +482,7 @@ app.get('/users/chatstillexists/:chatid', async (req, res) => {
 app.get('/users/allexistingchannels', async (req, res) => {
   try {
     const result = await pool.query('SELECT channelname FROM channels;');
-    res.json(result.rows);
+    res.status(200).json(result.rows);
   } catch (err) {
     console.log(err.message);
   }
@@ -491,7 +496,7 @@ app.post('/users/channelid', async (req, res) => {
       'SELECT id FROM channels WHERE channelname=$1;',
       [chat_name]
     );
-    res.json(result.rows[0].id);
+    res.status(200).json(result.rows[0].id);
   } catch (err) {
     console.log(err.message);
   }
@@ -504,7 +509,7 @@ app.post('/users/chat', async (req, res) => {
     const result = await pool.query('SELECT * FROM channels WHERE id=$1;', [
       chat_id,
     ]);
-    res.json(result.rows[0]);
+    res.status(200).json(result.rows[0]);
   } catch (err) {
     console.log(err.message);
   }
@@ -519,7 +524,7 @@ app.post('/users/allchannels', async (req, res) => {
       'SELECT channels.ID, channels.channelname FROM channels WHERE channelname LIKE $1;',
       [input]
     );
-    res.json(result.rows);
+    res.status(200).json(result.rows);
   } catch (err) {
     console.log(err.message);
   }
@@ -532,7 +537,7 @@ app.get('/users/userschannels', authToken, async (req, res) => {
       'SELECT channels.ID, channels.channelname, channels.host, channels.messages FROM channels JOIN users_channels ON channels.ID = users_channels.channels_id JOIN users ON users_channels.users_id = users.ID WHERE users.ID = $1;',
       [req.payload.id]
     );
-    res.json(result.rows);
+    res.status(200).json(result.rows);
   } catch (err) {
     console.log(err.message);
   }
@@ -546,7 +551,7 @@ app.get('/users/hostchannels/:id', async (req, res) => {
       'SELECT id FROM channels WHERE host[1] = $1;',
       [id]
     );
-    res.json(result.rows);
+    res.status(200).json(result.rows);
   } catch (err) {
     console.log(err.message);
   }
@@ -562,7 +567,7 @@ app.post('/users/createchat', authToken, async (req, res) => {
       'INSERT INTO channels (channelname, host, messages) VALUES ($1, $2, jsonb_build_array()) RETURNING *;',
       [create_chat_name, host]
     );
-    res.json(createdchat);
+    res.status(200).json(createdchat);
   } catch (err) {
     console.log(err.message);
   }
@@ -576,7 +581,7 @@ app.post('/users/createchatlink/:id', async (req, res) => {
       'INSERT INTO users_channels (users_id, channels_id) VALUES ( $1, (SELECT id FROM channels WHERE channelname = $2));',
       [id, create_chat_name]
     );
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
     console.log(err.message);
   }
@@ -597,6 +602,7 @@ app.post('/users/joinchatchannel', authToken, async (req, res) => {
       'INSERT INTO users_channels (users_id, channels_id) VALUES ($1, $2);',
       [req.payload.id, chat_id]
     );
+    res.status(200).json({ success: true });
   } catch (err) {
     console.log(err.message);
   }
@@ -612,7 +618,7 @@ app.post('/users/leavechatchannel', authToken, async (req, res) => {
       'DELETE FROM users_channels WHERE users_id = $1 AND channels_id = $2;',
       [req.payload.id, chat_id]
     );
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
     console.log(err.message);
   }
@@ -626,7 +632,7 @@ app.post('/users/deleteuserschannels', authToken, async (req, res) => {
       'DELETE FROM users_channels WHERE channels_id = $1;',
       [chat_id]
     );
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
     console.log(err.message);
   }
@@ -638,7 +644,7 @@ app.post('/users/deletechat', authToken, async (req, res) => {
     const result = await pool.query('DELETE FROM channels WHERE id = $1;', [
       chat_id,
     ]);
-    res.json(result);
+    res.status(200).json(result);
   } catch (err) {
     console.log(err.message);
   }
@@ -660,7 +666,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'https://chatapplivedemo.com', //original: 3000
+    origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });
@@ -804,4 +810,5 @@ server.listen(process.env.PORT, () => {
 //     "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0"
 //   },
 
-//Going back to ohio region
+//TESTING FOR PSQL CHAT_DB AT AWS CONSOLE
+//psql "postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db"

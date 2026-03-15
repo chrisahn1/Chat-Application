@@ -20,13 +20,11 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     try {
       //https://chatapplivedemo.com
       //http://localhost:8080
-      const response = await fetch(
-        'https://chatapplivedemo.com/users/deleteusersalllinks',
-        {
-          method: 'DELETE',
-          headers: { authorization: accessToken },
-        }
-      );
+      const response = await fetch(`${url}/users/deleteusersalllinks`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { authorization: accessToken },
+      });
       const result = await response.json();
       console.log('remove chat links: ', result);
     } catch (err) {
@@ -36,13 +34,11 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
   const removeHostLinks = async () => {
     try {
-      const response = await fetch(
-        'https://chatapplivedemo.com/users/deletehostalllinks',
-        {
-          method: 'DELETE',
-          headers: { authorization: accessToken },
-        }
-      );
+      const response = await fetch(`${url}/users/deletehostalllinks`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { authorization: accessToken },
+      });
       const result = await response.json();
       console.log('remove host links: ', result);
     } catch (err) {
@@ -52,13 +48,11 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
   const removeAllUsersChannels = async () => {
     try {
-      const response = await fetch(
-        'https://chatapplivedemo.com/users/deletehostallchannels',
-        {
-          method: 'DELETE',
-          headers: { authorization: accessToken },
-        }
-      );
+      const response = await fetch(`${url}/users/deletehostallchannels`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { authorization: accessToken },
+      });
       const result = await response.json();
       console.log('remove all users channels: ', result);
     } catch (err) {
@@ -70,6 +64,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     try {
       const response = await fetch('https://chatapplivedemo.com/users/delete', {
         method: 'DELETE',
+        credentials: 'include',
         headers: { authorization: accessToken },
       });
       console.log('remove user: ', response);

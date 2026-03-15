@@ -31,12 +31,10 @@ export const AuthContextProvider = ({ children }) => {
     const setUser = async () => {
       //https://chatapplivedemo.com
       //http://localhost:8080
-      const username = await fetch(
-        'https://chatapplivedemo.com/users/username',
-        {
-          headers: { authorization: accessToken },
-        }
-      )
+      const username = await fetch(`${url}/users/username`, {
+        headers: { authorization: accessToken },
+        credentials: 'include',
+      })
         .then((response) => response.json())
         .then((userName) => {
           return userName;
@@ -49,6 +47,7 @@ export const AuthContextProvider = ({ children }) => {
     const setUserID = async () => {
       const userID = await fetch('https://chatapplivedemo.com/users/userid', {
         headers: { authorization: accessToken },
+        credentials: 'include',
       })
         .then((response) => response.json())
         .then((userid) => {
