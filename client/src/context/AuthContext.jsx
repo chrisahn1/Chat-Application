@@ -10,6 +10,7 @@ import React, {
 import { ChatContext } from '../context/ChatUseContext';
 import { jwtDecode } from 'jwt-decode';
 import UseRefreshToken from '../hooks/useRefreshToken';
+import { url } from '../configURL/configURL';
 
 export const AuthContext = createContext({});
 
@@ -31,12 +32,9 @@ export const AuthContextProvider = ({ children }) => {
     const setUser = async () => {
       //https://chatapplivedemo.com
       //http://localhost:8080
-      const username = await fetch(
-        'https://chatapplivedemo.com/users/username',
-        {
-          headers: { authorization: accessToken },
-        }
-      )
+      const username = await fetch(`${url}/users/username`, {
+        headers: { authorization: accessToken },
+      })
         .then((response) => response.json())
         .then((userName) => {
           return userName;
@@ -47,7 +45,7 @@ export const AuthContextProvider = ({ children }) => {
     setUser();
 
     const setUserID = async () => {
-      const userID = await fetch('https://chatapplivedemo.com/users/userid', {
+      const userID = await fetch(`${url}/users/userid`, {
         headers: { authorization: accessToken },
       })
         .then((response) => response.json())
@@ -64,14 +62,11 @@ export const AuthContextProvider = ({ children }) => {
   useLayoutEffect(() => {
     const refreshToken = async () => {
       try {
-        const response = await fetch(
-          'https://chatapplivedemo.com/users/refresh',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-          }
-        );
+        const response = await fetch(`${url}/users/refresh`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        });
 
         // if (!response.ok) {
         //     console.log('Refresh token failed');

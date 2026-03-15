@@ -1,6 +1,13 @@
+import { url } from '../configURL/configURL';
+
 const UseRefreshToken = () => {
   const refreshToken = async () => {
-    const refresh = await fetch('http://localhost:8080/users/refresh', {
+    // const refresh = await fetch('http://localhost:8080/users/refresh', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   credentials: 'include',
+    // });
+    const refresh = await fetch(`${url}/users/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

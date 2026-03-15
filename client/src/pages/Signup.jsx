@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import ErrorSignup from '../modals/ModalErrorSignup';
+import { url } from '../configURL/configURL';
 
 function Signup() {
   const navigate = useNavigate();
@@ -53,14 +54,11 @@ function Signup() {
       };
       //https://chatapplivedemo.com
       //http://localhost:8080
-      const result = await fetch(
-        'https://chatapplivedemo.com/users/signupcheck',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      );
+      const result = await fetch(`${url}/users/signupcheck`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
 
       const verify = await result.json();
 
@@ -70,14 +68,11 @@ function Signup() {
         if (username_input.length > 10 || username_input.length < 3) {
           setError('Username character length must be between 3 and 10');
         } else {
-          const response = await fetch(
-            'https://chatapplivedemo.com/users/signup',
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(body),
-            }
-          );
+          const response = await fetch(`${url}/users/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
 
           const result = await response.json();
 
