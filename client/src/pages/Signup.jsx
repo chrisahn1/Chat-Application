@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import ErrorSignup from '../modals/ModalErrorSignup';
+import { url } from '../configURL/configURL';
 
 function Signup() {
   const navigate = useNavigate();

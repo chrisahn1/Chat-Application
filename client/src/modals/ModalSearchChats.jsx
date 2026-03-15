@@ -3,6 +3,7 @@ import { X, Search } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
+import { url } from '../configURL/configURL';
 
 function SearchChatBar({ isOpen, handleClose }) {
   const { setChatlist, dispatch, setLeaveButton, setCurrentChatID } =
@@ -105,7 +106,7 @@ function SearchChatBar({ isOpen, handleClose }) {
       //     body: JSON.stringify(body),
       //   }
       // );
-      await fetch('https://chatapplivedemo.com/users/joinchatchannel', {
+      await fetch(`${url}/users/joinchatchannel`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -140,7 +141,7 @@ function SearchChatBar({ isOpen, handleClose }) {
 
     getChannelsList();
     //DISPLAY CURRENT CHATWINDOW
-    const get_chat = await fetch('https://chatapplivedemo.com/users/chat', {
+    const get_chat = await fetch(`${url}/users/chat`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

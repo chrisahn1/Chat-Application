@@ -3,6 +3,7 @@ import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { url } from '../configURL/configURL';
 
 function ModalDeleteAccount({ isOpen, handleClose }) {
   const {
@@ -62,7 +63,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
   const removeUser = async () => {
     try {
-      const response = await fetch('https://chatapplivedemo.com/users/delete', {
+      const response = await fetch(`${url}/users/delete`, {
         method: 'DELETE',
         credentials: 'include',
         headers: { authorization: accessToken },
@@ -82,7 +83,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     removeAllUsersChannels();
     removeUser();
 
-    const response = await fetch('https://chatapplivedemo.com/users/logout', {
+    const response = await fetch(`${url}/users/logout`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

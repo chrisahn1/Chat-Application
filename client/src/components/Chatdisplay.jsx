@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import Messages from './Messages';
 import ErrorChat from '../modals/ModalErrorChat';
 import CharacterLimit from '../modals/ModalCharacterLimit';
+import { url } from '../configURL/configURL';
 
 function Chatdisplay({ socket }) {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function Chatdisplay({ socket }) {
     //https://chatapplivedemo.com
     //http://localhost:8080
     dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
-    const response = await fetch('https://chatapplivedemo.com/users/logout', {
+    const response = await fetch(`${url}/users/logout`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -122,7 +123,7 @@ function Chatdisplay({ socket }) {
         toggleChatExist();
       } else {
         const response = await fetch(
-          `https://chatapplivedemo.com/users/chatstillexists/${data.id}`,
+          `${url}/users/chatstillexists/${data.id}`,
           {
             headers: { authorization: accessToken },
             credentials: 'include',

@@ -45,13 +45,6 @@ app.use(
     origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
   })
 );
-
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: true,
-//   })
-// );
 app.use(express.json());
 
 //ROUTES//
@@ -79,7 +72,7 @@ app.post('/users/login', async (req, res) => {
       `SELECT id, username, hashpassword FROM users WHERE email=$1`,
       [email]
     );
-    console.log('email check: ', newData);
+    // console.log('email check: ', newData);
 
     if (newData.rows.length === 0) {
       res.status(200).json('wrong');
