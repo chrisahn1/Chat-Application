@@ -56,6 +56,7 @@ function Signup() {
       //http://localhost:8080
       const result = await fetch(`${url}/users/signupcheck`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
@@ -70,6 +71,7 @@ function Signup() {
         } else {
           const response = await fetch(`${url}/users/signup`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
           });

@@ -45,6 +45,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
         //http://localhost:8080
         const userid = await fetch(`${url}/users/userid`, {
           headers: { authorization: accessToken },
+          credentials: 'include',
         })
           .then((response) => response.json())
           .then((userID) => {
@@ -68,6 +69,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
 
       const response = await fetch(`${url}/users/createchat`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           authorization: accessToken,
@@ -91,6 +93,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
 
       const response = await fetch(`${url}/users/createchatlink/${userid}`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
@@ -102,6 +105,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       const getChannelsList = async () => {
         const channelsList = fetch(`${url}/users/userschannels`, {
           headers: { authorization: accessToken },
+          credentials: 'include',
         })
           .then((response) => response.json())
           .then((userchannelslist) => {
@@ -131,6 +135,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
 
       const response = await fetch(`${url}/users/chatexistsverify`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });

@@ -33,6 +33,7 @@ function SearchChatBar({ isOpen, handleClose }) {
       //http://localhost:8080
       const response = await fetch(`${url}/users/allchannels`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
@@ -51,7 +52,9 @@ function SearchChatBar({ isOpen, handleClose }) {
     if (search_input === '') {
       setError('Please enter search input');
     } else {
-      const response = await fetch(`${url}/users/chatexists/${search_input}`)
+      const response = await fetch(`${url}/users/chatexists/${search_input}`, {
+        credentials: 'include',
+      })
         .then((response) => response.json())
         .then((exists) => {
           return exists;
@@ -70,6 +73,7 @@ function SearchChatBar({ isOpen, handleClose }) {
 
           const get_chat_id = await fetch(`${url}/users/channelid`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
           });
@@ -104,6 +108,7 @@ function SearchChatBar({ isOpen, handleClose }) {
       // );
       await fetch(`${url}/users/joinchatchannel`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           authorization: accessToken,
@@ -118,6 +123,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     const getChannelsList = async () => {
       const channelsList = fetch(`${url}/users/userschannels`, {
         headers: { authorization: accessToken },
+        credentials: 'include',
       })
         .then((response) => response.json())
         .then((userchannelslist) => {
@@ -137,6 +143,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     //DISPLAY CURRENT CHATWINDOW
     const get_chat = await fetch(`${url}/users/chat`, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: id }),
     });
@@ -150,6 +157,7 @@ function SearchChatBar({ isOpen, handleClose }) {
   const checkUserChatExists = async () => {
     const response = await fetch(`${url}/users/userschannels`, {
       headers: { authorization: accessToken },
+      credentials: 'include',
     })
       .then((response) => response.json())
       .then((chatlist) => {

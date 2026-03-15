@@ -86,7 +86,9 @@ function Chatdisplay({ socket }) {
 
   useEffect(() => {
     const printMessageList = async () => {
-      const textList = fetch(`${url}/users/channeltexts/${data.id}`)
+      const textList = fetch(`${url}/users/channeltexts/${data.id}`, {
+        credentials: 'include',
+      })
         .then((response) => response.json())
         .then((chattextlist) => {
           return chattextlist;
@@ -124,6 +126,7 @@ function Chatdisplay({ socket }) {
           `${url}/users/chatstillexists/${data.id}`,
           {
             headers: { authorization: accessToken },
+            credentials: 'include',
           }
         )
           .then((response) => response.json())
@@ -155,6 +158,7 @@ function Chatdisplay({ socket }) {
           const getChannelsList = async () => {
             const channelsList = fetch(`${url}/users/userschannels`, {
               headers: { authorization: accessToken },
+              credentials: 'include',
             })
               .then((response) => response.json())
               .then((userchannelslist) => {

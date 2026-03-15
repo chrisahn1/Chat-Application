@@ -23,6 +23,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
       //http://localhost:8080
       const response = await fetch(`${url}/users/deleteusersalllinks`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: { authorization: accessToken },
       });
       const result = await response.json();
@@ -36,6 +37,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     try {
       const response = await fetch(`${url}/users/deletehostalllinks`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: { authorization: accessToken },
       });
       const result = await response.json();
@@ -49,6 +51,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     try {
       const response = await fetch(`${url}/users/deletehostallchannels`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: { authorization: accessToken },
       });
       const result = await response.json();
@@ -62,6 +65,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     try {
       const response = await fetch(`${url}/users/delete`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: { authorization: accessToken },
       });
       console.log('remove user: ', response);

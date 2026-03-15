@@ -25,6 +25,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
       //http://localhost:8080
       const check = await fetch(`${url}/users/updateusernamecheck`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(username),
       });
@@ -114,6 +115,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
     try {
       const response = await fetch(`${url}/users/useremail`, {
         method: 'GET',
+        credentials: 'include',
         headers: { authorization: accessToken },
       });
       const result = await response.json();
@@ -137,6 +139,7 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
 
       const response = await fetch(`${url}/users/updateemail`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           authorization: accessToken,
@@ -230,6 +233,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
     try {
       const response = await fetch(`${url}/users/userpassword`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           authorization: accessToken,
@@ -281,6 +285,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       // console.log('update password: ', result);
       await fetch(`${url}/users/updatepassword`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           authorization: accessToken,

@@ -44,6 +44,7 @@ function Chatlist({ socket }) {
       //http://localhost:8080
       const channelsList = fetch(`${url}/users/userschannels`, {
         headers: { authorization: accessToken },
+        credentials: 'include',
       })
         .then((response) => response.json())
         .then((userchannelslist) => {
@@ -64,6 +65,7 @@ function Chatlist({ socket }) {
   const handleChannelClick = async (chat) => {
     const response = await fetch(`${url}/users/chatstillexists/${chat.id}`, {
       headers: { authorization: accessToken },
+      credentials: 'include',
     })
       .then((response) => response.json())
       .then((exists) => {

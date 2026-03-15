@@ -27,6 +27,7 @@ function LeaveChat({
       //http://localhost:8080
       const leave_response = await fetch(`${url}/users/leavechatchannel`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           authorization: accessToken,
@@ -43,6 +44,7 @@ function LeaveChat({
       const getChannelsList = async () => {
         const channelsList = fetch(`${url}/users/userschannels`, {
           headers: { authorization: accessToken },
+          credentials: 'include',
         })
           .then((response) => response.json())
           .then((userchannelslist) => {
