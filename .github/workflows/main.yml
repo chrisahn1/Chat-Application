@@ -47,3 +47,5 @@ jobs:
             sh scripts/ec2env.sh
             npm run db:import
             pm2 start --time npm -- start
+
+#testing

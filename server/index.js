@@ -43,6 +43,13 @@ app.use(
     origin: 'http://localhost:3000', //http://localhost:3000 https://chatapplivedemo.com
   })
 );
+
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: true,
+//   })
+// );
 app.use(express.json());
 
 //ROUTES//
@@ -796,4 +803,4 @@ server.listen(process.env.PORT, () => {
 //     "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0"
 //   },
 
-//testing
+//Going back to ohio region
