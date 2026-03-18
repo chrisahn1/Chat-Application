@@ -2,12 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import ErrorSignup from '../modals/ModalErrorSignup';
 import { url } from '../configURL/configURL';
+import { Eye, EyeOff } from 'react-feather';
 
 function Signup() {
   const navigate = useNavigate();
   const [username_input, setUsername] = useState('');
   const [email_input, setEmail] = useState('');
   const [password_input, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   // const [pic_file, setPicFile] = useState(null);
 
   const [error, setError] = useState('');
@@ -28,6 +30,10 @@ function Signup() {
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   // const handleImage = (e) => {
@@ -112,14 +118,27 @@ function Signup() {
           required
         />
         <label style={{ padding: '1.5vh' }}>Password:</label>
-        <input
+        <div style={{ display: 'flex' }}>
+          <input
+            className="registerInput password"
+            type={showPassword ? 'text' : 'password'}
+            value={password_input}
+            placeholder="Password"
+            onChange={handlePassword}
+            required
+          />
+          <button className="eye" type="button" onClick={toggleShowPassword}>
+            {showPassword ? <Eye /> : <EyeOff />}
+          </button>
+        </div>
+        {/* <input
           className="registerInput"
           type="password"
           value={password_input}
           placeholder="Password"
           onChange={handlePassword}
           required
-        />
+        /> */}
         {/* <label>Profile Pic: </label>
                 <input type='file' onChange={handleImage} /> */}
         <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>

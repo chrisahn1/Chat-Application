@@ -1,5 +1,5 @@
 import './Modal.css';
-import { X } from 'react-feather';
+import { X, Eye, EyeOff } from 'react-feather';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { url } from '../configURL/configURL';
@@ -68,7 +68,14 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
   };
 
   return (
-    <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
+    <div
+      className={isOpen ? 'modal display-block' : 'modal display-none'}
+      onClick={(e) => {
+        // console.log('modal display classname: ', e.target.className);
+        if (e.target.className === 'modal display-block') {
+          closeModal();
+        }
+      }}>
       <section className="modal-main accountedit usernamechange">
         <X className="closeIcon" onClick={closeModal} />
         <h3>Update Username</h3>
@@ -170,7 +177,14 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
   };
 
   return (
-    <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
+    <div
+      className={isOpen ? 'modal display-block' : 'modal display-none'}
+      onClick={(e) => {
+        // console.log('modal display classname: ', e.target.className);
+        if (e.target.className === 'modal display-block') {
+          closeModal();
+        }
+      }}>
       <section className="modal-main accountedit emailchange">
         <X className="closeIcon" onClick={closeModal} />
         <h3>Update Email</h3>
@@ -212,6 +226,9 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
   const [new_password_input, setNewPassword] = useState('');
   const [confirm_password_input, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleCurrentPassword = (e) => {
     setCurrentPassword(e.target.value);
@@ -223,6 +240,18 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
 
   const handleConfirmPassword = (e) => {
     setConfirmPassword(e.target.value);
+  };
+
+  const toggleShowCurrentPassword = () => {
+    setShowCurrentPassword(!showCurrentPassword);
+  };
+
+  const toggleShowNewPassword = () => {
+    setShowNewPassword(!showNewPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const userPasswordChange = async (e) => {
@@ -317,35 +346,66 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
   };
 
   return (
-    <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
+    <div
+      className={isOpen ? 'modal display-block' : 'modal display-none'}
+      onClick={(e) => {
+        // console.log('modal display classname: ', e.target.className);
+        if (e.target.className === 'modal display-block') {
+          closeModal();
+        }
+      }}>
       <section className="modal-main accountedit emailchange">
         <X className="closeIcon" onClick={closeModal} />
         <h3>Update Password</h3>
         <form className="modalEditRegister" onSubmit={userPasswordChange}>
           <label style={{ padding: '1.5vh' }}>Enter current password: </label>
-          <input
-            className="registerInput"
-            type="password"
-            value={current_password_input}
-            onChange={handleCurrentPassword}
-            required
-          />
+          <div style={{ display: 'flex' }}>
+            <input
+              className="registerInput password"
+              type={showCurrentPassword ? 'text' : 'password'}
+              value={current_password_input}
+              onChange={handleCurrentPassword}
+              required
+            />
+            <button
+              className="eye"
+              type="button"
+              onClick={toggleShowCurrentPassword}>
+              {showCurrentPassword ? <Eye /> : <EyeOff />}
+            </button>
+          </div>
           <label style={{ padding: '1.5vh' }}> Enter new password: </label>
-          <input
-            className="registerInput"
-            type="password"
-            value={new_password_input}
-            onChange={handleNewPassword}
-            required
-          />
+          <div style={{ display: 'flex' }}>
+            <input
+              className="registerInput password"
+              type={showNewPassword ? 'text' : 'password'}
+              value={new_password_input}
+              onChange={handleNewPassword}
+              required
+            />
+            <button
+              className="eye"
+              type="button"
+              onClick={toggleShowNewPassword}>
+              {showNewPassword ? <Eye /> : <EyeOff />}
+            </button>
+          </div>
           <label style={{ padding: '1.5vh' }}> Confirm new password: </label>
-          <input
-            className="registerInput"
-            type="password"
-            value={confirm_password_input}
-            onChange={handleConfirmPassword}
-            required
-          />
+          <div style={{ display: 'flex' }}>
+            <input
+              className="registerInput password"
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={confirm_password_input}
+              onChange={handleConfirmPassword}
+              required
+            />
+            <button
+              className="eye"
+              type="button"
+              onClick={toggleShowConfirmPassword}>
+              {showConfirmPassword ? <Eye /> : <EyeOff />}
+            </button>
+          </div>
           <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
           <button className="submitButton" type="submit">
             Confirm

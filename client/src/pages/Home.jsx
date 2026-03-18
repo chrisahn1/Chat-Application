@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import LoginCheck from '../modals/ModalLoginCheck';
 import { url } from '../configURL/configURL';
+import { Eye, EyeOff } from 'react-feather';
 
 function Home() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ function Home() {
 
   const [email_input, setEmail] = useState('');
   const [password_input, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const [showLoginCheckModal, setLoginCheckModal] = useState(false);
 
@@ -20,6 +22,10 @@ function Home() {
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e) => {
@@ -71,14 +77,23 @@ function Home() {
           required
         />
         <label style={{ padding: '1.5vh' }}>Password:</label>
-        <input
-          className="registerInput"
-          type="password"
-          value={password_input}
-          placeholder="Password"
-          onChange={handlePassword}
-          required
-        />
+        <div style={{ display: 'flex' }}>
+          <input
+            className="registerInput password"
+            type={showPassword ? 'text' : 'password'}
+            value={password_input}
+            placeholder="Password"
+            onChange={handlePassword}
+            required
+          />
+          <button className="eye" type="button" onClick={toggleShowPassword}>
+            {showPassword ? (
+              <Eye className="eyeicon" />
+            ) : (
+              <EyeOff className="eyeicon" />
+            )}
+          </button>
+        </div>
         <button className="submitButton" type="submit">
           Login
         </button>
