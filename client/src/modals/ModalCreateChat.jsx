@@ -155,7 +155,14 @@ function CreateChatRoom({ isOpen, handleClose }) {
   };
 
   return (
-    <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
+    <div
+      className={isOpen ? 'modal display-block' : 'modal display-none'}
+      onClick={(e) => {
+        // console.log('modal display classname: ', e.target.className);
+        if (e.target.className === 'modal display-block') {
+          closeModal();
+        }
+      }}>
       <section className="modal-main chatcreate">
         <div className="search">
           <X className="closeIcon" onClick={closeModal} />

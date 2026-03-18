@@ -183,10 +183,17 @@ function SearchChatBar({ isOpen, handleClose }) {
   };
 
   return (
-    <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
+    <div
+      className={isOpen ? 'modal display-block' : 'modal display-none'}
+      onClick={(e) => {
+        // console.log('modal display classname: ', e.target.className);
+        if (e.target.className === 'modal display-block') {
+          closeModal();
+        }
+      }}>
       <section className="modal-main chatsearch">
         <div className="search">
-          <X className="closeIcon" onClick={handleClose} />
+          <X className="closeIcon" onClick={closeModal} />
           <h2 style={{ color: 'black' }}>Search Chat</h2>
           <div className="searchChat">
             <input

@@ -4,7 +4,14 @@ import React from 'react';
 
 const ErrorChat = ({ isOpen, handleClose }) => {
   return (
-    <div className={isOpen ? 'modal display-block' : 'modal display-none'}>
+    <div
+      className={isOpen ? 'modal display-block' : 'modal display-none'}
+      onClick={(e) => {
+        // console.log('modal display classname: ', e.target.className);
+        if (e.target.className === 'modal display-block') {
+          handleClose();
+        }
+      }}>
       <section className="modal-main errorchat">
         <X className="closeIcon" onClick={handleClose} />
         <h2>Chat does not exist</h2>

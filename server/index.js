@@ -17,34 +17,34 @@ const reactStaticDir = path.join(__dirname, '../client/build');
 app.use(express.static(reactStaticDir));
 // app.use(cookieParser());
 
-// const pool = new Pool({
-//   connectionString: 'postgres://dev:dev@localhost/chat_db',
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-
-// app.use(cookieParser());
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: 'http://localhost:3000',
-//   })
-// );
-
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: 'postgres://dev:dev@localhost/chat_db',
   ssl: {
     rejectUnauthorized: false,
   },
 });
+
 app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+    origin: 'http://localhost:3000',
   })
 );
+
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
+// app.use(cookieParser());
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+//   })
+// );
 app.use(express.json());
 
 //ROUTES//
@@ -648,21 +648,21 @@ app.post('/users/deletechat', authToken, async (req, res) => {
 // ************************************************************************************************************
 const server = http.createServer(app);
 
-// const io = new Server(server, {
-//   cors: {
-//     credentials: true,
-//     origin: 'http://localhost:3000', //original: 3000
-//     methods: ['GET', 'POST'],
-//   },
-// });
-
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+    origin: 'http://localhost:3000', //original: 3000
     methods: ['GET', 'POST'],
   },
 });
+
+// const io = new Server(server, {
+//   cors: {
+//     credentials: true,
+//     origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+//     methods: ['GET', 'POST'],
+//   },
+// });
 
 io.on('connection', (socket) => {
   console.log(`User Connected: ${socket.id}`);
