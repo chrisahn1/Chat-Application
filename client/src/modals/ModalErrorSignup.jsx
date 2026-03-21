@@ -14,7 +14,7 @@ const ErrorSignup = ({ isOpen, handleClose }) => {
       }}>
       <section className="modal-main checkloginsignup">
         <X className="closeIcon" onClick={handleClose} />
-        <h2>Username or Email already exists</h2>
+        <h2 style={{ color: 'white' }}>Username or Email already exists</h2>
         <button onClick={handleClose}>Close</button>
       </section>
     </div>

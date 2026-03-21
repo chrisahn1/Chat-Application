@@ -54,7 +54,7 @@ function Settings() {
       </div>
       <div className="containerChatDelete">
         <h2 style={{ color: 'white' }}>Delete Account</h2>
-        <button className="editAccountButton" onClick={toggleDelete}>
+        <button className="editAccountButton delete" onClick={toggleDelete}>
           Delete Account
         </button>
         <ModalDeleteAccount

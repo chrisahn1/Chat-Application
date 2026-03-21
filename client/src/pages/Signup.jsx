@@ -118,7 +118,7 @@ function Signup() {
           required
         />
         <label style={{ padding: '1.5vh' }}>Password:</label>
-        <div style={{ display: 'flex' }}>
+        <div style={{ width: '100%', display: 'flex' }}>
           <input
             className="registerInput password"
             type={showPassword ? 'text' : 'password'}
@@ -131,20 +131,17 @@ function Signup() {
             {showPassword ? <Eye /> : <EyeOff />}
           </button>
         </div>
-        {/* <input
-          className="registerInput"
-          type="password"
-          value={password_input}
-          placeholder="Password"
-          onChange={handlePassword}
-          required
-        /> */}
-        {/* <label>Profile Pic: </label>
-                <input type='file' onChange={handleImage} /> */}
-        <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
-        <button className="submitButton" type="submit">
+        <div style={{ padding: '5px' }}>
+          {error && <p style={{ color: 'white' }}>{error}</p>}
+        </div>
+        <div className="loginsignupsection">
+          <button className="submitButton" type="submit">
+            Sign Up
+          </button>
+        </div>
+        {/* <button className="submitButton" type="submit">
           Sign Up
-        </button>
+        </button> */}
       </form>
       <div>
         <ErrorSignup

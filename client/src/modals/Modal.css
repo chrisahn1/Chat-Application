@@ -4,28 +4,93 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  animation: fadeIn 0.25s ease forwards;
+  background: rgba(0, 0, 0, 0.4); /* was 0.6 */
+  backdrop-filter: blur(6px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .closeIcon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   color: black;
   padding: 0.5vw;
-  display: flex;
-  margin-left: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 
   /* margin-left: 45vw; */
 }
 
+.closeIcon:hover {
+  transform: rotate(90deg);
+  opacity: 0.7;
+}
+
 .modal-main {
-  position: fixed;
+  /* position: fixed;
   background: whitesmoke;
   width: 60%;
   height: 30%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
   display: flex;
   border-radius: 10px;
+  animation: modalPop 0.25s ease forwards; */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
+  width: 420px;
+  max-width: 90%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: modalPop 0.25s ease forwards;
+}
+
+@keyframes modalPop {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.searchBox {
+  position: relative;
+  display: flex;
+  gap: 10px;
+}
+
+.searchBox input {
+  flex: 1;
+}
+
+.searchBox button {
+  padding: 10px 12px;
 }
 
 .modal-main.chatsearch {
@@ -50,14 +115,6 @@
   flex-direction: column;
 }
 
-/* .modal-main.chatdelete {
-    width: 30%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column
-  } */
-
 .display-block {
   display: block;
 }
@@ -72,29 +129,32 @@
 }
 
 .createChat {
-  margin-top: 7vh;
-  margin-left: 7vw;
-  justify-content: center;
-  align-items: center;
+  margin-top: 20px;
   display: flex;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
 }
 
 .createChatInput {
-  width: 20vw;
-  margin-right: 1vw;
+  /* width: 20vw;
+  margin-right: 1vw; */
+
+  width: 400px;
+  margin-right: 10px;
 }
 
 .searchChat {
-  margin-top: 7vh;
-  margin-left: 7vw;
+  /* margin-top: 7vh;
+  margin-left: 7vw; */
   justify-content: center;
   align-items: center;
   display: flex;
 }
 
-.searchChatInput {
+/* .searchChatInput {
   width: 20vw;
-}
+} */
 
 .searchIcon {
   color: black;
@@ -103,7 +163,7 @@
 
 /********************** SEARCH RESULT SCROLL BAR *********************/
 .searchResult {
-  margin-top: 5px;
+  /* margin-top: 5px;
   width: 20vw;
   height: 30vh;
   background-color: white;
@@ -111,7 +171,19 @@
   overflow: hidden;
   overflow-y: auto;
   align-items: center;
-  margin-left: 8vw;
+  margin-left: 8vw; */
+  position: absolute;
+  top: 110%; /* just below input */
+  left: 0;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 8px;
+
+  /* background: rgba(255, 255, 255, 0.05); */
+  background: #0f172a; /* matches your app */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .searchResult::-webkit-scrollbar {
@@ -126,29 +198,44 @@
   color: black;
 }
 
-.chatItem p {
+/* .chatItem p {
   margin-left: 10px;
   color: black;
+} */
+
+.chatItem p {
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.chatItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 15px 20px;
+}
+
+.errorText {
+  color: #f87171;
+  font-size: 14px;
 }
 
 a {
   text-decoration: none;
 }
 
-.chatItem:hover {
-  background-color: lightgrey;
-}
-
-/* a {
-  text-decoration: none;
-}
-
-a:hover {
+/* .chatItem:hover {
   background-color: lightgrey;
 } */
 
 /********************** LOGIN/SIGNUP ERROR CHECK MODALS *********************/
 .modal-main.checkloginsignup {
+  position: relative;
   height: 40%;
   width: 30%;
   justify-content: center;
@@ -187,18 +274,64 @@ a:hover {
 }
 
 .modalEditRegister {
-  text-align: center;
+  /* text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /* background-color: #051254; */
   background-color: #375ab9;
   border-radius: 10px;
   margin: auto;
   width: 30vw;
   height: 23vw;
-  padding: 2vw 1vw;
+  padding: 2vw 1vw; */
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.modalEditRegister input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.modalEditRegister button {
+  /* width: 100%; */
+  width: auto;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* Primary */
+.modalEditRegister .confirmBtn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.modalEditRegister .confirmBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* Secondary */
+.modalEditRegister .cancelBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/********************** DELETE ACCOUNT MODAL *********************/
+
+.accountDelete {
+  background-color: #dc2626;
+  color: white;
+}
+
+.accountDelete:hover {
+  background-color: #b91c1c;
 }
 
 /********************** ERROR CHAT MODAL *********************/
