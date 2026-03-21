@@ -14,7 +14,9 @@ const CharacterLimit = ({ isOpen, handleClose }) => {
       }}>
       <section className="modal-main charlimit">
         <X className="closeIcon" onClick={handleClose} />
-        <h2>Unable to send message. Character limit: 150</h2>
+        <h2 style={{ color: 'white' }}>
+          Unable to send message. Character limit: 150
+        </h2>
         <div>
           <button onClick={handleClose}>Close</button>
         </div>

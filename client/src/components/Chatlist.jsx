@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
+import { FiPlus, FiSearch, FiLogOut, FiTrash2 } from 'react-icons/fi';
 import SearchChatBar from '../modals/ModalSearchChats';
 import CreateChatRoom from '../modals/ModalCreateChat';
 import DeleteChat from '../modals/ModalDeleteChat';
@@ -127,22 +128,31 @@ function Chatlist({ socket }) {
   };
 
   return (
-    <div className="chattexts">
-      <div className="chatInfo">
+    <div className="chatlistcontainer">
+      <div className="chatInfo chatlist">
         <div>
-          <button onClick={toggleCreateChat}>Create Chat Room</button>
+          <button onClick={toggleCreateChat}>
+            <FiPlus /> Create
+          </button>
           <CreateChatRoom
             isOpen={showCreateChatModal}
             handleClose={toggleCreateChat}></CreateChatRoom>
 
-          <button onClick={toggleSearchChat}>Search Chat</button>
+          <button onClick={toggleSearchChat}>
+            <FiSearch /> Search
+          </button>
           <SearchChatBar
             isOpen={showSearchModal}
             handleClose={toggleSearchChat}></SearchChatBar>
         </div>
         <div>
-          <button disabled={activate_leave_chat} onClick={toggleLeaveChat}>
-            Leave
+          <button
+            disabled={activate_leave_chat}
+            onClick={toggleLeaveChat}
+            className={`btn leave ${
+              activate_leave_chat ? 'disabled' : 'active'
+            }`}>
+            <FiLogOut /> Leave
           </button>
           <LeaveChat
             isOpen={showLeaveModal}
@@ -152,8 +162,13 @@ function Chatlist({ socket }) {
             setChatName={setCurrentChatName}
             setLeave={setLeaveButton}></LeaveChat>
 
-          <button disabled={activate_delete_chat} onClick={toggleDeleteChat}>
-            Delete
+          <button
+            disabled={activate_delete_chat}
+            onClick={toggleDeleteChat}
+            className={`btn delete ${
+              activate_delete_chat ? 'disabled' : 'active'
+            }`}>
+            <FiTrash2 /> Delete
           </button>
           <DeleteChat
             isOpen={showDeleteModal}

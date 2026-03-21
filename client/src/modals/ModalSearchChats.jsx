@@ -192,25 +192,20 @@ function SearchChatBar({ isOpen, handleClose }) {
         }
       }}>
       <section className="modal-main chatsearch">
-        <div className="search">
+        <div className="modal-header">
+          <h2>Search Chat</h2>
           <X className="closeIcon" onClick={closeModal} />
-          <h2 style={{ color: 'black' }}>Search Chat</h2>
-          <div className="searchChat">
+        </div>
+        <div className="modal-body">
+          <div className="searchBox">
             <input
-              className="searchChatInput"
               type="text"
               placeholder="Search for chat channel..."
               value={search_input}
               onChange={handleSearchChat}
             />
-            <div>
-              <Search className="searchIcon" onClick={searchChatResults} />
-            </div>
-            <button type="button" onClick={joinHandle}>
-              Join
-            </button>
-            <button type="button" onClick={closeModal}>
-              Cancel
+            <button onClick={searchChatResults}>
+              <Search size={18} />
             </button>
           </div>
           {search_list.length !== 0 && (
@@ -233,7 +228,16 @@ function SearchChatBar({ isOpen, handleClose }) {
               })}
             </div>
           )}
-          <div>{error && <p style={{ color: 'black' }}>{error}</p>}</div>
+
+          {error && <p className="errorText">{error}</p>}
+        </div>
+        <div className="modal-footer">
+          <button className="cancelBtn" onClick={closeModal}>
+            Cancel
+          </button>
+          <button className="confirmBtn" onClick={joinHandle}>
+            Join
+          </button>
         </div>
       </section>
     </div>

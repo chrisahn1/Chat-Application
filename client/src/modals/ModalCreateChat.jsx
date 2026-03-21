@@ -164,9 +164,11 @@ function CreateChatRoom({ isOpen, handleClose }) {
         }
       }}>
       <section className="modal-main chatcreate">
-        <div className="search">
+        <div className="modal-header">
           <X className="closeIcon" onClick={closeModal} />
-          <h2 style={{ color: 'black' }}>Create Chat</h2>
+          <h2 style={{ color: 'white' }}>Create Chat</h2>
+        </div>
+        <div className="modal-body">
           <div className="createChat">
             <input
               className="createChatInput"
@@ -182,7 +184,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
               Cancel
             </button>
           </div>
-          <div>{error && <p style={{ color: 'black' }}>{error}</p>}</div>
+          {error && <p style={{ color: 'white' }}>{error}</p>}
         </div>
       </section>
     </div>

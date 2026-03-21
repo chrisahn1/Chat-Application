@@ -136,8 +136,11 @@ function Chatdisplay({ socket }) {
 
         if (response === true) {
           // get userid
-          const time = new Date();
-
+          // const time = new Date();
+          const formattedTime = new Date().toLocaleTimeString([], {
+            timeStyle: 'short',
+          });
+          // time: time.toLocaleTimeString(),
           const messageData = {
             value: {
               authorID: currentUserID,
@@ -146,7 +149,7 @@ function Chatdisplay({ socket }) {
               month: new Date(Date.now()).getMonth(),
               day: new Date(Date.now()).getDate(),
               year: new Date(Date.now()).getFullYear(),
-              time: time.toLocaleTimeString(),
+              time: formattedTime,
               chatid: data.id,
             },
           };
@@ -195,8 +198,8 @@ function Chatdisplay({ socket }) {
 
   return (
     <div className="chatDisplay">
-      <div className="chatInfo">
-        <div>
+      <div className="chatInfo chatdisplay">
+        <div className="chatroomname">
           <h2>{data.chat.channelname}</h2>
         </div>
         <div>

@@ -77,7 +77,7 @@ function Home() {
           required
         />
         <label style={{ padding: '1.5vh' }}>Password:</label>
-        <div style={{ display: 'flex' }}>
+        <div style={{ width: '100%', padding: '1.5vh', display: 'flex' }}>
           <input
             className="registerInput password"
             type={showPassword ? 'text' : 'password'}
@@ -94,13 +94,15 @@ function Home() {
             )}
           </button>
         </div>
-        <button className="submitButton" type="submit">
-          Login
-        </button>
+        <div className="loginsignupsection">
+          <button className="submitButton" type="submit">
+            Login
+          </button>
+          <button className="submitButton" onClick={() => navigate('/signup')}>
+            Signup
+          </button>
+        </div>
         <label>Need and Account? Click on Signup!</label>
-        <button className="submitButton" onClick={() => navigate('/signup')}>
-          Signup
-        </button>
       </form>
       <div>
         <LoginCheck

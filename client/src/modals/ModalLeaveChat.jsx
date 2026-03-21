@@ -86,7 +86,7 @@ function LeaveChat({
       }}>
       <section className="modal-main chatleave">
         <X className="closeIcon" onClick={handleClose} />
-        <h3 style={{ color: 'black' }}>Leaving {chatname}. Are you sure?</h3>
+        <h3 style={{ color: 'white' }}>Leaving {chatname}. Are you sure?</h3>
         <div>
           <button type="button" onClick={leaveChatHandle}>
             Confirm

@@ -14,7 +14,7 @@ const ErrorChat = ({ isOpen, handleClose }) => {
       }}>
       <section className="modal-main errorchat">
         <X className="closeIcon" onClick={handleClose} />
-        <h2>Chat does not exist</h2>
+        <h2 style={{ color: 'white' }}>Chat does not exist</h2>
         <div>
           <button onClick={handleClose}>Close</button>
         </div>

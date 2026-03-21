@@ -77,8 +77,32 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
         }
       }}>
       <section className="modal-main accountedit usernamechange">
-        <X className="closeIcon" onClick={closeModal} />
-        <h3>Update Username</h3>
+        <div className="modal-header">
+          <h3 style={{ color: 'white' }}>Update Username</h3>
+          <X className="closeIcon" onClick={closeModal} />
+        </div>
+        <div className="modal-body">
+          <form className="modalEditRegister" onSubmit={usernameChange}>
+            <label style={{ padding: '1.5vh' }}>Enter New Username: </label>
+            <input
+              className="registerInput"
+              type="text"
+              value={new_username_input}
+              placeholder="New Username"
+              onChange={handleUsernameChange}
+            />
+            <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
+            <button className="submitButton" type="submit">
+              Confirm
+            </button>
+            <button type="button" onClick={closeModal}>
+              Cancel
+            </button>
+          </form>
+        </div>
+
+        {/* <X className="closeIcon" onClick={closeModal} />
+        <h3 style={{ color: 'white' }}>Update Username</h3>
         <form className="modalEditRegister" onSubmit={usernameChange}>
           <label style={{ padding: '1.5vh' }}>Enter New Username: </label>
           <input
@@ -95,7 +119,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
         </form>
         <button type="button" onClick={closeModal}>
           Cancel
-        </button>
+        </button> */}
       </section>
     </div>
   );
@@ -186,33 +210,41 @@ const UpdateUserEmail = ({ isOpen, handleClose }) => {
         }
       }}>
       <section className="modal-main accountedit emailchange">
-        <X className="closeIcon" onClick={closeModal} />
-        <h3>Update Email</h3>
-        <form className="modalEditRegister" onSubmit={userEmailChange}>
-          <label style={{ padding: '1.5vh' }}>Enter current email: </label>
-          <input
-            className="registerInput"
-            type="email"
-            value={current_email_input}
-            onChange={handleCurrentEmail}
-            required
-          />
-          <label style={{ padding: '1.5vh' }}> Enter new email: </label>
-          <input
-            className="registerInput"
-            type="email"
-            value={new_email_input}
-            onChange={handleNewEmail}
-            required
-          />
-          <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
-          <button className="submitButton" type="submit">
-            Confirm
-          </button>
-        </form>
-        <button type="button" onClick={closeModal}>
-          Cancel
-        </button>
+        <div className="modal-header">
+          <X className="closeIcon" onClick={closeModal} />
+          <h3 style={{ color: 'white' }}>Update Email</h3>
+        </div>
+        <div className="modal-body">
+          <form className="modalEditRegister" onSubmit={userEmailChange}>
+            <div>
+              <label style={{ padding: '1vh' }}>Enter current email: </label>
+              <input
+                className="registerInput"
+                type="email"
+                value={current_email_input}
+                onChange={handleCurrentEmail}
+                required
+              />
+            </div>
+            <div>
+              <label style={{ padding: '1vh' }}> Enter new email: </label>
+              <input
+                className="registerInput"
+                type="email"
+                value={new_email_input}
+                onChange={handleNewEmail}
+                required
+              />
+            </div>
+            <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
+            <button className="submitButton" type="submit">
+              Confirm
+            </button>
+            <button type="button" onClick={closeModal}>
+              Cancel
+            </button>
+          </form>
+        </div>
       </section>
     </div>
   );
@@ -356,7 +388,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       }}>
       <section className="modal-main accountedit emailchange">
         <X className="closeIcon" onClick={closeModal} />
-        <h3>Update Password</h3>
+        <h3 style={{ color: 'white' }}>Update Password</h3>
         <form className="modalEditRegister" onSubmit={userPasswordChange}>
           <label style={{ padding: '1.5vh' }}>Enter current password: </label>
           <div style={{ display: 'flex' }}>
@@ -410,10 +442,13 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
           <button className="submitButton" type="submit">
             Confirm
           </button>
+          <button type="button" onClick={closeModal}>
+            Cancel
+          </button>
         </form>
-        <button type="button" onClick={closeModal}>
+        {/* <button type="button" onClick={closeModal}>
           Cancel
-        </button>
+        </button> */}
       </section>
     </div>
   );

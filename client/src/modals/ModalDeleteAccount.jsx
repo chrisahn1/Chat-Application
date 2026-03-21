@@ -109,9 +109,9 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
       }}>
       <section className="modal-main accountdelete">
         <X className="closeIcon" onClick={handleClose} />
-        <h2>Deleting Account. Are you sure?</h2>
+        <h2 style={{ color: 'white' }}>Deleting Account. Are you sure?</h2>
         <div>
-          <button type="button" onClick={deleteUser}>
+          <button className="accountDelete" type="button" onClick={deleteUser}>
             Delete
           </button>
           <button type="button" onClick={handleClose}>

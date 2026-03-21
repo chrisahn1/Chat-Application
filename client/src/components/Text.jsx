@@ -34,13 +34,14 @@ const Text = ({ text }) => {
         <p className="usertext">{text.value.message}</p>
         <div>
           <span className="dateDisplay">
-            {text.value.month +
+            {/* {text.value.month +
               '/' +
               text.value.day +
               '/' +
               text.value.year +
               ' - ' +
-              text.value.time}
+              text.value.time} */}
+            {text.value.time}
           </span>
         </div>
       </div>

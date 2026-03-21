@@ -14,7 +14,9 @@ const LoginCheck = ({ isOpen, handleClose }) => {
       }}>
       <section className="modal-main checkloginsignup">
         <X className="closeIcon" onClick={handleClose} />
-        <h2>Incorrect email or password. Please try again</h2>
+        <h2 style={{ color: 'white' }}>
+          Incorrect email or password. Please try again
+        </h2>
         <button onClick={handleClose}>Close</button>
       </section>
     </div>
