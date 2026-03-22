@@ -80,8 +80,6 @@
   margin: 10px;
   background-color: #0c215b;
   border-radius: 10px;
-
-  /* width: 60vh; */
   width: 100%;
 }
 
@@ -108,11 +106,6 @@ button:hover {
   object-fit: cover;
   background-color: #27438e;
 }
-
-/* .submitButton {
-  width: 50px;
-  font-size: 15px;
-} */
 
 .editAccountButton {
   padding: 1.5vh 3vw;
@@ -350,8 +343,6 @@ p {
 .messageinput {
   height: 60px;
   background-color: #1e293b;
-
-  /* padding: 10px; */
   padding: 1vh;
   display: flex;
   align-items: center;

@@ -6,7 +6,7 @@
   height: 100%;
   opacity: 0;
   animation: fadeIn 0.25s ease forwards;
-  background: rgba(0, 0, 0, 0.4); /* was 0.6 */
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(6px);
 }
 
@@ -28,8 +28,6 @@
   padding: 0.5vw;
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
-
-  /* margin-left: 45vw; */
 }
 
 .closeIcon:hover {
@@ -38,17 +36,6 @@
 }
 
 .modal-main {
-  /* position: fixed;
-  background: whitesmoke;
-  width: 60%;
-  height: 30%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
-  opacity: 0;
-  display: flex;
-  border-radius: 10px;
-  animation: modalPop 0.25s ease forwards; */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -94,14 +81,11 @@
 }
 
 .modal-main.chatsearch {
-  /* width: 40%; */
   width: 42vw;
 }
 
 .modal-main.chatcreate {
   width: 45%;
-
-  /* align-items: center; */
   justify-content: center;
 }
 
@@ -137,24 +121,15 @@
 }
 
 .createChatInput {
-  /* width: 20vw;
-  margin-right: 1vw; */
-
   width: 400px;
   margin-right: 10px;
 }
 
 .searchChat {
-  /* margin-top: 7vh;
-  margin-left: 7vw; */
   justify-content: center;
   align-items: center;
   display: flex;
 }
-
-/* .searchChatInput {
-  width: 20vw;
-} */
 
 .searchIcon {
   color: black;
@@ -163,15 +138,6 @@
 
 /********************** SEARCH RESULT SCROLL BAR *********************/
 .searchResult {
-  /* margin-top: 5px;
-  width: 20vw;
-  height: 30vh;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-  overflow: hidden;
-  overflow-y: auto;
-  align-items: center;
-  margin-left: 8vw; */
   position: absolute;
   top: 110%; /* just below input */
   left: 0;
@@ -180,9 +146,7 @@
   max-height: 200px;
   overflow-y: auto;
   border-radius: 8px;
-
-  /* background: rgba(255, 255, 255, 0.05); */
-  background: #0f172a; /* matches your app */
+  background: #0f172a;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -197,11 +161,6 @@
   align-items: center;
   color: black;
 }
-
-/* .chatItem p {
-  margin-left: 10px;
-  color: black;
-} */
 
 .chatItem p {
   padding: 12px;
@@ -228,10 +187,6 @@
 a {
   text-decoration: none;
 }
-
-/* .chatItem:hover {
-  background-color: lightgrey;
-} */
 
 /********************** LOGIN/SIGNUP ERROR CHECK MODALS *********************/
 .modal-main.checkloginsignup {
@@ -274,17 +229,6 @@ a {
 }
 
 .modalEditRegister {
-  /* text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #375ab9;
-  border-radius: 10px;
-  margin: auto;
-  width: 30vw;
-  height: 23vw;
-  padding: 2vw 1vw; */
-
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: white;
