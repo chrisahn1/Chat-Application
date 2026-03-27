@@ -65,7 +65,7 @@ app.use(
     origin: [
       'http://localhost:3000',
       'https://chatapplivedemo.com',
-      'https://your-vercel-app.vercel.app',
+      'https://chatapplivedemo-vercel.vercel.app',
     ], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
@@ -697,7 +697,7 @@ const io = new Server(server, {
     origin: [
       'http://localhost:3000',
       'https://chatapplivedemo.com',
-      'https://your-vercel-app.vercel.app',
+      'https://chatapplivedemo-vercel.vercel.app',
     ], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
