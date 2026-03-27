@@ -835,6 +835,11 @@ server.listen(process.env.PORT, () => {
 //     "preview": "vite preview"
 //   },
 
+// "start": "react-scripts start",
+//     "build": "react-scripts build",
+//     "test": "react-scripts test",
+//     "eject": "react-scripts eject"
+
 //server packagejson scripts (original)
 // "scripts": {
 //     "start": "tsx server.ts",
@@ -844,3 +849,28 @@ server.listen(process.env.PORT, () => {
 
 //TESTING FOR PSQL IF CHAT_DB EXISTS AT AWS CONSOLE
 //psql "postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db"
+
+// "dev": "vite",
+// "build": "vite build",
+// "preview": "vite preview",
+// "client": "npm start --prefix client",
+// "server": "npm start --prefix server",
+// "start": "NODE_ENV=production npm run dev",
+// // "build": "npm run build --prefix client",
+// "db:import": "sh database/import.sh",
+// "dev:client": "npm run dev --prefix client",
+// "dev:server": "npm run dev --prefix server",
+// // "dev": "concurrently \"npm run server\" \"npm run client\"",
+// "install:client": "npm install --prefix client",
+// "install:server": "npm install --prefix server",
+// "install:env": "test -f server/.env || cp server/.env.example server/.env",
+// "postinstall": "npm-run-all --parallel install:*",
+// "lint:client": "npm run lint --prefix client",
+// "lint:server": "npm run lint --prefix server",
+// "lint": "npm-run-all --parallel lint:*",
+// "psql": ". server/.env && psql $DATABASE_URL",
+// "tsc:client": "tsc --project client",
+// "tsc:server": "tsc --project server",
+// "tsc": "npm-run-all --continue-on-error tsc:*",
+// "prepare": "husky install",
+// "deploy": "git push --force origin main:pub"
