@@ -36,6 +36,22 @@ app.use(express.static(reactStaticDir));
 
 //*************************************************************************************** */
 
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
+// app.use(cookieParser());
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+//   })
+// );
+
+//************************************************************************************** */
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -46,7 +62,11 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+    origin: [
+      'http://localhost:3000',
+      'https://chatapplivedemo.com',
+      'https://your-vercel-app.vercel.app',
+    ], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
 
@@ -97,6 +117,7 @@ app.post('/users/login', async (req, res) => {
           .cookie('refresh_token', refresh_token, {
             secure: true,
             httpOnly: true,
+            sameSite: 'None',
             path: '/',
           })
           .json({ access_token });
@@ -139,8 +160,7 @@ function authToken(req, res, next) {
 
 // *****************generate access token*********************
 function generateAccessToken(payload) {
-  // return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15s' });
-  return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '10s' });
+  return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15s' });
 }
 // *****************generate refresh token*********************
 function generateRefreshToken(payload) {
@@ -167,6 +187,7 @@ app.post('/users/refresh', async (req, res) => {
         .cookie('refresh_token', refresh_token, {
           secure: true,
           httpOnly: true,
+          sameSite: 'None',
           path: '/',
         })
         .json({ access_token });
@@ -662,10 +683,22 @@ const server = http.createServer(app);
 //   },
 // });
 
+// const io = new Server(server, {
+//   cors: {
+//     credentials: true,
+//     origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+//     methods: ['GET', 'POST'],
+//   },
+// });
+
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
+    origin: [
+      'http://localhost:3000',
+      'https://chatapplivedemo.com',
+      'https://your-vercel-app.vercel.app',
+    ], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });
