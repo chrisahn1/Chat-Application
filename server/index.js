@@ -751,8 +751,12 @@ io.on('connection', (socket) => {
 //   console.log('SERVER RUNNING 3001');
 // });
 
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(reactStaticDir, 'index.html'));
+// });
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(reactStaticDir, 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 });
 
 server.listen(process.env.PORT, () => {
@@ -850,6 +854,29 @@ server.listen(process.env.PORT, () => {
 //TESTING FOR PSQL IF CHAT_DB EXISTS AT AWS CONSOLE
 //psql "postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db"
 
+// "dev": "concurrently \"npm run server\" \"npm run client\"",
+// "build": "npm run build --prefix client",
+// "preview": "vite preview",
+// "client": "npm start --prefix client",
+// "server": "npm start --prefix server",
+// "start": "NODE_ENV=production npm run dev",
+// "db:import": "sh database/import.sh",
+// "dev:client": "npm run dev --prefix client",
+// "dev:server": "npm run dev --prefix server",
+// "install:client": "npm install --prefix client",
+// "install:server": "npm install --prefix server",
+// "install:env": "test -f server/.env || cp server/.env.example server/.env",
+// "postinstall": "npm-run-all --parallel install:*",
+// "lint:client": "npm run lint --prefix client",
+// "lint:server": "npm run lint --prefix server",
+// "lint": "npm-run-all --parallel lint:*",
+// "psql": ". server/.env && psql $DATABASE_URL",
+// "tsc:client": "tsc --project client",
+// "tsc:server": "tsc --project server",
+// "tsc": "npm-run-all --continue-on-error tsc:*",
+// "prepare": "husky install",
+// "deploy": "git push --force origin main:pub"
+
 // "dev": "vite",
 // "build": "vite build",
 // "preview": "vite preview",
@@ -874,3 +901,28 @@ server.listen(process.env.PORT, () => {
 // "tsc": "npm-run-all --continue-on-error tsc:*",
 // "prepare": "husky install",
 // "deploy": "git push --force origin main:pub"
+
+// "scripts": {
+//     "dev": "vite",
+//     "build": "vite build",
+//     "preview": "vite preview",
+//     "client": "npm start --prefix client",
+//     "server": "npm start --prefix server",
+//     "start": "NODE_ENV=production npm run dev",
+//     "db:import": "sh database/import.sh",
+//     "dev:client": "npm run dev --prefix client",
+//     "dev:server": "npm run dev --prefix server",
+//     "install:client": "npm install --prefix client",
+//     "install:server": "npm install --prefix server",
+//     "install:env": "test -f server/.env || cp server/.env.example server/.env",
+//     "postinstall": "npm-run-all --parallel install:*",
+//     "lint:client": "npm run lint --prefix client",
+//     "lint:server": "npm run lint --prefix server",
+//     "lint": "npm-run-all --parallel lint:*",
+//     "psql": ". server/.env && psql $DATABASE_URL",
+//     "tsc:client": "tsc --project client",
+//     "tsc:server": "tsc --project server",
+//     "tsc": "npm-run-all --continue-on-error tsc:*",
+//     "prepare": "husky install",
+//     "deploy": "git push --force origin main:pub"
+//   },

@@ -5,8 +5,8 @@
   "description": "A full stack TypeScript solo project.",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "build": "npm run build --prefix client",
     "preview": "vite preview",
     "client": "npm start --prefix client",
     "server": "npm start --prefix server",
