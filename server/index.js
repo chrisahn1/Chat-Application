@@ -62,13 +62,14 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: [
-      'http://localhost:3000',
-      'https://chatapplivedemo.com',
-      'https://chat-application-eight-navy.vercel.app',
-    ], //http://localhost:3000 https://chatapplivedemo.com
+    origin: ['https://chat-application-eight-navy.vercel.app'], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
+// [
+//   'http://localhost:3000',
+//   'https://chatapplivedemo.com',
+//   'https://chat-application-eight-navy.vercel.app',
+// ];
 // https://chatapplivedemo-vercel.vercel.app
 //************************************************************************************** */
 app.use(express.json());
@@ -160,7 +161,7 @@ function authToken(req, res, next) {
 
 // *****************generate access token*********************
 function generateAccessToken(payload) {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15s' });
+  return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15m' });
 }
 // *****************generate refresh token*********************
 function generateRefreshToken(payload) {
@@ -694,14 +695,16 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: [
-      'http://localhost:3000',
-      'https://chatapplivedemo.com',
-      'https://chat-application-eight-navy.vercel.app',
-    ], //http://localhost:3000 https://chatapplivedemo.com
+    origin: ['https://chat-application-eight-navy.vercel.app'], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });
+
+// [
+//   'http://localhost:3000',
+//   'https://chatapplivedemo.com',
+//   'https://chat-application-eight-navy.vercel.app',
+// ];
 
 io.on('connection', (socket) => {
   console.log(`User Connected: ${socket.id}`);
