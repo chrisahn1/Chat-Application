@@ -145,12 +145,12 @@ function authToken(req, res, next) {
   const token = req.headers.authorization;
 
   if (token === null) {
-    return res.status(401).send('You need a token');
+    return res.status(401).send({ error: 'You need a token' });
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, payload) => {
     if (err) {
-      return res.status(403).send('Failed authentication');
+      return res.status(403).send({ error: 'Failed authentication' });
     }
 
     req.payload = payload;
