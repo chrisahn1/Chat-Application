@@ -854,6 +854,7 @@ server.listen(process.env.PORT, () => {
 //TESTING FOR PSQL IF CHAT_DB EXISTS AT AWS CONSOLE
 //psql "postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db"
 
+//PACKAGEJSON ROOT CHANGES
 // "dev": "concurrently \"npm run server\" \"npm run client\"",
 // "build": "npm run build --prefix client",
 // "preview": "vite preview",
