@@ -65,13 +65,13 @@ app.use(
     origin: [
       'http://localhost:3000',
       'https://chatapplivedemo.com',
-      'https://chatapplivedemo-vercel.vercel.app',
+      'https://chat-application-eight-navy.vercel.app',
     ], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
-
+// https://chatapplivedemo-vercel.vercel.app
 //************************************************************************************** */
-app.use(express.json());
+https: app.use(express.json());
 
 //ROUTES//
 // ***************************************************************************************
@@ -697,7 +697,7 @@ const io = new Server(server, {
     origin: [
       'http://localhost:3000',
       'https://chatapplivedemo.com',
-      'https://chatapplivedemo-vercel.vercel.app',
+      'https://chat-application-eight-navy.vercel.app',
     ], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
