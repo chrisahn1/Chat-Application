@@ -33,7 +33,8 @@ export const AuthContextProvider = ({ children }) => {
       //https://chatapplivedemo.com
       //http://localhost:8080
       const username = await fetch(`${url}/users/username`, {
-        headers: { authorization: accessToken },
+        // headers: { authorization: accessToken },
+        headers: { Authorization: `Bearer ${accessToken}` },
         credentials: 'include',
       })
         .then((response) => response.json())
@@ -47,7 +48,8 @@ export const AuthContextProvider = ({ children }) => {
 
     const setUserID = async () => {
       const userID = await fetch(`${url}/users/userid`, {
-        headers: { authorization: accessToken },
+        // headers: { authorization: accessToken },
+        headers: { Authorization: `Bearer ${accessToken}` },
         credentials: 'include',
       })
         .then((response) => response.json())
@@ -94,7 +96,8 @@ export const AuthContextProvider = ({ children }) => {
           const refresh = await refresh_token();
           const data = await refresh.json();
           setAccessToken(data.access_token);
-          const decodedToken = jwtDecode(accessToken);
+          // const decodedToken = jwtDecode(accessToken);
+          const decodedToken = jwtDecode(data.access_token);
           setTokenExp(decodedToken.exp);
           setTimeInterval(true);
           setMessageTexts([]);
@@ -117,7 +120,8 @@ export const AuthContextProvider = ({ children }) => {
       if (refresh.status === 200) {
         const data = await refresh.json();
         setAccessToken(data.access_token);
-        const decodedToken = jwtDecode(accessToken);
+        // const decodedToken = jwtDecode(accessToken);
+        const decodedToken = jwtDecode(data.access_token);
         setTokenExp(decodedToken.exp);
         // console.log('new access token: ', accessToken);
       } else {

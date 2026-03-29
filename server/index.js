@@ -62,9 +62,10 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: ['https://chat-application-eight-navy.vercel.app'], //http://localhost:3000 https://chatapplivedemo.com
+    origin: 'https://chat-application-eight-navy.vercel.app', //http://localhost:3000 https://chatapplivedemo.com
   })
 );
+
 // [
 //   'http://localhost:3000',
 //   'https://chatapplivedemo.com',
@@ -72,7 +73,7 @@ app.use(
 // ];
 // https://chatapplivedemo-vercel.vercel.app
 //************************************************************************************** */
-app.use(express.json());
+https: app.use(express.json());
 
 //ROUTES//
 // ***************************************************************************************
@@ -695,7 +696,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: ['https://chat-application-eight-navy.vercel.app'], //http://localhost:3000 https://chatapplivedemo.com
+    origin: 'https://chat-application-eight-navy.vercel.app', //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });

@@ -6,8 +6,8 @@ import { url } from '../configURL/configURL';
 // const socket = io.connect(`${url}`);
 const socket = io(url, {
   withCredentials: true,
-  transports: ['websocket'], // avoids polling issues on Render
-  secure: true,
+  transports: ['polling', 'websocket'], // avoids polling issues on Render
+  // secure: true,
 });
 //https://chatapplivedemo.com
 //http://localhost:8080
