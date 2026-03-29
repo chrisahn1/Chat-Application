@@ -187,7 +187,7 @@ app.post('/users/refresh', async (req, res) => {
       res
         .status(200)
         .cookie('refresh_token', refresh_token, {
-          secure: true,
+          // secure: true,
           httpOnly: true,
           sameSite: 'None',
           path: '/',

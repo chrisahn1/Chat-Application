@@ -29,6 +29,8 @@ export const AuthContextProvider = ({ children }) => {
   const [tokenExp, setTokenExp] = useState(null);
 
   useEffect(() => {
+    if (!accessToken) return;
+
     const setUser = async () => {
       //https://chatapplivedemo.com
       //http://localhost:8080
