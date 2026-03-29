@@ -66,6 +66,24 @@ app.use(
   })
 );
 
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: [
+//       'http://localhost:3000',
+//       'https://chatapplivedemo.com',
+//       'https://chat-application-eight-navy.vercel.app',
+//     ], //http://localhost:3000 https://chatapplivedemo.com
+//   })
+// );
+
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: 'http://localhost:3000', //http://localhost:3000 https://chatapplivedemo.com
+//   })
+// );
+
 // [
 //   'http://localhost:3000',
 //   'https://chatapplivedemo.com',
@@ -73,7 +91,7 @@ app.use(
 // ];
 // https://chatapplivedemo-vercel.vercel.app
 //************************************************************************************** */
-https: app.use(express.json());
+app.use(express.json());
 
 //ROUTES//
 // ***************************************************************************************
@@ -147,12 +165,14 @@ function authToken(req, res, next) {
   const token = req.headers.authorization;
 
   if (token === null) {
-    return res.status(401).send({ error: 'You need a token' });
+    // return res.status(401).send({ error: 'You need a token' });
+    return res.status(401).send('You need a token');
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, payload) => {
     if (err) {
-      return res.status(403).send({ error: 'Failed authentication' });
+      // return res.status(403).send({ error: 'Failed authentication' });
+      return res.status(403).send('Failed authentication');
     }
 
     req.payload = payload;
@@ -175,19 +195,21 @@ app.post('/users/refresh', async (req, res) => {
     const token = req.cookies.refresh_token;
 
     if (!token) {
-      return res.status(401).json({ error: 'Token not found' });
+      // return res.status(401).json({ error: 'Token not found' });
+      return res.status(401).json('Token not found');
     }
 
     jwt.verify(token, process.env.REFRESH_TOKEN, (err, payload) => {
       if (err) {
-        return res.status(403).json({ error: 'Invalid or expired token' });
+        // return res.status(403).json({ error: 'Invalid or expired token' });
+        return res.status(403).json('Invalid or expired token');
       }
       const access_token = generateAccessToken({ id: payload.id });
       const refresh_token = generateRefreshToken({ id: payload.id });
       res
         .status(200)
         .cookie('refresh_token', refresh_token, {
-          // secure: true,
+          secure: true,
           httpOnly: true,
           sameSite: 'None',
           path: '/',
@@ -205,7 +227,8 @@ app.post('/users/verify', async (req, res) => {
     const token = req.cookies.refresh_token;
 
     if (!token) {
-      return res.status(401).json({ error: 'Cookie not found' });
+      // return res.status(401).json({ error: 'Cookie not found' });
+      return res.status(401).json('Cookie not found');
     } else {
       return res.status(200).json('Cookie found');
     }
@@ -701,6 +724,18 @@ const io = new Server(server, {
   },
 });
 
+// const io = new Server(server, {
+//   cors: {
+//     credentials: true,
+//     origin: [
+//       'http://localhost:3000',
+//       'https://chatapplivedemo.com',
+//       'https://chat-application-eight-navy.vercel.app',
+//     ], //http://localhost:3000 https://chatapplivedemo.com
+//     methods: ['GET', 'POST'],
+//   },
+// });
+
 // [
 //   'http://localhost:3000',
 //   'https://chatapplivedemo.com',
@@ -843,10 +878,16 @@ server.listen(process.env.PORT, () => {
 //     "preview": "vite preview"
 //   },
 
+//LOCALHOST AND AWS DOMAIN
 // "start": "react-scripts start",
 //     "build": "react-scripts build",
 //     "test": "react-scripts test",
 //     "eject": "react-scripts eject"
+
+//VERCEL
+// "dev": "vite",
+// "build": "vite build",
+// "preview": "vite preview",
 
 //server packagejson scripts (original)
 // "scripts": {
@@ -859,6 +900,8 @@ server.listen(process.env.PORT, () => {
 //psql "postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db"
 
 //PACKAGEJSON ROOT CHANGES
+
+//LOCALHOST AND AWS DOMAIN
 // "dev": "concurrently \"npm run server\" \"npm run client\"",
 // "build": "npm run build --prefix client",
 // "preview": "vite preview",
@@ -910,6 +953,32 @@ server.listen(process.env.PORT, () => {
 // "scripts": {
 //     "dev": "vite",
 //     "build": "vite build",
+//     "preview": "vite preview",
+//     "client": "npm start --prefix client",
+//     "server": "npm start --prefix server",
+//     "start": "NODE_ENV=production npm run dev",
+//     "db:import": "sh database/import.sh",
+//     "dev:client": "npm run dev --prefix client",
+//     "dev:server": "npm run dev --prefix server",
+//     "install:client": "npm install --prefix client",
+//     "install:server": "npm install --prefix server",
+//     "install:env": "test -f server/.env || cp server/.env.example server/.env",
+//     "postinstall": "npm-run-all --parallel install:*",
+//     "lint:client": "npm run lint --prefix client",
+//     "lint:server": "npm run lint --prefix server",
+//     "lint": "npm-run-all --parallel lint:*",
+//     "psql": ". server/.env && psql $DATABASE_URL",
+//     "tsc:client": "tsc --project client",
+//     "tsc:server": "tsc --project server",
+//     "tsc": "npm-run-all --continue-on-error tsc:*",
+//     "prepare": "husky install",
+//     "deploy": "git push --force origin main:pub"
+//   },
+
+//VERCEL
+// "scripts": {
+//     "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+//     "build": "npm run build --prefix client",
 //     "preview": "vite preview",
 //     "client": "npm start --prefix client",
 //     "server": "npm start --prefix server",
