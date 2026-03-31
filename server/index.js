@@ -62,7 +62,10 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: 'https://chat-application-eight-navy.vercel.app', //http://localhost:3000 https://chatapplivedemo.com
+    origin: [
+      'http://localhost:3000',
+      'https://chat-application-eight-navy.vercel.app',
+    ], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
 
@@ -152,7 +155,12 @@ app.post('/users/login', async (req, res) => {
 
 app.delete('/users/logout', async (req, res) => {
   try {
-    res.clearCookie('refresh_token', { path: '/' });
+    res.clearCookie('refresh_token', {
+      secure: true,
+      httpOnly: true,
+      sameSite: 'None',
+      path: '/',
+    });
     res.status(200).json('token deleted.');
   } catch (error) {
     console.log(error.message);
@@ -719,7 +727,10 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'https://chat-application-eight-navy.vercel.app', //http://localhost:3000 https://chatapplivedemo.com
+    origin: [
+      'http://localhost:3000',
+      'https://chat-application-eight-navy.vercel.app',
+    ], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });
