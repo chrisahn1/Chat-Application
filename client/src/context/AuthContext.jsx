@@ -98,6 +98,7 @@ export const AuthContextProvider = ({ children }) => {
           const refresh = await refresh_token();
           const data = await refresh.json();
           setAccessToken(data.access_token);
+          console.log('data.access_token: ', data.access_token);
           // const decodedToken = jwtDecode(accessToken);
           const decodedToken = jwtDecode(data.access_token);
           setTokenExp(decodedToken.exp);
