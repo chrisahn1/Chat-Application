@@ -113,6 +113,7 @@ export const AuthContextProvider = ({ children }) => {
     refreshToken();
   }, [accessToken, setMessageTexts]); //navigate
 
+  console.log('accessToken: ', accessToken);
   useEffect(() => {
     if (!isInterval) return;
     const currentTime = Math.floor(Date.now() / 1000);
