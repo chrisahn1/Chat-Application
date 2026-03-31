@@ -98,8 +98,8 @@ export const AuthContextProvider = ({ children }) => {
           const refresh = await refresh_token();
           const data = await refresh.json();
           setAccessToken(data.access_token);
-          const decodedToken = jwtDecode(accessToken);
-          // const decodedToken = jwtDecode(data.access_token);
+          // const decodedToken = jwtDecode(accessToken);
+          const decodedToken = jwtDecode(data.access_token);
           setTokenExp(decodedToken.exp);
           setTimeInterval(true);
           setMessageTexts([]);
@@ -122,8 +122,8 @@ export const AuthContextProvider = ({ children }) => {
       if (refresh.status === 200) {
         const data = await refresh.json();
         setAccessToken(data.access_token);
-        const decodedToken = jwtDecode(accessToken);
-        // const decodedToken = jwtDecode(data.access_token);
+        // const decodedToken = jwtDecode(accessToken);
+        const decodedToken = jwtDecode(data.access_token);
         setTokenExp(decodedToken.exp);
         // console.log('new access token: ', accessToken);
       } else {
