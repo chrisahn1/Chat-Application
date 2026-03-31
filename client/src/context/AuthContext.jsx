@@ -78,14 +78,14 @@ export const AuthContextProvider = ({ children }) => {
         //     console.log('Refresh token failed');
         // }
         if (response.status === 401) {
-          console.log('response: ', response.status);
+          console.log('response 401: ', response.status);
           setIsAuth(false);
           setMessageTexts([]);
           setAccessToken({});
           setCurrentUsername('');
           setCurrentUserID('');
         } else if (response.status === 403) {
-          console.log('response: ', response.status);
+          console.log('response 403: ', response.status);
           setIsAuth(false);
           setMessageTexts([]);
           setAccessToken({});
