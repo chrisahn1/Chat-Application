@@ -64,10 +64,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: [
-      'http://localhost:3000',
-      'https://chat-application-eight-navy.vercel.app',
-    ], //http://localhost:3000 https://chatapplivedemo.com
+    origin: ['http://localhost:3000', 'https://chatapplivedemo.com'], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
 
@@ -729,10 +726,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: [
-      'http://localhost:3000',
-      'https://chat-application-eight-navy.vercel.app',
-    ], //http://localhost:3000 https://chatapplivedemo.com
+    origin: ['http://localhost:3000', 'https://chatapplivedemo.com'], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });
