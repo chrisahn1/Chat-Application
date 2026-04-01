@@ -15,7 +15,7 @@
 
 const config_url =
   import.meta.env.NODE_ENV === 'production'
-    ? 'https://chatapplivedemo.com'
+    ? 'https://chat-application-zx18.onrender.com'
     : 'http://localhost:8080';
 
 export const url = config_url;
