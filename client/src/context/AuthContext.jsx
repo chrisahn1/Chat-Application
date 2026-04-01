@@ -28,6 +28,8 @@ export const AuthContextProvider = ({ children }) => {
   const intervalRef = useRef(null);
   const [tokenExp, setTokenExp] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // if (!accessToken) return;
 
@@ -107,13 +109,16 @@ export const AuthContextProvider = ({ children }) => {
         }
       } catch (err) {
         console.error(err.message);
+      } finally {
+        setIsLoading(false); // ✅ THIS IS KEY
       }
     };
 
     refreshToken();
-  }, [accessToken, setMessageTexts]); //navigate
+  }, []); //navigate
+  //[accessToken, setMessageTexts]
 
-  console.log('accessToken: ', accessToken);
+  // console.log('accessToken: ', accessToken);
   useEffect(() => {
     if (!isInterval) return;
     const currentTime = Math.floor(Date.now() / 1000);
@@ -153,6 +158,7 @@ export const AuthContextProvider = ({ children }) => {
         setIsAuth,
         setTimeInterval,
         setTokenExp,
+        isLoading,
       }}>
       {children}
     </AuthContext.Provider>
