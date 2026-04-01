@@ -65,10 +65,10 @@ app.use(
   cors({
     credentials: true,
     origin: [
-      'http://localhost:3000',
-      'https://chatapplivedemo.com',
+      // 'http://localhost:3000',
+      // 'https://chatapplivedemo.com',
       'https://www.chatapplivedemo.com',
-      'https://chat-application-zx18.onrender.com',
+      // 'https://chat-application-zx18.onrender.com',
     ], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
@@ -732,10 +732,10 @@ const io = new Server(server, {
   cors: {
     credentials: true,
     origin: [
-      'http://localhost:3000',
-      'https://chatapplivedemo.com',
+      // 'http://localhost:3000',
+      // 'https://chatapplivedemo.com',
       'https://www.chatapplivedemo.com',
-      'https://chat-application-zx18.onrender.com',
+      // 'https://chat-application-zx18.onrender.com',
     ], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
