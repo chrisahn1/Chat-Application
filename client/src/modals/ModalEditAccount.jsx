@@ -50,6 +50,15 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
           credentials: 'include',
         });
 
+        if (response.status === 401 || response.status === 403) {
+          console.log('response edit username: ', response.status);
+          // setIsAuth(false);
+          // setAccessToken(null);
+          // setCurrentUsername('');
+          // setCurrentUserID('');
+          // return;
+        }
+
         const result = await response.json();
         setError('');
         setNewUsername('');
