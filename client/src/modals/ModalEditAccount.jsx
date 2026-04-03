@@ -26,7 +26,10 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
       const check = await fetch(`${url}/users/updateusernamecheck`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: accessToken,
+        },
         body: JSON.stringify(username),
       });
 
