@@ -194,7 +194,7 @@ function authToken(req, res, next) {
 
 // *****************generate access token*********************
 function generateAccessToken(payload) {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15m' });
+  return jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '15s' });
 }
 // *****************generate refresh token*********************
 function generateRefreshToken(payload) {
