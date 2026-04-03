@@ -2,14 +2,13 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const ProtectRoute = () => {
-  const { isAuth, accessToken, setTimeInterval, setTokenExp, isLoading } =
-    useAuth();
+  const { isAuth, accessToken, setTimeInterval, setTokenExp } = useAuth();
 
   const location = useLocation();
 
-  if (isLoading) {
-    return <div>Loading...</div>; // ✅ WAIT for auth check
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (!isAuth) {
     setTokenExp(null);

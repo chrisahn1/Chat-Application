@@ -190,21 +190,6 @@ function authToken(req, res, next) {
     req.payload = payload;
     next();
   });
-
-  const refreshToken = req.cookies.refresh_token;
-  if (!refreshToken) {
-    // return res.status(401).json({ error: 'Token not found' });
-    return res.status(401).json('Token not found');
-  }
-
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, payload) => {
-    if (err) {
-      // return res.status(403).json({ error: 'Invalid or expired token' });
-      return res.status(403).json('Invalid or expired token');
-    }
-    req.payload = payload;
-    next();
-  });
 }
 
 // *****************generate access token*********************

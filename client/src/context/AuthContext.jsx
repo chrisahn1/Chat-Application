@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
   const intervalRef = useRef(null);
   const [tokenExp, setTokenExp] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // if (!accessToken) return;
@@ -79,39 +79,38 @@ export const AuthContextProvider = ({ children }) => {
         // if (!response.ok) {
         //     console.log('Refresh token failed');
         // }
-        if (response.status === 401) {
-          console.log('response 401: ', response.status);
-          setIsAuth(false);
-          setMessageTexts([]);
-          setAccessToken({});
-          setCurrentUsername('');
-          setCurrentUserID('');
-        } else if (response.status === 403) {
-          console.log('response 403: ', response.status);
+        if (response.status === 401 || response.status === 403) {
           setIsAuth(false);
           setMessageTexts([]);
           setAccessToken({});
           setCurrentUsername('');
           setCurrentUserID('');
         } else {
-          console.log('response: ', response.status);
           setIsAuth(true);
           const refresh_token = UseRefreshToken();
           const refresh = await refresh_token();
           const data = await refresh.json();
           setAccessToken(data.access_token);
-          console.log('data.access_token: ', data.access_token);
+          // console.log('data.access_token: ', data.access_token);
           // const decodedToken = jwtDecode(accessToken);
           const decodedToken = jwtDecode(data.access_token);
           setTokenExp(decodedToken.exp);
           setTimeInterval(true);
           setMessageTexts([]);
         }
+        // else if (response.status === 403) {
+        //   setIsAuth(false);
+        //   setMessageTexts([]);
+        //   setAccessToken({});
+        //   setCurrentUsername('');
+        //   setCurrentUserID('');
+        // }
       } catch (err) {
         console.error(err.message);
-      } finally {
-        setIsLoading(false); // ✅ THIS IS KEY
       }
+      // finally {
+      //   setIsLoading(false);
+      // }
     };
 
     refreshToken();
@@ -158,7 +157,6 @@ export const AuthContextProvider = ({ children }) => {
         setIsAuth,
         setTimeInterval,
         setTokenExp,
-        isLoading,
       }}>
       {children}
     </AuthContext.Provider>
