@@ -115,7 +115,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     refreshToken();
-  }, []); //navigate
+  }, [accessToken]); //navigate
   //[accessToken, setMessageTexts]
 
   // console.log('accessToken: ', accessToken);
