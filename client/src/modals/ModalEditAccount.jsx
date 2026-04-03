@@ -49,6 +49,7 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
           body: JSON.stringify(username),
           credentials: 'include',
         });
+        console.log('response edit username: ', response.status);
 
         // if (response.status === 401 || response.status === 403) {
         //   console.log('response edit username: ', response.status);
