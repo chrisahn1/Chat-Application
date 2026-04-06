@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ErrorSignup from '../modals/ModalErrorSignup';
 import { url } from '../configURL/configURL';
 import { Eye, EyeOff } from 'react-feather';
+import { AuthContext } from '../context/AuthContext';
 
 function Signup() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ function Signup() {
   const [error, setError] = useState('');
 
   const [showAccountExistModal, setAccountExistModal] = useState(false);
+
+  const { setAccessToken, setIsAuth } = useContext(AuthContext);
 
   const toggleAccountExist = () => {
     setAccountExistModal(!showAccountExistModal);
@@ -87,12 +90,34 @@ function Signup() {
           console.log('signup: ', result.command);
 
           setError('');
-          navigate('/');
+          login();
+          // navigate('/');
         }
       }
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const login = async () => {
+    const body = {
+      email: email_input,
+      password: password_input,
+    };
+    //https://chatapplivedemo.com
+    //http://localhost:8080
+    const response = await fetch(`${url}/users/login`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const result = await response.json();
+    // console.log('result: ', result);
+
+    setAccessToken(result.access_token);
+    setIsAuth(true);
+    navigate('/userpage');
   };
 
   return (
@@ -139,9 +164,6 @@ function Signup() {
             Sign Up
           </button>
         </div>
-        {/* <button className="submitButton" type="submit">
-          Sign Up
-        </button> */}
       </form>
       <div>
         <ErrorSignup
