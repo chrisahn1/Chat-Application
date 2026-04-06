@@ -30,7 +30,7 @@ function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`${url}/users/login`);
+    // console.log(`${url}/users/login`);
     try {
       const body = {
         email: email_input,
