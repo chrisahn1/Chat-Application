@@ -88,10 +88,13 @@ function CreateChatRoom({ isOpen, handleClose }) {
 
     try {
       const body = {
+        id: userid,
         create_chat_name: createinput,
       };
 
-      const response = await fetch(`${url}/users/createchatlink/${userid}`, {
+      // const response = await fetch(`${url}/users/createchatlink/${userid}`
+
+      const response = await fetch(`${url}/users/createchatlink`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

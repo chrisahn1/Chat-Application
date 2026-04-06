@@ -103,26 +103,6 @@ const UpdateUsername = ({ isOpen, handleClose }) => {
             </button>
           </form>
         </div>
-
-        {/* <X className="closeIcon" onClick={closeModal} />
-        <h3 style={{ color: 'white' }}>Update Username</h3>
-        <form className="modalEditRegister" onSubmit={usernameChange}>
-          <label style={{ padding: '1.5vh' }}>Enter New Username: </label>
-          <input
-            className="registerInput"
-            type="text"
-            value={new_username_input}
-            placeholder="New Username"
-            onChange={handleUsernameChange}
-          />
-          <div>{error && <p style={{ color: 'white' }}>{error}</p>}</div>
-          <button className="submitButton" type="submit">
-            Confirm
-          </button>
-        </form>
-        <button type="button" onClick={closeModal}>
-          Cancel
-        </button> */}
       </section>
     </div>
   );
@@ -306,16 +286,6 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
       });
       const result = await response.json();
 
-      // if (
-      //   result === true &&
-      //   current_password_input !== new_password_input &&
-      //   new_password_input === confirm_password_input
-      // ) {
-      //   passwordChange();
-      // } else {
-      //   console.log('Incorrect password input');
-      // }
-
       if (result === false) {
         setError('Please enter current password');
       } else if (current_password_input === new_password_input) {
@@ -333,20 +303,6 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
   const updatePassword = async (e) => {
     try {
       const password = { password: new_password_input };
-
-      // const response = await fetch(
-      //   'http://localhost:3001/users/updatepassword',
-      //   {
-      //     method: 'PUT',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       authorization: accessToken,
-      //     },
-      //     body: JSON.stringify(password),
-      //   }
-      // );
-      // const result = await response.json();
-      // console.log('update password: ', result);
       await fetch(`${url}/users/updatepassword`, {
         method: 'PUT',
         credentials: 'include',
@@ -449,9 +405,6 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
             Cancel
           </button>
         </form>
-        {/* <button type="button" onClick={closeModal}>
-          Cancel
-        </button> */}
       </section>
     </div>
   );

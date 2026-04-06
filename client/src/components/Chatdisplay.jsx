@@ -127,7 +127,7 @@ function Chatdisplay({ socket }) {
         toggleChatExist();
       } else {
         const response = await fetch(
-          `${url}/users/chatstillexists/${data.id}`,
+          `${url}/users/chatstillexists?dataid=${data.id}`,
           {
             headers: { authorization: accessToken },
             credentials: 'include',
@@ -163,7 +163,7 @@ function Chatdisplay({ socket }) {
 
           //UPDATE NEW CHAT LIST
           const getChannelsList = async () => {
-            const channelsList = fetch(`${url}/users/userschannels`, {
+            const channelsList = await fetch(`${url}/users/userschannels`, {
               headers: { authorization: accessToken },
               credentials: 'include',
             })

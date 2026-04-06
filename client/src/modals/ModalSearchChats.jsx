@@ -52,9 +52,12 @@ function SearchChatBar({ isOpen, handleClose }) {
     if (search_input === '') {
       setError('Please enter search input');
     } else {
-      const response = await fetch(`${url}/users/chatexists/${search_input}`, {
-        credentials: 'include',
-      })
+      const response = await fetch(
+        `${url}/users/chatexists?input=${search_input}`,
+        {
+          credentials: 'include',
+        }
+      )
         .then((response) => response.json())
         .then((exists) => {
           return exists;
@@ -121,7 +124,7 @@ function SearchChatBar({ isOpen, handleClose }) {
 
     //UPDATE CHAT LIST
     const getChannelsList = async () => {
-      const channelsList = fetch(`${url}/users/userschannels`, {
+      const channelsList = await fetch(`${url}/users/userschannels`, {
         headers: { authorization: accessToken },
         credentials: 'include',
       })
@@ -212,12 +215,6 @@ function SearchChatBar({ isOpen, handleClose }) {
             <div className="searchResult">
               {search_list.map((result) => {
                 return (
-                  // <a
-                  //   className="chatItem"
-                  //   target="_blank"
-                  //   onClick={() => chatResult(result)}>
-                  //   <p>{result.channelname}</p>
-                  // </a>
                   <div
                     className="chatItem"
                     target="_blank"

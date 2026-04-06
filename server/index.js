@@ -469,9 +469,11 @@ app.get('/users/channeltexts', async (req, res) => {
 });
 
 // get channel name
-app.get('/users/channelname/:id', async (req, res) => {
+// '/users/channelname/:id';
+app.get('/users/channelname', async (req, res) => {
   try {
-    const { id } = req.params;
+    const {} = req.query;
+    // const { id } = req.params;
     const name = await pool.query(
       'SELECT channelname FROM channels WHERE id=$1;',
       [id]
@@ -483,22 +485,24 @@ app.get('/users/channelname/:id', async (req, res) => {
 });
 
 //get channel host
-app.get('/users/channelhost/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const host = await pool.query('SELECT host FROM channels WHERE id=$1;', [
-      id,
-    ]);
-    res.status(200).json(host.rows[0].host);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
+// app.get('/users/channelhost/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const host = await pool.query('SELECT host FROM channels WHERE id=$1;', [
+//       id,
+//     ]);
+//     res.status(200).json(host.rows[0].host);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 
 //check if search result exists at all (MODAL SEARCH CHAT) (joining chat)
-app.get('/users/chatexists/:input', async (req, res) => {
+// '/users/chatexists/:input'
+app.get('/users/chatexists', async (req, res) => {
   try {
-    const { input } = req.params;
+    // const { input } = req.params;
+    const { input } = req.query;
     const result = await pool.query(
       'SELECT EXISTS (SELECT 1 FROM channels WHERE channelname=$1);',
       [input]
@@ -524,9 +528,11 @@ app.post('/users/chatexistsverify', async (req, res) => {
 });
 
 //check if chat still exists when sending message or clicking on chat room
-app.get('/users/chatstillexists/:chatid', async (req, res) => {
+// '/users/chatstillexists/:chatid';
+app.get('/users/chatstillexists', async (req, res) => {
   try {
-    const { chatid } = req.params;
+    // const { chatid } = req.params;
+    const { chatid } = req.query;
     const result = await pool.query(
       'SELECT EXISTS (SELECT 1 FROM channels WHERE id=$1);',
       [chatid]
@@ -603,18 +609,18 @@ app.get('/users/userschannels', authToken, async (req, res) => {
 });
 
 //get host's all channels
-app.get('/users/hostchannels/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await pool.query(
-      'SELECT id FROM channels WHERE host[1] = $1;',
-      [id]
-    );
-    res.status(200).json(result.rows);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
+// app.get('/users/hostchannels/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const result = await pool.query(
+//       'SELECT id FROM channels WHERE host[1] = $1;',
+//       [id]
+//     );
+//     res.status(200).json(result.rows);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 
 // *********************************************** CREATE CHAT CHANNEL ***********************************************************
 
@@ -632,10 +638,11 @@ app.post('/users/createchat', authToken, async (req, res) => {
   }
 });
 // insert - new create chat link table
-app.post('/users/createchatlink/:id', async (req, res) => {
+// '/users/createchatlink/:id'
+app.post('/users/createchatlink', async (req, res) => {
   try {
-    const { id } = req.params;
-    const { create_chat_name } = req.body;
+    // const { id } = req.params;
+    const { id, create_chat_name } = req.body;
     const result = await pool.query(
       'INSERT INTO users_channels (users_id, channels_id) VALUES ( $1, (SELECT id FROM channels WHERE channelname = $2));',
       [id, create_chat_name]

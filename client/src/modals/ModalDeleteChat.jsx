@@ -60,7 +60,7 @@ function DeleteChat({
 
       //UPDATE CHAT LIST
       const getChannelsList = async () => {
-        const channelsList = fetch(`${url}/users/userschannels`, {
+        const channelsList = await fetch(`${url}/users/userschannels`, {
           headers: { authorization: accessToken },
           credentials: 'include',
         })
