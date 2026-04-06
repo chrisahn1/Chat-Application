@@ -127,7 +127,7 @@ function Chatdisplay({ socket }) {
         toggleChatExist();
       } else {
         const response = await fetch(
-          `${url}/users/chatstillexists?dataid=${data.id}`,
+          `${url}/users/chatstillexists?chatid=${data.id}`,
           {
             headers: { authorization: accessToken },
             credentials: 'include',
