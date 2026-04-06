@@ -86,9 +86,13 @@ function Chatdisplay({ socket }) {
 
   useEffect(() => {
     const printMessageList = async () => {
-      const textList = fetch(`${url}/users/channeltexts/${data.id}`, {
-        credentials: 'include',
-      })
+      // const textList = fetch(`${url}/users/channeltexts/${data.id}`,
+      const textList = await fetch(
+        `${url}/users/channeltexts?dataid=${data.id}`,
+        {
+          credentials: 'include',
+        }
+      )
         .then((response) => response.json())
         .then((chattextlist) => {
           return chattextlist;
