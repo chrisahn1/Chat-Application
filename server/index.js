@@ -451,12 +451,14 @@ app.post('/users/userpassword', authToken, async (req, res) => {
 // ***************************************************************************************
 
 //get channel texts
-app.get('/users/channeltexts/:id', async (req, res) => {
+// '/users/channeltexts/:id';
+app.get('/users/channeltexts', async (req, res) => {
   try {
-    const { id } = req.params;
+    const { dataid } = req.query;
+    // const { id } = req.params;
     const texts = await pool.query(
       'SELECT obj.* FROM channels, jsonb_array_elements(messages) AS obj WHERE id=$1;',
-      [id]
+      [dataid]
     );
     // res.json(texts.rows[0].value.author);
     res.status(200).json(texts.rows);
