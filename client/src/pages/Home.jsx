@@ -120,7 +120,9 @@ function Home() {
       {isLoading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
-          <p>Connecting to server... please wait (~30s on first load)</p>
+          <p>
+            Connecting to Render server... please wait (~10-20s on first load)
+          </p>
         </div>
       )}
     </div>
