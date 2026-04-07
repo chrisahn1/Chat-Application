@@ -6,8 +6,13 @@ import { AuthContext } from '../context/AuthContext';
 import { url } from '../configURL/configURL';
 
 function SearchChatBar({ isOpen, handleClose }) {
-  const { setChatlist, dispatch, setLeaveButton, setCurrentChatID } =
-    useContext(ChatContext);
+  const {
+    setChatlist,
+    dispatch,
+    setLeaveButton,
+    setDeleteButton,
+    setCurrentChatID,
+  } = useContext(ChatContext);
 
   const { accessToken } = useContext(AuthContext);
 
@@ -154,6 +159,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     dispatch({ type: 'CHAT_CHANGE', payload: joined_chat });
     setCurrentChatID(joined_chat.id);
     setLeaveButton(false);
+    setDeleteButton(true);
   };
 
   // check if search input already exists in users channel list

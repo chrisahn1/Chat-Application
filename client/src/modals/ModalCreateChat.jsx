@@ -6,8 +6,13 @@ import { AuthContext } from '../context/AuthContext';
 import { url } from '../configURL/configURL';
 
 function CreateChatRoom({ isOpen, handleClose }) {
-  const { setChatlist, dispatch, setDeleteButton, setCurrentChatID } =
-    useContext(ChatContext);
+  const {
+    setChatlist,
+    dispatch,
+    setDeleteButton,
+    setLeaveButton,
+    setCurrentChatID,
+  } = useContext(ChatContext);
 
   const { accessToken, currentUsername } = useContext(AuthContext);
 
@@ -81,6 +86,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       dispatch({ type: 'CHAT_CHANGE', payload: result.rows[0] });
       setCurrentChatID(result.rows[0].id);
       setDeleteButton(false);
+      setLeaveButton(true);
       // console.log('created chat: ', result);
     } catch (error) {
       console.log(error.message);
