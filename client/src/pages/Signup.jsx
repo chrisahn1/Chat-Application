@@ -89,11 +89,11 @@ function Signup() {
 
           const result = await response.json();
 
-          console.log('signup: ', result.command);
+          console.log('signup: ', result);
 
           setError('');
-          login();
-          // navigate('/');
+          // login();
+          navigate('/');
         }
       }
     } catch (error) {
@@ -103,26 +103,26 @@ function Signup() {
     }
   };
 
-  const login = async () => {
-    const body = {
-      email: email_input,
-      password: password_input,
-    };
-    //https://chatapplivedemo.com
-    //http://localhost:8080
-    const response = await fetch(`${url}/users/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    const result = await response.json();
-    // console.log('result: ', result);
+  // const login = async () => {
+  //   const body = {
+  //     email: email_input,
+  //     password: password_input,
+  //   };
+  //   //https://chatapplivedemo.com
+  //   //http://localhost:8080
+  //   const response = await fetch(`${url}/users/login`, {
+  //     method: 'POST',
+  //     credentials: 'include',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify(body),
+  //   });
+  //   const result = await response.json();
+  //   // console.log('result: ', result);
 
-    setAccessToken(result.access_token);
-    setIsAuth(true);
-    navigate('/userpage');
-  };
+  //   setAccessToken(result.access_token);
+  //   setIsAuth(true);
+  //   navigate('/userpage');
+  // };
 
   return (
     <div className="App">
