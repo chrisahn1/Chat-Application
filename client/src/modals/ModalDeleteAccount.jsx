@@ -2,6 +2,7 @@ import './Modal.css';
 import { X } from 'react-feather';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 import { url } from '../configURL/configURL';
 
@@ -14,6 +15,17 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     setTimeInterval,
     setTokenExp,
   } = useContext(AuthContext);
+
+  const {
+    setChatlist,
+    setMessageTexts,
+    setMessage,
+    setCurrentChatName,
+    setCurrentChatID,
+    setLeaveButton,
+    setDeleteButton,
+    dispatch,
+  } = useContext(ChatContext);
 
   const navigate = useNavigate();
 
@@ -96,6 +108,20 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     setIsAuth(false);
     setTimeInterval(false);
     setTokenExp(null);
+
+    //RESET CHATUSECONTEXT
+    setChatlist([]);
+    setMessageTexts([]);
+    setMessage('');
+    setCurrentChatName('');
+    setCurrentChatID([]);
+    setLeaveButton(true);
+    setDeleteButton(true);
+    const INIT_STATE = {
+      id: 'null',
+      chat: {},
+    };
+    dispatch({ type: 'CHAT_CHANGE', payload: INIT_STATE });
   };
 
   return (
