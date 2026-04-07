@@ -12,6 +12,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     setLeaveButton,
     setDeleteButton,
     setCurrentChatID,
+    setCurrentChatName,
   } = useContext(ChatContext);
 
   const { accessToken } = useContext(AuthContext);
@@ -158,6 +159,7 @@ function SearchChatBar({ isOpen, handleClose }) {
     const joined_chat = await get_chat.json();
     dispatch({ type: 'CHAT_CHANGE', payload: joined_chat });
     setCurrentChatID(joined_chat.id);
+    setCurrentChatName(joined_chat.channelname);
     setLeaveButton(false);
     setDeleteButton(true);
   };
