@@ -89,10 +89,25 @@ function Signup() {
 
           const result = await response.json();
 
-          // console.log('signup: ', result);
+          // console.log('signup: ', result.command);
 
           setError('');
-          navigate('/', { state: { accountCreated: true } });
+          // navigate('/');
+          const login_response = await fetch(`${url}/users/login`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: email_input,
+              password: password_input,
+            }),
+          });
+          const login_result = await login_response.json();
+          // console.log('result: ', result);
+
+          setAccessToken(login_result.access_token);
+          setIsAuth(true);
+          navigate('/userpage');
         }
       }
     } catch (error) {
@@ -101,27 +116,6 @@ function Signup() {
       setIsLoading(false); // stop loading after completion
     }
   };
-
-  // const login = async () => {
-  //   const body = {
-  //     email: email_input,
-  //     password: password_input,
-  //   };
-  //   //https://chatapplivedemo.com
-  //   //http://localhost:8080
-  //   const response = await fetch(`${url}/users/login`, {
-  //     method: 'POST',
-  //     credentials: 'include',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify(body),
-  //   });
-  //   const result = await response.json();
-  //   // console.log('result: ', result);
-
-  //   setAccessToken(result.access_token);
-  //   setIsAuth(true);
-  //   navigate('/userpage');
-  // };
 
   return (
     <div className="App">
