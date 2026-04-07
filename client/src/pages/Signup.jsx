@@ -49,6 +49,7 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     // const formData = new FormData();
     // formData.append('username', username_input);
     // formData.append('email', email_input);
