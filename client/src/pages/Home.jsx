@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import LoginCheck from '../modals/ModalLoginCheck';
@@ -7,6 +7,8 @@ import { Eye, EyeOff } from 'react-feather';
 
 function Home() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const accountCreated = location.state?.accountCreated;
 
   const { setAccessToken, setIsAuth } = useContext(AuthContext);
 
@@ -70,6 +72,11 @@ function Home() {
 
   return (
     <div className="App">
+      {accountCreated && (
+        <div className="success-message">
+          Account successfully created! Please log in.
+        </div>
+      )}
       <form className="Register" onSubmit={handleSubmit}>
         <h2 style={{ color: 'white' }}>Chat App Live</h2>
         <label style={{ padding: '1.5vh' }}>Email:</label>
