@@ -11,6 +11,7 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
     accessToken,
     setAccessToken,
     setCurrentUsername,
+    setCurrentUserID,
     setIsAuth,
     setTimeInterval,
     setTokenExp,
@@ -103,8 +104,10 @@ function ModalDeleteAccount({ isOpen, handleClose }) {
 
     const result = await response.json();
     console.log('logging out: ', result);
+    //RESET AUTHCONTEXT
     setAccessToken({});
     setCurrentUsername('');
+    setCurrentUserID('');
     setIsAuth(false);
     setTimeInterval(false);
     setTokenExp(null);
