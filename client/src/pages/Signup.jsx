@@ -17,6 +17,8 @@ function Signup() {
 
   const [showAccountExistModal, setAccountExistModal] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { setAccessToken, setIsAuth } = useContext(AuthContext);
 
   const toggleAccountExist = () => {
@@ -96,6 +98,8 @@ function Signup() {
       }
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false); // stop loading after completion
     }
   };
 
@@ -170,6 +174,12 @@ function Signup() {
           isOpen={showAccountExistModal}
           handleClose={toggleAccountExist}></ErrorSignup>
       </div>
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+          <p>Connecting to server... please wait (~30s on first load)</p>
+        </div>
+      )}
     </div>
   );
 }
