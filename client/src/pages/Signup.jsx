@@ -89,11 +89,10 @@ function Signup() {
 
           const result = await response.json();
 
-          console.log('signup: ', result);
+          // console.log('signup: ', result);
 
           setError('');
-          // login();
-          navigate('/');
+          navigate('/', { state: { accountCreated: true } });
         }
       }
     } catch (error) {
