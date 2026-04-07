@@ -30,6 +30,10 @@ function Chatdisplay({ socket }) {
     message_text,
     setMessage,
     setChatlist,
+    setCurrentChatName,
+    setCurrentChatID,
+    setLeaveButton,
+    setDeleteButton,
   } = useContext(ChatContext);
 
   const [disableSend, setDisableSend] = useState(true);
@@ -55,13 +59,23 @@ function Chatdisplay({ socket }) {
 
     const result = await response.json();
     console.log('logging out: ', result);
-    setIsAuth(false);
+
+    //RESET AUTHCONTEXT
     setAccessToken({});
-    setTimeInterval(false);
-    setTokenExp(null);
     setCurrentUsername('');
     setCurrentUserID('');
+    setIsAuth(false);
+    setTimeInterval(false);
+    setTokenExp(null);
+
+    //RESET CHATUSECONTEXT
+    setChatlist([]);
     setMessageTexts([]);
+    setMessage('');
+    setCurrentChatName('');
+    setCurrentChatID([]);
+    setLeaveButton(true);
+    setDeleteButton(true);
     navigate('/', { replace: true });
   };
 
