@@ -12,6 +12,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
     setDeleteButton,
     setLeaveButton,
     setCurrentChatID,
+    setCurrentChatName,
   } = useContext(ChatContext);
 
   const { accessToken, currentUsername } = useContext(AuthContext);
@@ -85,6 +86,7 @@ function CreateChatRoom({ isOpen, handleClose }) {
       const result = await response.json();
       dispatch({ type: 'CHAT_CHANGE', payload: result.rows[0] });
       setCurrentChatID(result.rows[0].id);
+      setCurrentChatName(result.rows[0].channelname);
       setDeleteButton(false);
       setLeaveButton(true);
       // console.log('created chat: ', result);
