@@ -14,6 +14,8 @@ function Home() {
   const [password_input, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [showLoginCheckModal, setLoginCheckModal] = useState(false);
 
   const handleEmail = (e) => {
@@ -30,6 +32,7 @@ function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     // console.log(`${url}/users/login`);
     try {
       const body = {
@@ -56,6 +59,8 @@ function Home() {
       }
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false); // stop loading after completion
     }
   };
 
@@ -109,6 +114,12 @@ function Home() {
           isOpen={showLoginCheckModal}
           handleClose={toggleLoginCheckModal}></LoginCheck>
       </div>
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+          <p>Connecting to server... please wait (~30s on first load)</p>
+        </div>
+      )}
     </div>
   );
 }
