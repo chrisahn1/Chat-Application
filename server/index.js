@@ -19,41 +19,6 @@ const reactStaticDir = path.join(__dirname, '../client/build');
 app.use(express.static(reactStaticDir));
 // app.use(cookieParser());
 
-//*************************************************************************************** */
-
-// const pool = new Pool({
-//   connectionString: 'postgres://dev:dev@localhost/chat_db',
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-
-// app.use(cookieParser());
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: 'http://localhost:3000',
-//   })
-// );
-
-//*************************************************************************************** */
-
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-// app.use(cookieParser());
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
-//   })
-// );
-
-//************************************************************************************** */
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -64,40 +29,9 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: [
-      // 'http://localhost:3000',
-      // 'https://chatapplivedemo.com',
-      'https://www.chatapplivedemo.com',
-      // 'https://chat-application-zx18.onrender.com',
-    ], //http://localhost:3000 https://chatapplivedemo.com
+    origin: ['https://www.chatapplivedemo.com'], //http://localhost:3000 https://chatapplivedemo.com
   })
 );
-
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: [
-//       'http://localhost:3000',
-//       'https://chatapplivedemo.com',
-//       'https://chat-application-eight-navy.vercel.app',
-//     ], //http://localhost:3000 https://chatapplivedemo.com
-//   })
-// );
-
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: 'http://localhost:3000', //http://localhost:3000 https://chatapplivedemo.com
-//   })
-// );
-
-// [
-//   'http://localhost:3000',
-//   'https://chatapplivedemo.com',
-//   'https://chat-application-eight-navy.vercel.app',
-// ];
-// https://chatapplivedemo-vercel.vercel.app
-//************************************************************************************** */
 app.use(express.json());
 
 //ROUTES//
@@ -198,7 +132,7 @@ function generateAccessToken(payload) {
 }
 // *****************generate refresh token*********************
 function generateRefreshToken(payload) {
-  return jwt.sign(payload, process.env.REFRESH_TOKEN);
+  return jwt.sign(payload, process.env.REFRESH_TOKEN, { expiresIn: '7d' }); //{ expiresIn: '7d' }
 }
 
 // *****************new token from refresh token*********************
@@ -721,52 +655,13 @@ app.post('/users/deletechat', authToken, async (req, res) => {
 // ************************************************************************************************************
 const server = http.createServer(app);
 
-// const io = new Server(server, {
-//   cors: {
-//     credentials: true,
-//     origin: 'http://localhost:3000', //original: 3000
-//     methods: ['GET', 'POST'],
-//   },
-// });
-
-// const io = new Server(server, {
-//   cors: {
-//     credentials: true,
-//     origin: 'https://chatapplivedemo.com', //http://localhost:3000 https://chatapplivedemo.com
-//     methods: ['GET', 'POST'],
-//   },
-// });
-
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: [
-      // 'http://localhost:3000',
-      // 'https://chatapplivedemo.com',
-      'https://www.chatapplivedemo.com',
-      // 'https://chat-application-zx18.onrender.com',
-    ], //http://localhost:3000 https://chatapplivedemo.com
+    origin: ['https://www.chatapplivedemo.com'], //http://localhost:3000 https://chatapplivedemo.com
     methods: ['GET', 'POST'],
   },
 });
-
-// const io = new Server(server, {
-//   cors: {
-//     credentials: true,
-//     origin: [
-//       'http://localhost:3000',
-//       'https://chatapplivedemo.com',
-//       'https://chat-application-eight-navy.vercel.app',
-//     ], //http://localhost:3000 https://chatapplivedemo.com
-//     methods: ['GET', 'POST'],
-//   },
-// });
-
-// [
-//   'http://localhost:3000',
-//   'https://chatapplivedemo.com',
-//   'https://chat-application-eight-navy.vercel.app',
-// ];
 
 io.on('connection', (socket) => {
   console.log(`User Connected: ${socket.id}`);
@@ -795,8 +690,6 @@ io.on('connection', (socket) => {
     );
 
     const result = { value: text };
-    // socket.emit("receive_message", result);
-    // socket.to(data.room).emit("receive_message", data);
     socket.to(data.value.chatid).emit('receive_message', result);
   });
 
@@ -810,16 +703,6 @@ io.on('connection', (socket) => {
   });
 });
 
-// server.listen(3001, () => {
-//   // createDBIfNotExist();
-//   // createTablesIfNotExist();
-//   console.log('SERVER RUNNING 3001');
-// });
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(reactStaticDir, 'index.html'));
-// });
-
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 });
@@ -827,202 +710,3 @@ app.get('*', (req, res) => {
 server.listen(process.env.PORT, () => {
   console.log('Listening on port', process.env.PORT);
 });
-
-// app.listen(process.env.PORT, () => {
-//   console.log('Listening on port', process.env.PORT);
-// });
-
-// "proxy": "http://localhost:3001",
-//(under pg)
-
-// "deploy": "git push --force origin main:pub"
-
-// "build": "cross-env CI=false react-scripts build"
-
-//ORIGINAL NPM
-//server packagejson file
-// "start": "nodemon index.js",
-// "build": "react-scripts build"
-
-//first package json
-// "dev": "npm-run-all --parallel --print-label dev:*",
-// "start": "NODE_ENV=production npm start --prefix server",
-
-//(original)
-// "scripts": {
-//     "start": "NODE_ENV=production npm start --prefix server",
-//     "build": "npm run build --prefix client",
-//     "db:import": "sh database/import.sh",
-//     "dev:client": "npm run dev --prefix client",
-//     "dev:server": "npm run dev --prefix server",
-//     "dev": "npm-run-all --parallel --print-label dev:*",
-//     "install:client": "npm install --prefix client",
-//     "install:server": "npm install --prefix server",
-//     "install:env": "test -f server/.env || cp server/.env.example server/.env",
-//     "postinstall": "npm-run-all --parallel install:*",
-//     "lint:client": "npm run lint --prefix client",
-//     "lint:server": "npm run lint --prefix server",
-//     "lint": "npm-run-all --parallel lint:*",
-//     "psql": ". server/.env && psql $DATABASE_URL",
-//     "tsc:client": "tsc --project client",
-//     "tsc:server": "tsc --project server",
-//     "tsc": "npm-run-all --continue-on-error tsc:*",
-//     "prepare": "husky install",
-//     "deploy": "git push --force origin main:pub"
-//   },
-
-//(post)
-// "scripts": {
-//     "client": "npm start --prefix client",
-//     "server": "npm start --prefix server",
-//     "dev": "concurrently \"npm run server\" \"npm run client\"",
-//     "start": "NODE_ENV=production npm run dev",
-//     "build": "npm run build --prefix client",
-//     "db:import": "sh database/import.sh",
-//     "dev:client": "npm run dev --prefix client",
-//     "dev:server": "npm run dev --prefix server",
-//     "install:client": "npm install --prefix client",
-//     "install:server": "npm install --prefix server",
-//     "install:env": "test -f server/.env || cp server/.env.example server/.env",
-//     "postinstall": "npm-run-all --parallel install:*",
-//     "lint:client": "npm run lint --prefix client",
-//     "lint:server": "npm run lint --prefix server",
-//     "lint": "npm-run-all --parallel lint:*",
-//     "psql": ". server/.env && psql $DATABASE_URL",
-//     "tsc:client": "tsc --project client",
-//     "tsc:server": "tsc --project server",
-//     "tsc": "npm-run-all --continue-on-error tsc:*",
-//     "prepare": "husky install",
-//     "deploy": "git push --force origin main:pub"
-//   },
-
-//client packagejson scripts (original)
-//  "scripts": {
-//     "dev": "vite",
-//     "build": "tsc && vite build",
-//     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-//     "preview": "vite preview"
-//   },
-
-//LOCALHOST AND AWS DOMAIN
-// "start": "react-scripts start",
-//     "build": "react-scripts build",
-//     "test": "react-scripts test",
-//     "eject": "react-scripts eject"
-
-//VERCEL
-// "dev": "vite",
-// "build": "vite build",
-// "preview": "vite preview",
-
-//server packagejson scripts (original)
-// "scripts": {
-//     "start": "tsx server.ts",
-//     "dev": "tsx watch server.ts",
-//     "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0"
-//   },
-
-//TESTING FOR PSQL IF CHAT_DB EXISTS AT AWS CONSOLE
-//psql "postgresql://postgres:huhhuh07@chat-db.ctwgcqucwadg.us-east-2.rds.amazonaws.com:5432/chat_db"
-
-//PACKAGEJSON ROOT CHANGES
-
-//LOCALHOST AND AWS DOMAIN
-// "dev": "concurrently \"npm run server\" \"npm run client\"",
-// "build": "npm run build --prefix client",
-// "preview": "vite preview",
-// "client": "npm start --prefix client",
-// "server": "npm start --prefix server",
-// "start": "NODE_ENV=production npm run dev",
-// "db:import": "sh database/import.sh",
-// "dev:client": "npm run dev --prefix client",
-// "dev:server": "npm run dev --prefix server",
-// "install:client": "npm install --prefix client",
-// "install:server": "npm install --prefix server",
-// "install:env": "test -f server/.env || cp server/.env.example server/.env",
-// "postinstall": "npm-run-all --parallel install:*",
-// "lint:client": "npm run lint --prefix client",
-// "lint:server": "npm run lint --prefix server",
-// "lint": "npm-run-all --parallel lint:*",
-// "psql": ". server/.env && psql $DATABASE_URL",
-// "tsc:client": "tsc --project client",
-// "tsc:server": "tsc --project server",
-// "tsc": "npm-run-all --continue-on-error tsc:*",
-// "prepare": "husky install",
-// "deploy": "git push --force origin main:pub"
-
-// "dev": "vite",
-// "build": "vite build",
-// "preview": "vite preview",
-// "client": "npm start --prefix client",
-// "server": "npm start --prefix server",
-// "start": "NODE_ENV=production npm run dev",
-// // "build": "npm run build --prefix client",
-// "db:import": "sh database/import.sh",
-// "dev:client": "npm run dev --prefix client",
-// "dev:server": "npm run dev --prefix server",
-// // "dev": "concurrently \"npm run server\" \"npm run client\"",
-// "install:client": "npm install --prefix client",
-// "install:server": "npm install --prefix server",
-// "install:env": "test -f server/.env || cp server/.env.example server/.env",
-// "postinstall": "npm-run-all --parallel install:*",
-// "lint:client": "npm run lint --prefix client",
-// "lint:server": "npm run lint --prefix server",
-// "lint": "npm-run-all --parallel lint:*",
-// "psql": ". server/.env && psql $DATABASE_URL",
-// "tsc:client": "tsc --project client",
-// "tsc:server": "tsc --project server",
-// "tsc": "npm-run-all --continue-on-error tsc:*",
-// "prepare": "husky install",
-// "deploy": "git push --force origin main:pub"
-
-// "scripts": {
-//     "dev": "vite",
-//     "build": "vite build",
-//     "preview": "vite preview",
-//     "client": "npm start --prefix client",
-//     "server": "npm start --prefix server",
-//     "start": "NODE_ENV=production npm run dev",
-//     "db:import": "sh database/import.sh",
-//     "dev:client": "npm run dev --prefix client",
-//     "dev:server": "npm run dev --prefix server",
-//     "install:client": "npm install --prefix client",
-//     "install:server": "npm install --prefix server",
-//     "install:env": "test -f server/.env || cp server/.env.example server/.env",
-//     "postinstall": "npm-run-all --parallel install:*",
-//     "lint:client": "npm run lint --prefix client",
-//     "lint:server": "npm run lint --prefix server",
-//     "lint": "npm-run-all --parallel lint:*",
-//     "psql": ". server/.env && psql $DATABASE_URL",
-//     "tsc:client": "tsc --project client",
-//     "tsc:server": "tsc --project server",
-//     "tsc": "npm-run-all --continue-on-error tsc:*",
-//     "prepare": "husky install",
-//     "deploy": "git push --force origin main:pub"
-//   },
-
-//VERCEL
-// "scripts": {
-//     "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
-//     "build": "npm run build --prefix client",
-//     "preview": "vite preview",
-//     "client": "npm start --prefix client",
-//     "server": "npm start --prefix server",
-//     "start": "NODE_ENV=production npm run dev",
-//     "db:import": "sh database/import.sh",
-//     "dev:client": "npm run dev --prefix client",
-//     "dev:server": "npm run dev --prefix server",
-//     "install:client": "npm install --prefix client",
-//     "install:server": "npm install --prefix server",
-//     "install:env": "test -f server/.env || cp server/.env.example server/.env",
-//     "postinstall": "npm-run-all --parallel install:*",
-//     "lint:client": "npm run lint --prefix client",
-//     "lint:server": "npm run lint --prefix server",
-//     "lint": "npm-run-all --parallel lint:*",
-//     "psql": ". server/.env && psql $DATABASE_URL",
-//     "tsc:client": "tsc --project client",
-//     "tsc:server": "tsc --project server",
-//     "tsc": "npm-run-all --continue-on-error tsc:*",
-//     "prepare": "husky install",
-//     "deploy": "git push --force origin main:pub"
-//   },
