@@ -6,7 +6,7 @@ A full-stack real-time chat application with room-based messaging using WebSocke
 
 https://www.chatapplivedemo.com
 
-> ⚠️ Backend is hosted on Render (free tier) and may take 10–20 seconds to spin up on first request.
+> ⚠️ Backend is hosted on Render (free tier) and may take 30+ seconds to spin up on first request.
 
 ## Features
 
