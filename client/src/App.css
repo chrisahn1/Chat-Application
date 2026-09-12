@@ -1,10 +1,19 @@
 .App {
   text-align: center;
   background-color: #020721;
-  height: 100vh;
+
+  /* height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; */
+
+  min-height: 100vh;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .App-logo {
@@ -15,6 +24,23 @@
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@media (width <= 480px) {
+  .Register h2 {
+    font-size: 1.4rem;
+  }
+
+  .registerInput,
+  .registerInput.password {
+    font-size: 16px; /* prevents iOS Safari auto-zoom on focus */
+    padding: 10px;
+  }
+
+  .loginsignupsection {
+    display: flex;
+    gap: 8px;
   }
 }
 
@@ -57,23 +83,44 @@
   flex-direction: column;
   background-color: #051254;
   border-radius: 10px;
-  margin: auto;
+
+  /* margin: auto;
   width: 30vw;
   height: 500px;
-  padding: 2vw 1vw;
+  padding: 2vw 1vw; */
+
+  margin: auto;
+  width: 90%;
+  max-width: 420px; /* caps it on desktop */
+  height: auto; /* let content decide height, not a fixed vw/px */
+  padding: 24px 20px;
+  box-sizing: border-box;
 }
 
-.Register.Signup {
+/* .Register.Signup {
   height: 30vw;
+} */
+
+.Register.Signup {
+  height: auto;
 }
 
 .registerInput {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.registerInput.password {
+  width: 100%;
+}
+
+/* .registerInput {
   width: 28vw;
 }
 
 .registerInput.password {
   width: 24vw;
-}
+} */
 
 .loginsignupsection {
   padding: 5px;
