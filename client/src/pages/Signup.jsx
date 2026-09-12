@@ -141,7 +141,7 @@ function Signup() {
           required
         />
         <label style={{ padding: '1.5vh' }}>Password:</label>
-        <div style={{ width: '100%', display: 'flex' }}>
+        <div className="passwordRow">
           <input
             className="registerInput password"
             type={showPassword ? 'text' : 'password'}
@@ -151,7 +151,11 @@ function Signup() {
             required
           />
           <button className="eye" type="button" onClick={toggleShowPassword}>
-            {showPassword ? <Eye /> : <EyeOff />}
+            {showPassword ? (
+              <Eye size={20} className="eyeicon" />
+            ) : (
+              <EyeOff size={20} className="eyeicon" />
+            )}
           </button>
         </div>
         <div style={{ padding: '5px' }}>
