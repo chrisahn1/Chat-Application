@@ -82,7 +82,9 @@ function Home() {
           required
         />
         <label style={{ padding: '1.5vh' }}>Password:</label>
-        <div style={{ width: '100%', padding: '1.5vh', display: 'flex' }}>
+        <div
+          className="passwordRow"
+          style={{ width: '100%', padding: '1.5vh', display: 'flex' }}>
           <input
             className="registerInput password"
             type={showPassword ? 'text' : 'password'}
