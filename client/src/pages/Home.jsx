@@ -93,9 +93,9 @@ function Home() {
           />
           <button className="eye" type="button" onClick={toggleShowPassword}>
             {showPassword ? (
-              <Eye className="eyeicon" />
+              <Eye className="eyeicon" size={20} />
             ) : (
-              <EyeOff className="eyeicon" />
+              <EyeOff className="eyeicon" size={20} />
             )}
           </button>
         </div>
