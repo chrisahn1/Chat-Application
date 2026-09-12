@@ -1,12 +1,6 @@
 .App {
   text-align: center;
   background-color: #020721;
-
-  /* height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
-
   min-height: 100vh;
   height: auto;
   display: flex;
@@ -89,12 +83,6 @@
   flex-direction: column;
   background-color: #051254;
   border-radius: 10px;
-
-  /* margin: auto;
-  width: 30vw;
-  height: 500px;
-  padding: 2vw 1vw; */
-
   margin: auto;
   width: 90%;
   max-width: 420px; /* caps it on desktop */
@@ -103,25 +91,16 @@
   box-sizing: border-box;
 }
 
-/* .Register.Signup {
-  height: 30vw;
-} */
-
 .Register.Signup {
   height: auto;
 }
 
-/* .registerInput {
+.passwordRow {
+  position: relative;
   width: 100%;
-  box-sizing: border-box;
 }
 
-.registerInput.password {
-  width: 100%;
-} */
-
-.registerInput,
-.registerInput.password {
+.registerInput {
   width: 100%;
   height: 48px;
   padding: 0 14px;
@@ -129,6 +108,10 @@
   border: 1px solid rgb(172, 171, 171);
   border-radius: 10px;
   outline: none;
+}
+
+.registerInput.password {
+  padding-right: 48px; /* extra room so text doesn't run under the eye icon */
 }
 
 .loginsignupsection {
@@ -142,12 +125,12 @@
   box-sizing: border-box;
 }
 
-.passwordRow {
+/* .passwordRow {
   width: 100%;
   display: flex;
-  align-items: center; /* stops stretch from resizing the input */
+  align-items: center;
   gap: 8px;
-}
+} */
 
 /*********************************************************************************   */
 
@@ -168,12 +151,6 @@ button:hover {
 }
 
 /* .eye {
-  border-radius: 50%;
-  object-fit: cover;
-  background-color: #27438e;
-} */
-
-.eye {
   flex-shrink: 0;
   width: 48px;
   height: 48px;
@@ -182,6 +159,30 @@ button:hover {
   justify-content: center;
   border-radius: 50%;
   background-color: #27438e;
+} */
+
+.eye {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #27438e;
+  border: none;
+}
+
+.eyeicon {
+  width: 20px;
+  height: 20px;
+  color: white;
+  display: block;
 }
 
 .editAccountButton {
