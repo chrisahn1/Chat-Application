@@ -37,6 +37,12 @@ body {
   }
 }
 
+/*********************************************************************************   */
+
+/************************************* SCREEN SIZE DESIGN **************************************/
+
+/*********************************************************************************   */
+
 @media (width <= 480px) {
   .Register h2 {
     font-size: 1.4rem;
@@ -53,6 +59,111 @@ body {
     gap: 8px;
   }
 }
+
+@media (width <= 768px) {
+  .App {
+    padding: 0;
+  }
+
+  .containerChat {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar,
+  .chatDisplay {
+    flex: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.28s ease-in-out;
+  }
+
+  .sidebar {
+    transform: translateX(0%);
+  }
+
+  .chatDisplay {
+    transform: translateX(100%);
+  }
+
+  .containerChat.mobile-chat-open .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .containerChat.mobile-chat-open .chatDisplay {
+    transform: translateX(0%);
+  }
+
+  .chatroomname {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .chatroomname h2 {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .messageText {
+    max-width: 65%;
+  }
+
+  .sendMsgInput {
+    flex: 1;
+    min-width: 0;
+    margin: 0 8px;
+  }
+
+  .messageinput {
+    gap: 8px;
+  }
+
+  .mobile-back-button {
+    display: inline-flex;
+  }
+}
+
+@media (width >= 768px) {
+  .Register {
+    max-width: 480px;
+    padding: 32px 28px;
+  }
+}
+
+@media (width >= 1200px) {
+  .Register {
+    max-width: 560px;
+    padding: 40px 32px;
+  }
+}
+
+@media (width >= 1200px) {
+  .registerInput {
+    height: 56px;
+    font-size: 18px;
+  }
+
+  .Register h2 {
+    font-size: 2rem;
+  }
+
+  button {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+}
+
+/******************************************************************************   */
 
 *,
 *::before,
@@ -107,7 +218,7 @@ body {
   box-sizing: border-box;
 }
 
-@media (width >= 768px) {
+/* @media (width >= 768px) {
   .Register {
     max-width: 480px;
     padding: 32px 28px;
@@ -135,7 +246,7 @@ body {
     padding: 14px 28px;
     font-size: 16px;
   }
-}
+} */
 
 .Register.Signup {
   height: auto;
@@ -462,6 +573,9 @@ p {
 
 .chatroomname {
   font-family: Poppins, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .messageinput {
@@ -499,6 +613,19 @@ p {
   border: none;
   padding: 10px 15px;
   color: white;
+}
+
+.mobile-back-button {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 22px;
+  padding: 0 8px;
+  margin: 0;
+  cursor: pointer;
 }
 
 /************************************* MESSAGES ********************************************   */
