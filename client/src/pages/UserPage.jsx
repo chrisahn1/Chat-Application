@@ -36,11 +36,6 @@ function UserPage() {
     touchStartX.current = null;
   };
   return (
-    // <div className="containerChat">
-
-    //   <Sidebar socket={socket} />
-    //   <Chatdisplay socket={socket} />
-    // </div>
     <div
       className={`containerChat${isChatOpenMobile ? ' mobile-chat-open' : ''}`}
       onTouchStart={handleTouchStart}
