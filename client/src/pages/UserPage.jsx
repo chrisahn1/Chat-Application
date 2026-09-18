@@ -13,11 +13,16 @@ const socket = io(url, {
 //http://localhost:8080
 function UserPage() {
   return (
-    <div className="App">
-      <div className="containerChat">
-        <Sidebar socket={socket} />
-        <Chatdisplay socket={socket} />
-      </div>
+    // <div className="App">
+    //   <div className="containerChat">
+    //     <Sidebar socket={socket} />
+    //     <Chatdisplay socket={socket} />
+    //   </div>
+    // </div>
+
+    <div className="containerChat">
+      <Sidebar socket={socket} />
+      <Chatdisplay socket={socket} />
     </div>
   );
 }
