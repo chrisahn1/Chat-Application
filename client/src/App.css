@@ -1,13 +1,29 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden; /* no page-level scrollbar */
+}
+
+#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
   background-color: #020721;
-  min-height: 100vh;
-  height: auto;
+
+  /* min-height: 100vh; */
+  height: 100vh; /* lock to viewport, not min-height: 950px */
+  width: 100vw;
+
+  /* height: auto; */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
   box-sizing: border-box;
+  overflow: hidden; /* prevent outer scroll */
 }
 
 .App-logo {
