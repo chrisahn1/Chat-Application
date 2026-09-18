@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ModalDeleteAccount from '../modals/ModalDeleteAccount';
 import {
   UpdateUsername,
@@ -7,6 +8,7 @@ import {
 } from '../modals/ModalEditAccount';
 
 function Settings() {
+  const navigate = useNavigate();
   const [modaldelete, setModalDelete] = useState(false);
 
   const [showUsername, setShowUsername] = useState(false);
@@ -29,8 +31,15 @@ function Settings() {
     setModalDelete(!modaldelete);
   };
 
+  const goBack = () => {
+    navigate('/userpage');
+  };
+
   return (
     <div className="containerSettings">
+      <button className="settings-back-button" onClick={goBack}>
+        ← Back
+      </button>
       <div className="containerChatEdit">
         <h2 style={{ color: 'white' }}>Edit Account</h2>
         <button className="editAccountButton" onClick={toggleUsername}>
