@@ -231,8 +231,8 @@ function Chatdisplay({ socket, onBack }) {
           {/* <button onClick={settings}>Settings</button> */}
           <button
             onClick={() => {
-              settings();
               onBack();
+              settings();
             }}>
             Settings
           </button>
