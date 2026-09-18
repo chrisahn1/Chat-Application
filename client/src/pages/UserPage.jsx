@@ -45,8 +45,8 @@ function UserPage() {
       className={`containerChat${isChatOpenMobile ? ' mobile-chat-open' : ''}`}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}>
-      <Sidebar socket={socket} />
-      <Chatdisplay socket={socket} />
+      <Sidebar socket={socket} onSelectChat={openChatMobile} />
+      <Chatdisplay socket={socket} onBack={closeChatMobile} />
     </div>
   );
 }

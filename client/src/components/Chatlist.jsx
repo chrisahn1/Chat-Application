@@ -9,7 +9,7 @@ import { ChatContext } from '../context/ChatUseContext';
 import { AuthContext } from '../context/AuthContext';
 import { url } from '../configURL/configURL';
 
-function Chatlist({ socket }) {
+function Chatlist({ socket, onSelectChat }) {
   const {
     data,
     dispatch,
@@ -192,7 +192,12 @@ function Chatlist({ socket }) {
         {chatlist.map((chat) => {
           const lastIndex = chat.messages.length;
           return (
-            <div className="userChat" onClick={() => handleChannelClick(chat)}>
+            <div
+              className="userChat"
+              onClick={() => {
+                handleChannelClick(chat);
+                onSelectChat && onSelectChat();
+              }}>
               <img src="14562316.png" className="chatImg" alt="chat room" />
               <span>{chat.channelname}</span>
               {lastIndex > 0 && (

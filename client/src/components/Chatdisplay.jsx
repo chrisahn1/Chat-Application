@@ -7,7 +7,7 @@ import ErrorChat from '../modals/ModalErrorChat';
 import CharacterLimit from '../modals/ModalCharacterLimit';
 import { url } from '../configURL/configURL';
 
-function Chatdisplay({ socket }) {
+function Chatdisplay({ socket, onBack }) {
   const navigate = useNavigate();
 
   const {
@@ -218,6 +218,12 @@ function Chatdisplay({ socket }) {
     <div className="chatDisplay">
       <div className="chatInfo chatdisplay">
         <div className="chatroomname">
+          <button
+            className="mobile-back-button"
+            onClick={onBack}
+            aria-label="Back to chat list">
+            ←
+          </button>
           <h2>{data.chat.channelname}</h2>
         </div>
         <div>
