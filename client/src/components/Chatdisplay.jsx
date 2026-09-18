@@ -228,7 +228,14 @@ function Chatdisplay({ socket, onBack }) {
         </div>
         <div>
           <button onClick={logout}>Logout</button>
-          <button onClick={settings}>Settings</button>
+          {/* <button onClick={settings}>Settings</button> */}
+          <button
+            onClick={() => {
+              settings();
+              onBack();
+            }}>
+            Settings
+          </button>
         </div>
       </div>
       <Messages messagelist={messageTexts} />
