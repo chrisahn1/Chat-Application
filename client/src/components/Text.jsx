@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useRef } from 'react';
+// import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const Text = ({ text }) => {
   const { currentUserID } = useContext(AuthContext);
-  const messageRef = useRef();
+  // const messageRef = useRef();
 
   const getHeight = () => {
     if (text.value.message.length > 150) {
@@ -12,13 +13,13 @@ const Text = ({ text }) => {
     return 'auto';
   };
 
-  useEffect(() => {
-    messageRef.current?.scrollIntoView({ behavior: 'instant' });
-  }, [text]);
+  // useEffect(() => {
+  //   messageRef.current?.scrollIntoView({ behavior: 'instant' });
+  // }, [text]);
 
   return (
     <div
-      ref={messageRef}
+      // ref={messageRef}
       className={`message ${
         text.value.authorID === currentUserID ? 'owner' : 'other'
       }`}>
