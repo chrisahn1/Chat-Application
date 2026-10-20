@@ -350,7 +350,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
         <h3 style={{ color: 'white' }}>Update Password</h3>
         <form className="modalEditRegister" onSubmit={userPasswordChange}>
           <label style={{ padding: '1.5vh' }}>Enter current password: </label>
-          <div style={{ display: 'flex' }}>
+          <div className="passwordRow">
             <input
               className="registerInput password"
               type={showCurrentPassword ? 'text' : 'password'}
@@ -366,7 +366,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
             </button>
           </div>
           <label style={{ padding: '1.5vh' }}> Enter new password: </label>
-          <div style={{ display: 'flex' }}>
+          <div className="passwordRow">
             <input
               className="registerInput password"
               type={showNewPassword ? 'text' : 'password'}
@@ -382,7 +382,7 @@ const UpdateUserPassword = ({ isOpen, handleClose }) => {
             </button>
           </div>
           <label style={{ padding: '1.5vh' }}> Confirm new password: </label>
-          <div style={{ display: 'flex' }}>
+          <div className="passwordRow">
             <input
               className="registerInput password"
               type={showConfirmPassword ? 'text' : 'password'}
