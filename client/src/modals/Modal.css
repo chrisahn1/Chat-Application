@@ -20,16 +20,6 @@
   }
 }
 
-/* .closeIcon {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  color: black;
-  padding: 0.5vw;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-} */
-
 .closeIcon {
   position: absolute;
   top: 10px;
@@ -303,34 +293,6 @@ a {
 
 /********************** MOBILE MODALS *********************/
 @media (width <= 600px) {
-  .modal-main,
-  .modal-main.chatsearch,
-  .modal-main.chatcreate,
-  .modal-main.chatleave,
-  .modal-main.chatdelete,
-  .modal-main.checkloginsignup,
-  .modal-main.accountedit,
-  .modal-main.accountedit.usernamechange,
-  .modal-main.accountedit.emailchange,
-  .modal-main.accountdelete,
-  .modal-main.errorchat,
-  .modal-main.charlimit {
-    width: calc(100% - 32px);
-    max-width: 420px;
-    height: auto;
-    max-height: calc(100dvh - 32px);
-    overflow-y: auto;
-  }
-
-  /* search dropdown is absolutely positioned, so don't clip it */
-  .modal-main.chatsearch {
-    overflow: visible;
-  }
-
-  .modal-main.accountedit {
-    padding: 20px 16px;
-  }
-
   .modal-body {
     padding: 16px;
     width: 100%;
@@ -340,14 +302,6 @@ a {
     padding: 12px 16px;
   }
 
-  /* bigger tap target for the X */
-  .closeIcon {
-    color: white;
-    padding: 8px;
-    top: 8px;
-    right: 8px;
-  }
-
   /* inputs: 16px+ font prevents iOS zoom-on-focus */
   .modal-main input {
     width: 100%;
@@ -355,28 +309,12 @@ a {
     padding: 10px 12px;
   }
 
-  /* create chat: input on top, buttons below side by side */
-  .createChat {
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
-
-  .createChatInput {
-    width: 100%;
-    margin-right: 0;
-    flex: 1 1 100%;
-  }
-
+  /* Create Chat: buttons split the width evenly */
   .createChat button {
     flex: 1;
-    margin: 0;
   }
 
   /* edit-account forms */
-  .modalEditRegister {
-    width: 100%;
-  }
-
   .modalEditRegister label {
     display: block;
     text-align: left;
