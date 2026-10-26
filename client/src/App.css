@@ -752,6 +752,21 @@ p {
 }
 
 @media (height <= 500px) {
+  .Register label {
+    font-size: 13px;
+    padding: 2px 0;
+    margin: 0;
+  }
+
+  .Register button {
+    padding: 8px 16px;
+    margin: 4px;
+  }
+
+  .Register p {
+    margin: 4px 0;
+  }
+
   .chatInfo.chatlist {
     padding: 6px 8px;
     gap: 4px;
