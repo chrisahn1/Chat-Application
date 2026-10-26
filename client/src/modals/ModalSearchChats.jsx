@@ -183,7 +183,11 @@ function SearchChatBar({ isOpen, handleClose }) {
 
   return (
     <div
-      className={isOpen ? 'modal display-block' : 'modal display-none'}
+      className={
+        isOpen
+          ? 'modal display-search display-block'
+          : 'modal display-search display-none'
+      }
       onClick={(e) => {
         // console.log('modal display classname: ', e.target.className);
         if (e.target.className === 'modal display-block') {
