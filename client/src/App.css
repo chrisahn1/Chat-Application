@@ -13,8 +13,8 @@ body {
   text-align: center;
   background-color: #020721;
 
-  /* min-height: 100vh; */
-  height: 100vh; /* lock to viewport, not min-height: 950px */
+  /* height: 100vh; */
+  height: 100dvh;
   width: 100vw;
 
   /* height: auto; */
@@ -258,7 +258,9 @@ input::placeholder {
   border: 1px solid #27438e;
   border-radius: 10px;
   width: 85vw;
-  height: 90vh;
+
+  /* height: 90vh; */
+  height: 90dvh;
   display: flex;
   overflow: hidden;
 }
@@ -359,6 +361,8 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .usernamebar {
@@ -389,6 +393,7 @@ p {
   border-bottom: 1px solid #334155;
   flex-wrap: wrap;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn.leave.active {
@@ -431,6 +436,7 @@ p {
   min-height: 0; /* prevents overflow bugs */
   background-color: #111827; /* darker than header */
   color: #d1d5db; /* muted text */
+  padding-bottom: 16px;
 }
 
 .userChat {
@@ -682,7 +688,9 @@ p {
   .containerChat {
     width: 100vw;
     height: 100vh;
+    height: 100dvh; /* add after the 100vh line */
     max-height: 100vh;
+    max-height: 100dvh; /* add after the 100vh line */
     border-radius: 0;
     border: none;
     position: relative;
@@ -744,5 +752,22 @@ p {
 
   .mobile-back-button {
     display: inline-flex;
+  }
+}
+
+@media (height <= 500px) {
+  .chatInfo.chatlist {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+
+  .chatInfo.chatlist button {
+    margin: 2px;
+    padding: 6px 12px;
+  }
+
+  .userChat {
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 }
