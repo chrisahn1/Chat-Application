@@ -28,11 +28,6 @@
   display: none;
 }
 
-.display-search {
-  top: 0;
-  position: fixed;
-}
-
 /********************** MODAL BOX (all modals) *********************/
 .modal-main {
   position: fixed;
@@ -77,7 +72,17 @@
 
 /* the search dropdown hangs outside the box, so don't clip it */
 .modal-main.chatsearch {
+  top: 16px;
+  transform: translate(-50%, 0) scale(0.95);
   overflow: visible;
+  animation-name: modalPopTop;
+}
+
+@keyframes modalPopTop {
+  to {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
 }
 
 /* titles stay clear of the X button */
