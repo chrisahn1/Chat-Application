@@ -12,12 +12,9 @@ body {
 .App {
   text-align: center;
   background-color: #020721;
-
-  /* height: 100vh; */
+  height: 100vh;
   height: 100dvh;
   width: 100vw;
-
-  /* height: auto; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -258,8 +255,7 @@ input::placeholder {
   border: 1px solid #27438e;
   border-radius: 10px;
   width: 85vw;
-
-  /* height: 90vh; */
+  height: 90vh;
   height: 90dvh;
   display: flex;
   overflow: hidden;
