@@ -16,11 +16,16 @@ body {
   height: 100dvh;
   width: 100vw;
   display: flex;
-  align-items: center;
+
+  /* align-items: center; */
+  align-items: flex-start;
   justify-content: center;
   padding: 16px;
   box-sizing: border-box;
-  overflow: hidden; /* prevent outer scroll */
+
+  /* overflow: hidden; */
+  overflow-x: hidden; /* was: overflow: hidden */
+  overflow-y: auto; /* lets the page scroll */
 }
 
 .App-logo {
@@ -209,6 +214,11 @@ button:hover {
   border-radius: 50%;
   background-color: #27438e;
   border: none;
+}
+
+.Register button.eye {
+  padding: 0;
+  margin: 0;
 }
 
 .eyeicon {
@@ -751,7 +761,7 @@ p {
   }
 }
 
-@media (height <= 500px) {
+/* @media (height <= 500px) {
   .Register label {
     font-size: 13px;
     padding: 2px 0;
@@ -767,6 +777,63 @@ p {
     margin: 4px 0;
   }
 
+  .chatInfo.chatlist {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+
+  .chatInfo.chatlist button {
+    margin: 2px;
+    padding: 6px 12px;
+  }
+
+  .userChat {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+} */
+
+@media (height <= 500px) {
+  .Register {
+    padding: 12px 16px;
+    margin: 0 auto;
+  }
+
+  .Register h2 {
+    font-size: 1.2rem;
+    margin: 4px 0;
+  }
+
+  .Register label {
+    font-size: 13px;
+    padding: 2px 0 !important; /* overrides the inline padding in the JSX */
+    margin: 0;
+  }
+
+  .registerInput,
+  .registerInput.password {
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .Register .submitButton {
+    padding: 8px 16px;
+    margin: 4px;
+  }
+
+  .Register p {
+    margin: 4px 0;
+  }
+
+  .loginsignupsection {
+    margin: 6px 0;
+  }
+
+  .App {
+    padding-bottom: 24px;
+  }
+
+  /* chat list (from before) */
   .chatInfo.chatlist {
     padding: 6px 8px;
     gap: 4px;
