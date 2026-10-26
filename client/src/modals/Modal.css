@@ -72,6 +72,8 @@
 
 /* the search dropdown hangs outside the box, so don't clip it */
 .modal-main.chatsearch {
+  top: 0;
+  position: fixed;
   overflow: visible;
 }
 
