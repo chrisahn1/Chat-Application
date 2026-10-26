@@ -103,18 +103,6 @@ function SearchChatBar({ isOpen, handleClose }) {
       const body = {
         chat_id: id,
       };
-
-      // const join_chat = await fetch(
-      //   'http://localhost:3001/users/joinchatchannel',
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       authorization: accessToken,
-      //     },
-      //     body: JSON.stringify(body),
-      //   }
-      // );
       await fetch(`${url}/users/joinchatchannel`, {
         method: 'POST',
         credentials: 'include',
